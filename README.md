@@ -1,0 +1,136 @@
+<div align="center">
+
+# 🏋️ absoluteworkout
+
+**Push/pull/legs planner, in-gym set tracker, and weekly volume dashboard.**
+
+![Stack](https://img.shields.io/badge/stack-vanilla_JS-f7df1e?logo=javascript&logoColor=000)
+![Modules](https://img.shields.io/badge/modules-native_ESM-blue)
+![Build](https://img.shields.io/badge/build-none-555)
+![Storage](https://img.shields.io/badge/storage-localStorage-d3f26a)
+
+</div>
+
+---
+
+Read the plan, log the sets, see whether the volume actually landed where it was
+supposed to. Switch between a 3-day (Push / Pull / Legs) and a 4-day
+(Push / Pull / Legs / Upper) split — the same exercise library feeds both, so you
+can compare what each one gives a muscle before committing to it.
+
+## ✨ Features
+
+- 🗓 **Two splits, one library** — 3-day and 4-day rotations share `exercises.json`; prescriptions live per split.
+- 🎯 **Next-day suggestion** — the rotation advances from your last completed session.
+- ✅ **In-gym logging** — big tap targets, numeric keypads, last session's numbers as placeholders so repeating a load is one tap. Every keystroke persists; there's no save button.
+- 🔄 **Swap mid-session** — station taken? Pick a listed alternative and the volume is still attributed correctly.
+- 📊 **Weekly volume per muscle** — actual sets against a target band, primary movers counted 1.0 and secondary 0.5.
+- 🔍 **Two-sided cross-reference** — pick a muscle to see what trains it and how many sets each split gives it; pick an exercise to see what it works and which days program it.
+- 💾 **Export / import** — localStorage is one cleared cache from gone, so the log downloads as JSON and merges back in.
+
+## 🚀 Run locally
+
+No build step, but it **must** be served over HTTP — native ES modules and
+`fetch` both refuse `file://`.
+
+```bash
+python3 -m http.server 8080
+```
+
+Then open <http://localhost:8080>.
+
+## 🛠️ Stack
+
+- **Vanilla HTML / CSS / JS**, native ES modules, no dependencies and no CDN.
+- **localStorage** for logged sessions. No backend, no account, no network calls.
+- **Hand-curated JSON** as the data store.
+
+### Why modules, when terroir is a single file
+
+[terroir](https://github.com/AbsolutelyTotal/terroir) fits in one `index.html`
+because it's a reference viewer. This app has four views, a persistence layer
+with migrations, and volume maths, so it's split into `src/` — still zero-build,
+just not one 2,000-line file.
+
+## 📁 Layout
+
+```
+index.html          shell: app bar, tab strip, backup dialog
+app.css             all styles + the design tokens
+src/
+  main.js           bootstrap, tab routing, backup dialog
+  data.js           load + index JSON, volume maths, PRs, week bucketing
+  store.js          localStorage, migrations, export/import
+  ui.js             auto-escaping template tag + render helpers
+  views/            plan · log · history · library
+data/               the data store (below)
+```
+
+## 📊 Data files
+
+| File | Count | What it is |
+| --- | --- | --- |
+| `muscles.json` | 20 | Muscles, their roll-up group, and weekly set targets |
+| `exercises.json` | 37 | The exercise library — what each movement is |
+| `splits.json` | 2 | The programs — how each movement is trained right now |
+| `types.ts` | — | Schema documentation |
+
+`types.ts` is reference documentation, not compiled. The JSON files are the
+source of truth.
+
+> [!NOTE]
+> **The data is placeholder.** `muscles.json` is real and shouldn't need editing,
+> but the exercises and both splits are representative stubs so the app renders —
+> replace them with your actual plan.
+
+### 🔗 The one rule
+
+`exercises.json` describes **what a movement is** (muscles, pattern, equipment,
+cues). `splits.json` describes **how you're training it right now** (sets, reps,
+rest, progression). Sets and reps never live on an exercise — the same bench
+press is 5x5 on one split and 3x12 on another.
+
+Cross-references are checked at load and dangling ids are reported in a banner at
+the top of the app rather than throwing, so a typo degrades instead of blanking
+the page.
+
+## 📈 Volume accounting
+
+- A **primary** mover counts as a full set, a **secondary** as a half — the
+  conventional way to credit indirect work without ignoring it.
+- Only **ticked** sets count. Unticked ones are dropped when you finish.
+- Targets come from `weeklySetTarget` on each muscle, falling back to
+  `settings.defaultSetTarget`.
+- Estimated 1RM uses Epley. It's reliable in the 1–12 rep range and overstates
+  above that, which is why the UI labels it an estimate.
+
+## 🎨 Charts
+
+The data layer uses **one hue** (`--series-1`) plus a target band. Under / on /
+over target is carried by an **icon and a text label, never by colour** — the
+status-good and status-critical steps sit at ΔE 4.1 under deuteranopia, so a
+red/green under-vs-over indicator would be unreadable for a red-green colourblind
+reader. The ordinal ramp (`--ramp-1` … `--ramp-4`) is validated on the app
+surface for monotone lightness, step separation and single hue.
+
+The brand accent (`--accent`) is deliberately **never** used as a data colour, so
+it can't be mistaken for a series or a status.
+
+If you change these, re-validate rather than eyeballing it.
+
+## 💾 Your data
+
+Logged sessions live in this browser's localStorage under
+`absoluteworkout.v1` — they are never uploaded anywhere. That also means
+**clearing site data wipes them**. Use the ⤓ button in the app bar to download a
+backup. Exported files match `absoluteworkout-*.json` and are gitignored, since
+they contain bodyweight and training data.
+
+## 🚧 Status
+
+Scaffold. The app works end to end against placeholder data; the real plan goes
+in next.
+
+## ⚖️ License
+
+[MIT](LICENSE).

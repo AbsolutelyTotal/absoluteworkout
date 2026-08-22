@@ -1,0 +1,246 @@
+[
+  {
+    "id": "ppl-3",
+    "name": "Push / Pull / Legs",
+    "daysPerWeek": 3,
+    "description": "Three sessions a week, each muscle group once. Higher per-session volume to make one weekly exposure count.",
+    "cycle": ["push", "pull", "legs"],
+    "days": [
+      {
+        "id": "push",
+        "name": "Push",
+        "focus": ["chest", "shoulders", "triceps"],
+        "notes": "Two warm-up sets ramping to the first working weight on the bench.",
+        "blocks": [
+          {
+            "name": "Main",
+            "items": [
+              {
+                "exerciseId": "barbell-bench-press",
+                "sets": 4,
+                "reps": "6-8",
+                "intensity": { "rir": "1-2" },
+                "restSeconds": 180,
+                "progression": "+2.5kg when you hit 8 on all four sets."
+              },
+              {
+                "exerciseId": "overhead-press",
+                "sets": 3,
+                "reps": "8-10",
+                "intensity": { "rir": "2" },
+                "restSeconds": 150
+              }
+            ]
+          },
+          {
+            "name": "Accessory",
+            "items": [
+              { "exerciseId": "incline-dumbbell-press", "sets": 3, "reps": "10-12", "restSeconds": 120 },
+              { "exerciseId": "cable-lateral-raise", "sets": 4, "reps": "12-15", "restSeconds": 75 }
+            ]
+          },
+          {
+            "name": "Finisher",
+            "items": [
+              { "exerciseId": "overhead-cable-extension", "sets": 3, "reps": "10-12", "restSeconds": 75 },
+              { "exerciseId": "cable-triceps-pushdown", "sets": 2, "reps": "12-15", "restSeconds": 60 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "pull",
+        "name": "Pull",
+        "focus": ["back", "biceps", "shoulders"],
+        "blocks": [
+          {
+            "name": "Main",
+            "items": [
+              {
+                "exerciseId": "pull-up",
+                "sets": 4,
+                "reps": "6-10",
+                "intensity": { "rir": "1-2" },
+                "restSeconds": 180,
+                "progression": "Add weight once you clear 10 on all sets."
+              },
+              { "exerciseId": "barbell-row", "sets": 4, "reps": "8-10", "intensity": { "rir": "2" }, "restSeconds": 150 }
+            ]
+          },
+          {
+            "name": "Accessory",
+            "items": [
+              { "exerciseId": "seated-cable-row", "sets": 3, "reps": "10-12", "restSeconds": 120 },
+              { "exerciseId": "face-pull", "sets": 3, "reps": "15-20", "restSeconds": 60 }
+            ]
+          },
+          {
+            "name": "Finisher",
+            "items": [
+              { "exerciseId": "incline-dumbbell-curl", "sets": 3, "reps": "10-12", "restSeconds": 75 },
+              { "exerciseId": "hammer-curl", "sets": 2, "reps": "12-15", "restSeconds": 60 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "legs",
+        "name": "Legs",
+        "focus": ["quads", "hamstrings", "glutes", "calves"],
+        "notes": "Ramp the squat in three warm-up sets. Don't cut depth to chase load.",
+        "blocks": [
+          {
+            "name": "Main",
+            "items": [
+              {
+                "exerciseId": "barbell-squat",
+                "sets": 4,
+                "reps": "5-8",
+                "intensity": { "rir": "1-2" },
+                "restSeconds": 210,
+                "progression": "+5kg when you hit 8 on all four sets."
+              },
+              { "exerciseId": "romanian-deadlift", "sets": 3, "reps": "8-10", "intensity": { "rir": "2" }, "restSeconds": 180 }
+            ]
+          },
+          {
+            "name": "Accessory",
+            "items": [
+              { "exerciseId": "leg-press", "sets": 3, "reps": "12-15", "restSeconds": 120 },
+              { "exerciseId": "seated-leg-curl", "sets": 3, "reps": "12-15", "restSeconds": 90 }
+            ]
+          },
+          {
+            "name": "Finisher",
+            "items": [
+              { "exerciseId": "standing-calf-raise", "sets": 4, "reps": "10-15", "tempo": "2-1-1-1", "restSeconds": 60 },
+              { "exerciseId": "hanging-leg-raise", "sets": 3, "reps": "10-15", "restSeconds": 60 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ppl-upper-4",
+    "name": "Push / Pull / Legs / Upper",
+    "daysPerWeek": 4,
+    "description": "Adds a fourth upper-body session, so chest, back and delts get a second weekly exposure. Per-session volume drops to pay for it.",
+    "cycle": ["push", "pull", "legs", "upper"],
+    "days": [
+      {
+        "id": "push",
+        "name": "Push",
+        "focus": ["chest", "shoulders", "triceps"],
+        "blocks": [
+          {
+            "name": "Main",
+            "items": [
+              {
+                "exerciseId": "barbell-bench-press",
+                "sets": 4,
+                "reps": "5-7",
+                "intensity": { "rir": "1" },
+                "restSeconds": 180,
+                "progression": "+2.5kg when you hit 7 on all four sets."
+              },
+              { "exerciseId": "seated-dumbbell-press", "sets": 3, "reps": "8-10", "restSeconds": 150 }
+            ]
+          },
+          {
+            "name": "Accessory",
+            "items": [
+              { "exerciseId": "cable-lateral-raise", "sets": 3, "reps": "12-15", "restSeconds": 75 },
+              { "exerciseId": "overhead-cable-extension", "sets": 3, "reps": "10-12", "restSeconds": 75 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "pull",
+        "name": "Pull",
+        "focus": ["back", "biceps"],
+        "blocks": [
+          {
+            "name": "Main",
+            "items": [
+              { "exerciseId": "pull-up", "sets": 4, "reps": "6-10", "intensity": { "rir": "1" }, "restSeconds": 180 },
+              { "exerciseId": "barbell-row", "sets": 3, "reps": "8-10", "restSeconds": 150 }
+            ]
+          },
+          {
+            "name": "Accessory",
+            "items": [
+              { "exerciseId": "face-pull", "sets": 3, "reps": "15-20", "restSeconds": 60 },
+              { "exerciseId": "barbell-curl", "sets": 3, "reps": "10-12", "restSeconds": 75 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "legs",
+        "name": "Legs",
+        "focus": ["quads", "hamstrings", "glutes", "calves"],
+        "blocks": [
+          {
+            "name": "Main",
+            "items": [
+              { "exerciseId": "barbell-squat", "sets": 4, "reps": "5-8", "intensity": { "rir": "1-2" }, "restSeconds": 210 },
+              { "exerciseId": "romanian-deadlift", "sets": 3, "reps": "8-10", "restSeconds": 180 }
+            ]
+          },
+          {
+            "name": "Accessory",
+            "items": [
+              { "exerciseId": "bulgarian-split-squat", "sets": 3, "reps": "10-12", "restSeconds": 90 },
+              { "exerciseId": "seated-leg-curl", "sets": 3, "reps": "12-15", "restSeconds": 90 },
+              { "exerciseId": "standing-calf-raise", "sets": 4, "reps": "10-15", "restSeconds": 60 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "upper",
+        "name": "Upper",
+        "focus": ["chest", "back", "shoulders", "biceps", "triceps"],
+        "notes": "Second upper exposure — machines and cables over free weights, keep 2+ RIR throughout.",
+        "blocks": [
+          {
+            "name": "Main",
+            "items": [
+              { "exerciseId": "incline-dumbbell-press", "sets": 3, "reps": "10-12", "intensity": { "rir": "2" }, "restSeconds": 120 },
+              { "exerciseId": "lat-pulldown", "sets": 3, "reps": "10-12", "intensity": { "rir": "2" }, "restSeconds": 120 }
+            ]
+          },
+          {
+            "name": "Accessory",
+            "items": [
+              { "exerciseId": "chest-supported-row", "sets": 3, "reps": "12-15", "restSeconds": 90 },
+              { "exerciseId": "incline-cable-fly", "sets": 3, "reps": "12-15", "restSeconds": 75 },
+              { "exerciseId": "reverse-pec-deck", "sets": 3, "reps": "15-20", "restSeconds": 60 }
+            ]
+          },
+          {
+            "name": "Finisher",
+            "items": [
+              {
+                "exerciseId": "hammer-curl",
+                "sets": 3,
+                "reps": "12-15",
+                "restSeconds": 45,
+                "supersetWith": "cable-triceps-pushdown"
+              },
+              {
+                "exerciseId": "cable-triceps-pushdown",
+                "sets": 3,
+                "reps": "12-15",
+                "restSeconds": 90,
+                "supersetWith": "hammer-curl"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

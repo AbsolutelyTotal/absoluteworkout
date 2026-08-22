@@ -1,0 +1,27 @@
+[
+  { "id": "upper-chest",   "name": "Upper Chest",     "group": "chest",      "region": "upper", "weeklySetTarget": [6, 12] },
+  { "id": "mid-chest",     "name": "Mid Chest",       "group": "chest",      "region": "upper", "weeklySetTarget": [8, 16] },
+  { "id": "lower-chest",   "name": "Lower Chest",     "group": "chest",      "region": "upper", "weeklySetTarget": [4, 10] },
+
+  { "id": "lats",          "name": "Lats",            "group": "back",       "region": "upper", "weeklySetTarget": [10, 20] },
+  { "id": "upper-back",    "name": "Upper Back",      "group": "back",       "region": "upper", "weeklySetTarget": [8, 16] },
+  { "id": "traps",         "name": "Traps",           "group": "back",       "region": "upper", "weeklySetTarget": [4, 12] },
+  { "id": "lower-back",    "name": "Lower Back",      "group": "back",       "region": "upper", "weeklySetTarget": [4, 10] },
+
+  { "id": "front-delts",   "name": "Front Delts",     "group": "shoulders",  "region": "upper", "weeklySetTarget": [6, 12] },
+  { "id": "side-delts",    "name": "Side Delts",      "group": "shoulders",  "region": "upper", "weeklySetTarget": [8, 18] },
+  { "id": "rear-delts",    "name": "Rear Delts",      "group": "shoulders",  "region": "upper", "weeklySetTarget": [6, 16] },
+
+  { "id": "biceps",        "name": "Biceps",          "group": "biceps",     "region": "upper", "weeklySetTarget": [8, 16] },
+  { "id": "triceps",       "name": "Triceps",         "group": "triceps",    "region": "upper", "weeklySetTarget": [8, 16] },
+  { "id": "forearms",      "name": "Forearms",        "group": "forearms",   "region": "upper", "weeklySetTarget": [2, 8] },
+
+  { "id": "quads",         "name": "Quads",           "group": "quads",      "region": "lower", "weeklySetTarget": [10, 20] },
+  { "id": "hamstrings",    "name": "Hamstrings",      "group": "hamstrings", "region": "lower", "weeklySetTarget": [8, 16] },
+  { "id": "glutes",        "name": "Glutes",          "group": "glutes",     "region": "lower", "weeklySetTarget": [8, 16] },
+  { "id": "adductors",     "name": "Adductors",       "group": "quads",      "region": "lower", "weeklySetTarget": [2, 8] },
+  { "id": "calves",        "name": "Calves",          "group": "calves",     "region": "lower", "weeklySetTarget": [6, 14] },
+
+  { "id": "abs",           "name": "Abs",             "group": "core",       "region": "core",  "weeklySetTarget": [6, 14] },
+  { "id": "obliques",      "name": "Obliques",        "group": "core",       "region": "core",  "weeklySetTarget": [4, 10] }
+]

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>absoluteworkout — Push / Pull / Legs planner and tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A zero-build push/pull/legs workout planner and set tracker. Switch between a 3-day and 4-day split, log sets in the gym, and see weekly volume per muscle against target ranges.">
+<meta name="author" content="AbsolutelyTotal">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#14161c">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="absoluteworkout — Push / Pull / Legs planner and tracker">
+<meta property="og:description" content="Zero-build workout planner and set tracker. 3-day and 4-day PPL splits, in-gym logging, weekly volume per muscle.">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏋️</text></svg>">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<noscript>
+  <article style="max-width:760px;margin:40px auto;padding:28px 32px;background:#1c1f27;border-radius:10px;color:#ecebe6;font-family:system-ui,sans-serif;line-height:1.6;">
+    <h1 style="font-size:26px;margin:0 0 12px;">🏋️ absoluteworkout</h1>
+    <p>A push/pull/legs workout planner and set tracker. Switch between a 3-day (Push / Pull / Legs) and 4-day (Push / Pull / Legs / Upper) split, read the prescription for each day, log your sets in the gym, and track weekly volume per muscle against target set ranges.</p>
+    <p style="margin-top:18px;color:#d3f26a;"><strong>This app needs JavaScript.</strong> Please enable it in your browser.</p>
+  </article>
+</noscript>
+
+<header class="appbar">
+  <div class="wordmark">
+    <span class="mark">absoluteworkout</span>
+    <span class="sep">·</span>
+    <span class="tag">PPL</span>
+  </div>
+  <div class="appbar-actions">
+    <button class="icon-btn" id="backup-btn" type="button" title="Export or import your log" aria-label="Export or import your log">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </button>
+    <a class="icon-link" href="https://github.com/AbsolutelyTotal/absoluteworkout" target="_blank" rel="noopener" title="View source on GitHub" aria-label="View source on GitHub">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    </a>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs" role="tablist"></nav>
+
+<main>
+  <div id="banner"></div>
+  <div id="view" class="view" role="tabpanel"></div>
+</main>
+
+<dialog id="backup-dialog">
+  <h3>Export / import log</h3>
+  <p>
+    Your log lives in this browser's local storage only — clearing site data wipes it.
+    Download a copy to keep it, or paste a previous export below to merge it back in.
+  </p>
+  <textarea spellcheck="false" aria-label="Log JSON"></textarea>
+  <div class="dialog-actions">
+    <button class="btn" data-action="close" type="button">Close</button>
+    <button class="btn" data-action="import" type="button">Import (merge)</button>
+    <button class="btn primary" data-action="download" type="button">Download</button>
+  </div>
+</dialog>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

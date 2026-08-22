@@ -1,0 +1,344 @@
+[
+  {
+    "id": "barbell-bench-press",
+    "name": "Barbell Bench Press",
+    "aliases": ["flat bench", "bench"],
+    "pattern": "horizontal-push",
+    "equipment": ["barbell"],
+    "primaryMuscles": ["mid-chest", "lower-chest"],
+    "secondaryMuscles": ["front-delts", "triceps"],
+    "cues": ["Shoulder blades back and down", "Bar to lower chest", "Drive feet into the floor"],
+    "alternatives": ["dumbbell-bench-press", "machine-chest-press"]
+  },
+  {
+    "id": "dumbbell-bench-press",
+    "name": "Dumbbell Bench Press",
+    "pattern": "horizontal-push",
+    "equipment": ["dumbbell"],
+    "primaryMuscles": ["mid-chest", "lower-chest"],
+    "secondaryMuscles": ["front-delts", "triceps"],
+    "alternatives": ["barbell-bench-press", "machine-chest-press"]
+  },
+  {
+    "id": "machine-chest-press",
+    "name": "Machine Chest Press",
+    "pattern": "horizontal-push",
+    "equipment": ["machine"],
+    "primaryMuscles": ["mid-chest"],
+    "secondaryMuscles": ["front-delts", "triceps"],
+    "alternatives": ["barbell-bench-press", "dumbbell-bench-press"]
+  },
+  {
+    "id": "incline-dumbbell-press",
+    "name": "Incline Dumbbell Press",
+    "pattern": "horizontal-push",
+    "equipment": ["dumbbell"],
+    "primaryMuscles": ["upper-chest"],
+    "secondaryMuscles": ["front-delts", "triceps"],
+    "setupNotes": "Bench at 30° — steeper turns it into a shoulder press.",
+    "cues": ["Elbows ~45° from the torso", "Stop just short of lockout"],
+    "alternatives": ["incline-barbell-press", "incline-cable-fly"]
+  },
+  {
+    "id": "incline-barbell-press",
+    "name": "Incline Barbell Press",
+    "pattern": "horizontal-push",
+    "equipment": ["barbell"],
+    "primaryMuscles": ["upper-chest"],
+    "secondaryMuscles": ["front-delts", "triceps"],
+    "alternatives": ["incline-dumbbell-press"]
+  },
+  {
+    "id": "incline-cable-fly",
+    "name": "Low-to-High Cable Fly",
+    "pattern": "isolation",
+    "equipment": ["cable"],
+    "primaryMuscles": ["upper-chest"],
+    "alternatives": ["incline-dumbbell-press"]
+  },
+  {
+    "id": "overhead-press",
+    "name": "Standing Overhead Press",
+    "aliases": ["OHP", "military press"],
+    "pattern": "vertical-push",
+    "equipment": ["barbell"],
+    "primaryMuscles": ["front-delts"],
+    "secondaryMuscles": ["side-delts", "triceps", "abs"],
+    "cues": ["Brace hard, ribs down", "Head through at the top"],
+    "alternatives": ["seated-dumbbell-press"]
+  },
+  {
+    "id": "seated-dumbbell-press",
+    "name": "Seated Dumbbell Shoulder Press",
+    "pattern": "vertical-push",
+    "equipment": ["dumbbell"],
+    "primaryMuscles": ["front-delts"],
+    "secondaryMuscles": ["side-delts", "triceps"],
+    "alternatives": ["overhead-press"]
+  },
+  {
+    "id": "cable-lateral-raise",
+    "name": "Cable Lateral Raise",
+    "pattern": "isolation",
+    "equipment": ["cable"],
+    "primaryMuscles": ["side-delts"],
+    "unilateral": true,
+    "cues": ["Lead with the elbow", "Stop at shoulder height"],
+    "alternatives": ["dumbbell-lateral-raise"]
+  },
+  {
+    "id": "dumbbell-lateral-raise",
+    "name": "Dumbbell Lateral Raise",
+    "pattern": "isolation",
+    "equipment": ["dumbbell"],
+    "primaryMuscles": ["side-delts"],
+    "alternatives": ["cable-lateral-raise"]
+  },
+  {
+    "id": "cable-triceps-pushdown",
+    "name": "Cable Triceps Pushdown",
+    "pattern": "isolation",
+    "equipment": ["cable"],
+    "primaryMuscles": ["triceps"],
+    "alternatives": ["overhead-cable-extension"]
+  },
+  {
+    "id": "overhead-cable-extension",
+    "name": "Overhead Cable Triceps Extension",
+    "pattern": "isolation",
+    "equipment": ["cable"],
+    "primaryMuscles": ["triceps"],
+    "setupNotes": "Long head needs the overhead position — don't swap this for a pushdown.",
+    "alternatives": ["cable-triceps-pushdown"]
+  },
+
+  {
+    "id": "pull-up",
+    "name": "Pull-Up",
+    "pattern": "vertical-pull",
+    "equipment": ["bodyweight"],
+    "primaryMuscles": ["lats"],
+    "secondaryMuscles": ["upper-back", "biceps", "forearms"],
+    "cues": ["Chest to the bar", "Full hang at the bottom"],
+    "alternatives": ["lat-pulldown"]
+  },
+  {
+    "id": "lat-pulldown",
+    "name": "Lat Pulldown",
+    "pattern": "vertical-pull",
+    "equipment": ["cable"],
+    "primaryMuscles": ["lats"],
+    "secondaryMuscles": ["upper-back", "biceps"],
+    "alternatives": ["pull-up"]
+  },
+  {
+    "id": "barbell-row",
+    "name": "Barbell Row",
+    "pattern": "horizontal-pull",
+    "equipment": ["barbell"],
+    "primaryMuscles": ["upper-back", "lats"],
+    "secondaryMuscles": ["biceps", "lower-back", "rear-delts"],
+    "cues": ["Torso ~45°", "Bar to the navel"],
+    "alternatives": ["seated-cable-row", "chest-supported-row"]
+  },
+  {
+    "id": "seated-cable-row",
+    "name": "Seated Cable Row",
+    "pattern": "horizontal-pull",
+    "equipment": ["cable"],
+    "primaryMuscles": ["upper-back", "lats"],
+    "secondaryMuscles": ["biceps", "rear-delts"],
+    "alternatives": ["barbell-row", "chest-supported-row"]
+  },
+  {
+    "id": "chest-supported-row",
+    "name": "Chest-Supported Row",
+    "pattern": "horizontal-pull",
+    "equipment": ["machine", "dumbbell"],
+    "primaryMuscles": ["upper-back"],
+    "secondaryMuscles": ["lats", "biceps", "rear-delts"],
+    "alternatives": ["seated-cable-row"]
+  },
+  {
+    "id": "face-pull",
+    "name": "Face Pull",
+    "pattern": "isolation",
+    "equipment": ["cable"],
+    "primaryMuscles": ["rear-delts"],
+    "secondaryMuscles": ["upper-back", "traps"],
+    "cues": ["Pull to the forehead", "External rotation at the end"],
+    "alternatives": ["reverse-pec-deck"]
+  },
+  {
+    "id": "reverse-pec-deck",
+    "name": "Reverse Pec Deck",
+    "pattern": "isolation",
+    "equipment": ["machine"],
+    "primaryMuscles": ["rear-delts"],
+    "alternatives": ["face-pull"]
+  },
+  {
+    "id": "barbell-curl",
+    "name": "Barbell Curl",
+    "pattern": "isolation",
+    "equipment": ["barbell"],
+    "primaryMuscles": ["biceps"],
+    "secondaryMuscles": ["forearms"],
+    "alternatives": ["incline-dumbbell-curl"]
+  },
+  {
+    "id": "incline-dumbbell-curl",
+    "name": "Incline Dumbbell Curl",
+    "pattern": "isolation",
+    "equipment": ["dumbbell"],
+    "primaryMuscles": ["biceps"],
+    "setupNotes": "Incline puts the long head on stretch — keep the upper arm behind the torso.",
+    "alternatives": ["barbell-curl"]
+  },
+  {
+    "id": "hammer-curl",
+    "name": "Hammer Curl",
+    "pattern": "isolation",
+    "equipment": ["dumbbell"],
+    "primaryMuscles": ["biceps", "forearms"],
+    "alternatives": ["barbell-curl"]
+  },
+
+  {
+    "id": "barbell-squat",
+    "name": "Barbell Back Squat",
+    "aliases": ["squat"],
+    "pattern": "squat",
+    "equipment": ["barbell"],
+    "primaryMuscles": ["quads", "glutes"],
+    "secondaryMuscles": ["hamstrings", "lower-back", "adductors", "abs"],
+    "cues": ["Knees track over the toes", "Depth before weight"],
+    "alternatives": ["hack-squat", "leg-press"]
+  },
+  {
+    "id": "hack-squat",
+    "name": "Hack Squat",
+    "pattern": "squat",
+    "equipment": ["machine"],
+    "primaryMuscles": ["quads"],
+    "secondaryMuscles": ["glutes", "adductors"],
+    "alternatives": ["barbell-squat", "leg-press"]
+  },
+  {
+    "id": "leg-press",
+    "name": "Leg Press",
+    "pattern": "squat",
+    "equipment": ["machine"],
+    "primaryMuscles": ["quads"],
+    "secondaryMuscles": ["glutes", "adductors"],
+    "alternatives": ["hack-squat"]
+  },
+  {
+    "id": "romanian-deadlift",
+    "name": "Romanian Deadlift",
+    "aliases": ["RDL"],
+    "pattern": "hinge",
+    "equipment": ["barbell"],
+    "primaryMuscles": ["hamstrings", "glutes"],
+    "secondaryMuscles": ["lower-back", "forearms"],
+    "cues": ["Push the hips back, not down", "Stop where the stretch runs out"],
+    "alternatives": ["seated-leg-curl", "dumbbell-rdl"]
+  },
+  {
+    "id": "dumbbell-rdl",
+    "name": "Dumbbell Romanian Deadlift",
+    "pattern": "hinge",
+    "equipment": ["dumbbell"],
+    "primaryMuscles": ["hamstrings", "glutes"],
+    "secondaryMuscles": ["lower-back"],
+    "alternatives": ["romanian-deadlift"]
+  },
+  {
+    "id": "seated-leg-curl",
+    "name": "Seated Leg Curl",
+    "pattern": "isolation",
+    "equipment": ["machine"],
+    "primaryMuscles": ["hamstrings"],
+    "alternatives": ["lying-leg-curl"]
+  },
+  {
+    "id": "lying-leg-curl",
+    "name": "Lying Leg Curl",
+    "pattern": "isolation",
+    "equipment": ["machine"],
+    "primaryMuscles": ["hamstrings"],
+    "alternatives": ["seated-leg-curl"]
+  },
+  {
+    "id": "bulgarian-split-squat",
+    "name": "Bulgarian Split Squat",
+    "pattern": "lunge",
+    "equipment": ["dumbbell"],
+    "primaryMuscles": ["quads", "glutes"],
+    "secondaryMuscles": ["adductors", "hamstrings"],
+    "unilateral": true,
+    "alternatives": ["leg-press"]
+  },
+  {
+    "id": "hip-thrust",
+    "name": "Barbell Hip Thrust",
+    "pattern": "hinge",
+    "equipment": ["barbell"],
+    "primaryMuscles": ["glutes"],
+    "secondaryMuscles": ["hamstrings"],
+    "alternatives": ["dumbbell-rdl"]
+  },
+  {
+    "id": "standing-calf-raise",
+    "name": "Standing Calf Raise",
+    "pattern": "isolation",
+    "equipment": ["machine"],
+    "primaryMuscles": ["calves"],
+    "cues": ["Pause at the top", "Full stretch at the bottom"],
+    "alternatives": ["seated-calf-raise"]
+  },
+  {
+    "id": "seated-calf-raise",
+    "name": "Seated Calf Raise",
+    "pattern": "isolation",
+    "equipment": ["machine"],
+    "primaryMuscles": ["calves"],
+    "alternatives": ["standing-calf-raise"]
+  },
+
+  {
+    "id": "hanging-leg-raise",
+    "name": "Hanging Leg Raise",
+    "pattern": "core",
+    "equipment": ["bodyweight"],
+    "primaryMuscles": ["abs"],
+    "secondaryMuscles": ["obliques", "forearms"],
+    "alternatives": ["cable-crunch"]
+  },
+  {
+    "id": "cable-crunch",
+    "name": "Cable Crunch",
+    "pattern": "core",
+    "equipment": ["cable"],
+    "primaryMuscles": ["abs"],
+    "alternatives": ["hanging-leg-raise"]
+  },
+  {
+    "id": "plank",
+    "name": "Plank",
+    "pattern": "core",
+    "equipment": ["bodyweight"],
+    "primaryMuscles": ["abs"],
+    "secondaryMuscles": ["obliques"],
+    "alternatives": ["cable-crunch"]
+  },
+  {
+    "id": "farmer-carry",
+    "name": "Farmer's Carry",
+    "pattern": "carry",
+    "equipment": ["dumbbell", "kettlebell"],
+    "primaryMuscles": ["forearms", "traps"],
+    "secondaryMuscles": ["abs", "obliques"],
+    "alternatives": ["plank"]
+  }
+]

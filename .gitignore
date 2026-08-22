@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Claude Code local config (machine-specific)
+.claude/
+
+# Editors
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Exported workout logs — these contain bodyweight and training data.
+# Keep backups outside the repo, especially if it ever goes public.
+absoluteworkout-*.json
