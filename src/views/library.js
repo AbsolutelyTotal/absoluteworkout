@@ -110,7 +110,7 @@ function listItem(db, item) {
   return html`<button class="lib-item" type="button" data-id="${item.id}"
                       aria-pressed="${String(item.id === selectedId)}">
     <span style="display:inline-flex;align-items:center;gap:9px;min-width:0">
-      ${isMuscle ? '' : equipmentIcon(item)}
+      ${isMuscle ? '' : equipmentIcon(item, { interactive: false })}
       <span class="n">${item.name}</span>
     </span>
     <span class="m">${meta}</span>
@@ -177,7 +177,7 @@ function exerciseDetail(db, ex) {
 
   return html`
     <div class="row" style="align-items:flex-start;gap:12px">
-      <span class="icon-eq-box" style="width:48px;height:48px">${equipmentIcon(ex)}</span>
+      ${equipmentIcon(ex)}
       <div style="flex:1 1 auto;min-width:0">
         <h3>${ex.name}</h3>
         <div class="ex-sub">

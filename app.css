@@ -281,12 +281,34 @@ main {
   overflow: hidden;
 }
 
-/* Real photo/illustration, when data/exercises.json supplies `image`. */
-.ex-thumb {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+/* Real photo, when data/exercises.json supplies `image`. Sized to the source
+   3:2 aspect so there's no crop — a gym photo squeezed into a 38px square is an
+   unrecognisable patch, which defeats the point. */
+.ex-photo {
+  flex: 0 0 auto;
+  width: 78px;
+  height: 52px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  overflow: hidden;
+  cursor: zoom-in;
+  transition: border-color 0.15s;
+}
+.ex-photo:hover { border-color: var(--accent); }
+.ex-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Lightbox */
+#photo-dialog { max-width: 760px; padding: 0; border: none; background: transparent; }
+#photo-dialog img { width: 100%; height: auto; display: block; border-radius: var(--radius); }
+#photo-dialog figcaption {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 10px; padding: 0 2px;
+  font-size: 13px; font-weight: 600; color: var(--text);
+}
+#photo-dialog .src {
+  font-size: 11px; font-weight: 400; color: var(--muted);
 }
 
 .demo-link {
@@ -729,3 +751,7 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+/* Non-interactive variant, for use inside a <button> (Library list rows). */
+.ex-photo.static { display: inline-flex; width: 56px; height: 38px; cursor: default; }
+.ex-photo.static:hover { border-color: var(--line); }

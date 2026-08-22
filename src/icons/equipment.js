@@ -144,16 +144,36 @@ const GENERIC = svg('<circle cx="12" cy="12" r="7"/>');
  * won't teach you to recognise a station on the gym floor — that needs a real
  * image. Populating `image` in exercises.json upgrades this with no code change.
  */
-export function equipmentIcon(exercise) {
-  if (!exercise) return raw(GENERIC);
-  if (exercise.image) {
-    return raw(
-      `<img class="ex-thumb" src="${escapeAttr(exercise.image)}" alt="" loading="lazy" decoding="async">`
-    );
+/**
+ * @param {object} exercise
+ * @param {object} [opts]
+ * @param {boolean} [opts.interactive=true] Pass false when rendering INSIDE a
+ *   button. HTML forbids nested buttons and parsers hoist the inner one out of
+ *   its ancestor entirely — which silently emptied every row of the Library list.
+ */
+export function equipmentIcon(exercise, { interactive = true } = {}) {
+  if (!exercise) return raw(iconBox(GENERIC));
+  const src = exercise.image ? escapeAttr(exercise.image) : '';
+  if (src) {
+    // Own wrapper rather than an inner <img>: a 3:2 gym photo shoved into the
+    // square icon box is an unrecognisable crop.
+    const name = escapeAttr2(exercise.name);
+    const img = `<img src="${src}" alt="" loading="lazy" decoding="async">`;
+    return raw(interactive
+      ? `<button type="button" class="ex-photo" data-photo="${src}" data-photo-name="${name}" ` +
+        `title="Tap to enlarge" aria-label="Show a photo of ${name}">${img}</button>`
+      : `<span class="ex-photo static">${img}</span>`);
   }
-  const key = exercise.icon
-    ?? EQUIPMENT_FALLBACK[(exercise.equipment ?? [])[0]];
-  return raw(ICONS[key] ?? GENERIC);
+  const key = exercise.icon ?? EQUIPMENT_FALLBACK[(exercise.equipment ?? [])[0]];
+  return raw(iconBox(ICONS[key] ?? GENERIC));
+}
+
+const iconBox = (inner) => `<span class="icon-eq-box">${inner}</span>`;
+
+function escapeAttr2(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
 }
 
 // `image` comes from our own JSON, but this is markup built outside the `html`

@@ -57,6 +57,26 @@ async function init() {
 
   renderTabs();
   wireBackup();
+  wirePhotoLightbox();
+}
+
+// Delegated so it survives every re-render, in any view.
+function wirePhotoLightbox() {
+  const dialog = document.getElementById('photo-dialog');
+  const img = dialog.querySelector('img');
+  const name = dialog.querySelector('[data-role="name"]');
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-photo]');
+    if (btn) {
+      img.src = btn.dataset.photo;
+      name.textContent = btn.dataset.photoName ?? '';
+      dialog.showModal();
+      return;
+    }
+    // Click anywhere outside the figure closes it.
+    if (dialog.open && e.target === dialog) dialog.close();
+  });
 }
 
 function renderTabs() {

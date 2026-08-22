@@ -157,9 +157,7 @@ function entryCard(db, session, entry, prescription, settings) {
   return html`<div class="ex" data-exercise="${entry.exerciseId}">
     <div class="ex-head">
       <div class="ex-icons">
-        <span class="icon-eq-box" title="${`Equipment: ${(ex?.equipment ?? []).join(' / ')}`}">
-          ${equipmentIcon(ex)}
-        </span>
+        ${equipmentIcon(ex)}
         ${bodyMap({ primary: ex?.primaryMuscles, secondary: ex?.secondaryMuscles, height: 40 })}
       </div>
       <div style="flex:1 1 auto;min-width:0">

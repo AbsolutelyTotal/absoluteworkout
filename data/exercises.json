@@ -9,9 +9,14 @@
     "support": "incline-bench",
     "primaryMuscles": ["upper-chest"],
     "secondaryMuscles": ["front-delts", "triceps"],
-    "cues": ["Bench at 30° — steeper turns it into a shoulder press", "Lower slowly to chest level, elbows slightly tucked", "Press smoothly, no bounce"],
+    "cues": [
+      "Bench at 30° — steeper turns it into a shoulder press",
+      "Lower slowly to chest level, elbows slightly tucked",
+      "Press smoothly, no bounce"
+    ],
     "setupNotes": "Glutes stay on the bench. Don't arch the lower back to move more weight.",
-    "alternatives": ["machine-chest-press", "incline-smith-press", "flat-bench-press"]
+    "alternatives": ["machine-chest-press", "incline-smith-press", "flat-bench-press"],
+    "image": "assets/exercises/incline-db-press.jpg"
   },
   {
     "id": "machine-chest-press",
@@ -24,7 +29,8 @@
     "primaryMuscles": ["mid-chest"],
     "secondaryMuscles": ["front-delts", "triceps"],
     "cues": ["Bring your elbows together at the top", "Back flat against the pad throughout"],
-    "alternatives": ["incline-db-press", "flat-bench-press", "pec-deck-fly"]
+    "alternatives": ["incline-db-press", "flat-bench-press", "pec-deck-fly"],
+    "image": "assets/exercises/machine-chest-press.jpg"
   },
   {
     "id": "incline-smith-press",
@@ -38,7 +44,8 @@
     "secondaryMuscles": ["front-delts", "triceps"],
     "cues": ["Bench at 30°", "Lower to upper chest, elbows tucked", "Press up smoothly"],
     "setupNotes": "The fixed bar path means you can push hard without stabilising — keep the back flat.",
-    "alternatives": ["incline-db-press", "machine-chest-press"]
+    "alternatives": ["incline-db-press", "machine-chest-press"],
+    "image": "assets/exercises/incline-smith-press.jpg"
   },
   {
     "id": "flat-bench-press",
@@ -49,9 +56,14 @@
     "support": "supine-bench",
     "primaryMuscles": ["mid-chest", "lower-chest"],
     "secondaryMuscles": ["front-delts", "triceps"],
-    "cues": ["Glutes glued to the bench", "No hyper-arching the lower back", "Controlled descent to the chest"],
+    "cues": [
+      "Glutes glued to the bench",
+      "No hyper-arching the lower back",
+      "Controlled descent to the chest"
+    ],
     "setupNotes": "Permitted alternative to the machine press, but only with a flat lower back. If you feel the need to arch, switch back to the machine.",
-    "alternatives": ["machine-chest-press", "incline-db-press"]
+    "alternatives": ["machine-chest-press", "incline-db-press"],
+    "image": "assets/exercises/flat-bench-press.jpg"
   },
   {
     "id": "pec-deck-fly",
@@ -64,7 +76,8 @@
     "primaryMuscles": ["mid-chest"],
     "secondaryMuscles": ["front-delts"],
     "cues": ["Keep a slight bend in the elbows", "Squeeze the chest at the middle", "Control the return"],
-    "alternatives": ["machine-chest-press"]
+    "alternatives": ["machine-chest-press"],
+    "image": "assets/exercises/pec-deck-fly.jpg"
   },
   {
     "id": "machine-shoulder-press",
@@ -78,7 +91,8 @@
     "secondaryMuscles": ["side-delts", "triceps"],
     "cues": ["Chest tall, back against the pad", "Avoid leaning back to drive the weight"],
     "setupNotes": "Seated with a high backrest — this is the permitted substitute for a standing overhead press.",
-    "alternatives": ["seated-db-lateral-raise"]
+    "alternatives": ["seated-db-lateral-raise"],
+    "image": "assets/exercises/machine-shoulder-press.jpg"
   },
   {
     "id": "seated-db-lateral-raise",
@@ -91,7 +105,8 @@
     "primaryMuscles": ["side-delts"],
     "cues": ["Lead with your elbows", "Avoid shrugging", "Control the lowering"],
     "setupNotes": "Seated removes the torso sway that a standing raise invites.",
-    "alternatives": ["cable-lateral-raise"]
+    "alternatives": ["cable-lateral-raise"],
+    "image": "assets/exercises/seated-db-lateral-raise.jpg"
   },
   {
     "id": "cable-lateral-raise",
@@ -102,7 +117,11 @@
     "support": "seated-upright",
     "primaryMuscles": ["side-delts"],
     "unilateral": true,
-    "cues": ["Lead with the elbow", "Stop at shoulder height", "Constant tension — don't let the stack rest"],
+    "cues": [
+      "Lead with the elbow",
+      "Stop at shoulder height",
+      "Constant tension — don't let the stack rest"
+    ],
     "alternatives": ["seated-db-lateral-raise"]
   },
   {
@@ -114,7 +133,11 @@
     "icon": "cable-stack",
     "support": "high-back-seat",
     "primaryMuscles": ["triceps"],
-    "cues": ["Elbows tucked and close to the head", "Extend the rope out in front of you", "Twist the pinkies outwards at the end"],
+    "cues": [
+      "Elbows tucked and close to the head",
+      "Extend the rope out in front of you",
+      "Twist the pinkies outwards at the end"
+    ],
     "setupNotes": "High backrest is required — this is what keeps the overhead position from arching the lower back.",
     "alternatives": ["tricep-pushdown"]
   },
@@ -128,9 +151,9 @@
     "support": "standing-braced",
     "primaryMuscles": ["triceps"],
     "cues": ["Keep the elbows still", "Push the bar straight down", "Pause at the bottom"],
-    "alternatives": ["overhead-rope-extension"]
+    "alternatives": ["overhead-rope-extension"],
+    "image": "assets/exercises/tricep-pushdown.jpg"
   },
-
   {
     "id": "lat-pulldown",
     "name": "Lat Pulldown",
@@ -142,7 +165,8 @@
     "primaryMuscles": ["lats"],
     "secondaryMuscles": ["upper-back", "biceps"],
     "cues": ["Pull the elbows down toward your ribs", "Chest tall", "Avoid leaning back"],
-    "alternatives": ["assisted-pullup"]
+    "alternatives": ["assisted-pullup"],
+    "image": "assets/exercises/lat-pulldown.jpg"
   },
   {
     "id": "assisted-pullup",
@@ -156,7 +180,8 @@
     "secondaryMuscles": ["upper-back", "biceps", "forearms"],
     "cues": ["Pull the elbows toward your ribs", "Chest up", "Lower under control"],
     "setupNotes": "Hanging decompresses rather than compresses the spine. Assist as needed — don't kip or swing.",
-    "alternatives": ["lat-pulldown"]
+    "alternatives": ["lat-pulldown"],
+    "image": "assets/exercises/assisted-pullup.jpg"
   },
   {
     "id": "chest-supported-row",
@@ -170,7 +195,8 @@
     "secondaryMuscles": ["biceps", "rear-delts"],
     "cues": ["Drive the elbows up and back", "Squeeze the shoulder blades", "Avoid shrugging"],
     "setupNotes": "Bench at 30-45°. Chest stays on the pad the whole set — that pad is what replaces a standing bent-over row.",
-    "alternatives": ["lat-pulldown"]
+    "alternatives": ["lat-pulldown"],
+    "image": "assets/exercises/chest-supported-row.jpg"
   },
   {
     "id": "chest-supported-rear-delt-fly",
@@ -182,7 +208,11 @@
     "support": "chest-supported",
     "primaryMuscles": ["rear-delts"],
     "secondaryMuscles": ["upper-back", "traps"],
-    "cues": ["Lead with the elbows outwards, then slightly upwards", "Keep the arms slightly bent", "Avoid shrugging"],
+    "cues": [
+      "Lead with the elbows outwards, then slightly upwards",
+      "Keep the arms slightly bent",
+      "Avoid shrugging"
+    ],
     "setupNotes": "Chest on the pad. This is the supported replacement for a bent-over fly.",
     "alternatives": ["reverse-pec-deck"]
   },
@@ -197,7 +227,8 @@
     "primaryMuscles": ["rear-delts"],
     "secondaryMuscles": ["upper-back"],
     "cues": ["Chest against the pad", "Lead with the elbows", "Squeeze and control the return"],
-    "alternatives": ["chest-supported-rear-delt-fly"]
+    "alternatives": ["chest-supported-rear-delt-fly"],
+    "image": "assets/exercises/reverse-pec-deck.jpg"
   },
   {
     "id": "incline-db-curl",
@@ -209,9 +240,14 @@
     "support": "incline-bench",
     "primaryMuscles": ["biceps"],
     "secondaryMuscles": ["forearms"],
-    "cues": ["Keep the elbows behind your body", "Curl from upper forearm to lower bicep, not dumbbell to shoulder", "Lower slowly"],
+    "cues": [
+      "Keep the elbows behind your body",
+      "Curl from upper forearm to lower bicep, not dumbbell to shoulder",
+      "Lower slowly"
+    ],
     "setupNotes": "Bench at 45-60°. The incline puts the long head on stretch.",
-    "alternatives": ["cable-curl"]
+    "alternatives": ["cable-curl"],
+    "image": "assets/exercises/incline-db-curl.jpg"
   },
   {
     "id": "cable-curl",
@@ -223,7 +259,8 @@
     "primaryMuscles": ["biceps"],
     "secondaryMuscles": ["forearms"],
     "cues": ["Curl slowly, elbows tucked", "Constant tension"],
-    "alternatives": ["incline-db-curl"]
+    "alternatives": ["incline-db-curl"],
+    "image": "assets/exercises/cable-curl.jpg"
   },
   {
     "id": "straight-arm-cable-pushdown",
@@ -234,11 +271,15 @@
     "icon": "cable-stack",
     "support": "standing-braced",
     "primaryMuscles": ["lats", "abs"],
-    "cues": ["Arms nearly straight, hinge only at the shoulder", "Brace hard — resist the cable pulling you into extension", "Continuous tension"],
+    "cues": [
+      "Arms nearly straight, hinge only at the shoulder",
+      "Brace hard — resist the cable pulling you into extension",
+      "Continuous tension"
+    ],
     "setupNotes": "Doubles as the anti-extension core movement and a lat finisher. Chosen over lying pullovers, which arch the spine.",
-    "alternatives": ["bear-plank"]
+    "alternatives": ["bear-plank"],
+    "image": "assets/exercises/straight-arm-cable-pushdown.jpg"
   },
-
   {
     "id": "seated-hamstring-curl",
     "name": "Seated Hamstring Curl",
@@ -250,7 +291,8 @@
     "primaryMuscles": ["hamstrings"],
     "cues": ["Pull the heels back", "Squeeze the hamstrings", "Control the return"],
     "setupNotes": "One half of the RDL replacement — this is the knee-flexion half.",
-    "alternatives": ["single-leg-glute-bridge"]
+    "alternatives": ["single-leg-glute-bridge"],
+    "image": "assets/exercises/seated-hamstring-curl.jpg"
   },
   {
     "id": "leg-extension",
@@ -261,7 +303,8 @@
     "support": "high-back-seat",
     "primaryMuscles": ["quads"],
     "cues": ["Extend fully and squeeze the quads", "Lower slowly with control"],
-    "alternatives": ["seated-horizontal-leg-press"]
+    "alternatives": ["seated-horizontal-leg-press"],
+    "image": "assets/exercises/leg-extension.jpg"
   },
   {
     "id": "seated-horizontal-leg-press",
@@ -273,7 +316,12 @@
     "support": "high-back-seat",
     "primaryMuscles": ["quads", "glutes"],
     "secondaryMuscles": ["hamstrings", "adductors"],
-    "cues": ["Stop at 90° knee flexion — no deeper", "Drive through the mid-foot", "Push out and up in a scooping motion", "Don't lock out the knees"],
+    "cues": [
+      "Stop at 90° knee flexion — no deeper",
+      "Drive through the mid-foot",
+      "Push out and up in a scooping motion",
+      "Don't lock out the knees"
+    ],
     "setupNotes": "Hard depth limit: 90° at the knee. Going deeper rounds the lumbar spine (butt-wink) and is the single biggest risk in this session. Seated horizontal is preferred over the 45° incline version.",
     "formLimit": "Max 90° knee flexion",
     "alternatives": ["leg-extension"]
@@ -289,7 +337,11 @@
     "primaryMuscles": ["glutes"],
     "secondaryMuscles": ["hamstrings"],
     "unilateral": true,
-    "cues": ["Drive the hips up through the heel", "Squeeze the glute at the top", "Ribs down — don't arch to get higher"],
+    "cues": [
+      "Drive the hips up through the heel",
+      "Squeeze the glute at the top",
+      "Ribs down — don't arch to get higher"
+    ],
     "setupNotes": "The hip-extension half of the RDL replacement. Supine, so there's no shear load on the spine.",
     "alternatives": ["seated-hamstring-curl"]
   },
@@ -303,9 +355,9 @@
     "primaryMuscles": ["calves"],
     "cues": ["Pause at the top", "Full stretch at the bottom"],
     "setupNotes": "Seated keeps the load off the spine — a standing calf raise loads the shoulders.",
-    "alternatives": []
+    "alternatives": [],
+    "image": "assets/exercises/seated-calf-raise.jpg"
   },
-
   {
     "id": "pallof-press",
     "name": "Pallof Press (Cable Stack)",
@@ -316,9 +368,14 @@
     "support": "standing-braced",
     "primaryMuscles": ["obliques", "abs"],
     "unilateral": true,
-    "cues": ["Resist the rotation — the cable wants to twist you", "Press straight out, ribs down", "Breathe"],
+    "cues": [
+      "Resist the rotation — the cable wants to twist you",
+      "Press straight out, ribs down",
+      "Breathe"
+    ],
     "setupNotes": "Anti-rotation. The work is in not moving.",
-    "alternatives": ["half-kneeling-pallof-press"]
+    "alternatives": ["half-kneeling-pallof-press"],
+    "image": "assets/exercises/pallof-press.jpg"
   },
   {
     "id": "half-kneeling-pallof-press",
