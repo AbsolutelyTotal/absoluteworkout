@@ -84,15 +84,13 @@ export function render(root, db, { onFinish }) {
       <div class="card">
         <div class="section-label">Finish</div>
         <div class="row" style="margin-top:10px">
-          <input class="bw" type="number" inputmode="decimal" step="0.1"
+          <input class="bw field" type="number" inputmode="decimal" step="0.1"
                  placeholder="${`Bodyweight (${settings.unit})`}"
-                 value="${session.bodyweight ?? ''}"
-                 style="flex:1 1 140px;padding:9px 11px;border-radius:6px;border:1px solid var(--line-strong);background:var(--bg);color:var(--text);font:inherit">
+                 value="${session.bodyweight ?? ''}" style="flex:1 1 140px">
         </div>
         <div class="row" style="margin-top:8px">
-          <input class="notes" type="text" placeholder="Session notes (optional)"
-                 value="${session.notes ?? ''}"
-                 style="flex:1 1 100%;padding:9px 11px;border-radius:6px;border:1px solid var(--line-strong);background:var(--bg);color:var(--text);font:inherit">
+          <input class="notes field" type="text" placeholder="Session notes (optional)"
+                 value="${session.notes ?? ''}" style="flex:1 1 100%">
         </div>
         <div class="row" style="margin-top:12px">
           <button class="btn primary" data-action="finish" ${doneSets === 0 ? 'disabled' : ''}>
@@ -174,8 +172,7 @@ function entryCard(db, session, entry, prescription, settings) {
         ${ex?.formLimit ? html`<div class="limit" style="margin:6px 0 0">${`⚠ ${ex.formLimit}`}</div>` : ''}
       </div>
       ${alternatives.length ? html`
-        <select data-action="swap" aria-label="${`Swap ${name}`}"
-                style="max-width:130px;padding:6px 8px;border-radius:6px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--text-2);font:inherit;font-size:12px">
+        <select class="swap-select" data-action="swap" aria-label="${`Swap ${name}`}">
           <option value="">Swap…</option>
           ${alternatives.map(id => html`<option value="${id}">${db.exerciseById[id].name}</option>`)}
         </select>` : ''}

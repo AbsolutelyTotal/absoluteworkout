@@ -755,3 +755,82 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
 /* Non-interactive variant, for use inside a <button> (Library list rows). */
 .ex-photo.static { display: inline-flex; width: 56px; height: 38px; cursor: default; }
 .ex-photo.static:hover { border-color: var(--line); }
+
+/* ---------- Form fields ---------- */
+
+/* 16px is not a style choice: iOS Safari auto-zooms the whole page when you
+   focus an input under 16px. In a session you tap ~19 of these, so a 14px field
+   means 19 involuntary zooms. Applies to every text-entry field in the app. */
+.field,
+.sets-grid input {
+  width: 100%;
+  padding: 9px 11px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 16px;
+}
+.field::placeholder { color: var(--muted); }
+
+.swap-select {
+  max-width: 130px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-family: inherit;
+  font-size: 16px;               /* same iOS zoom rule applies to <select> */
+}
+
+/* ---------- Safe area (viewport-fit=cover is set, so we must opt in) ---------- */
+
+header.appbar,
+nav.tabs {
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+}
+main {
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+}
+.session-footer {
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+}
+
+/* ---------- Phones ---------- */
+
+@media (max-width: 560px) {
+  /* The exercise header is a 3-column row (icons | name | prescription). Below
+     ~560px there isn't room, and the name column gets squeezed so hard it wraps
+     mid-word and interleaves with the prescription — "Incline3 x 6-8 tempo".
+     Stack instead: icons + name on one row, prescription on its own. */
+  .ex-head { flex-wrap: wrap; }
+  .ex-head > div:not(.ex-icons):not(.ex-pres) { flex: 1 1 140px; min-width: 0; }
+  .ex-pres {
+    flex: 1 1 100%;
+    order: 3;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 2px;
+    text-align: left;
+  }
+  .ex-pres .rest { order: 2; }
+  .swap-select { order: 3; flex: 1 1 100%; max-width: none; margin-top: 8px; }
+
+  /* The inline figure is ~17px wide at row height — it conveys nothing on a
+     phone. The exercise already names its muscles in text, and the Library
+     shows the map full size. */
+  .ex-icons .bodymap { display: none; }
+
+  /* Long day names ("Push & Anti-Rotation Core") shouldn't squash the button. */
+  .card > .spread { flex-wrap: wrap; }
+  .card > .spread > .btn { flex: 1 1 100%; }
+
+  main { padding-top: 14px; }
+  .cues { padding-left: 28px; }
+}

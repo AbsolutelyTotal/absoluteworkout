@@ -23,8 +23,8 @@ export function render(root, db) {
           ${chip('By exercise', { pressed: mode === 'exercise', value: 'exercise' })}
         </div>
         ${mode === 'exercise' ? html`
-          <input data-role="search" type="search" placeholder="Filter exercises…" value="${query}"
-                 style="width:100%;margin-top:10px;padding:9px 11px;border-radius:6px;border:1px solid var(--line-strong);background:var(--bg);color:var(--text);font:inherit">
+          <input class="field" data-role="search" type="search"
+                 placeholder="Filter exercises…" value="${query}" style="margin-top:10px">
         ` : ''}
       </div>
 
