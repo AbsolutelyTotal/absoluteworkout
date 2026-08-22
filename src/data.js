@@ -37,6 +37,8 @@ function validate(db) {
     if (!ex.primaryMuscles?.length) issues.push(`exercise "${ex.id}" has no primaryMuscles`);
   }
 
+  const norm = (t) => (t ?? '').toLowerCase().split(/\s+/).join(' ').replace(/\.$/, '');
+
   for (const split of db.splits) {
     const dayIds = new Set(split.days.map(d => d.id));
     for (const id of split.cycle) {
@@ -49,6 +51,17 @@ function validate(db) {
         }
         if (p.supersetWith && !db.exerciseById[p.supersetWith]) {
           issues.push(`split "${split.id}"/${day.id} → unknown supersetWith "${p.supersetWith}"`);
+        }
+        // A prescription note repeating the exercise's own setupNotes or a cue
+        // renders the same sentence twice in the session view.
+        const ex = db.exerciseById[p.exerciseId];
+        if (p.notes && ex) {
+          const n = norm(p.notes);
+          if (n === norm(ex.setupNotes) || (ex.cues ?? []).some(c => norm(c) === n)) {
+            issues.push(
+              `split "${split.id}"/${day.id} → note on "${p.exerciseId}" duplicates its own text`
+            );
+          }
         }
       }
     }

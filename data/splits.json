@@ -38,7 +38,7 @@
           {
             "name": "Core — anti-rotation",
             "items": [
-              { "exerciseId": "pallof-press", "sets": 3, "reps": "10-12 per side", "restSeconds": 60, "notes": "Anti-rotation. The work is in not moving." }
+              { "exerciseId": "pallof-press", "sets": 3, "reps": "10-12 per side", "restSeconds": 60 }
             ]
           }
         ]
