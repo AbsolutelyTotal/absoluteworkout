@@ -68,11 +68,13 @@ function volumeCard(db, split, thisWeek, settings) {
 
   if (!ids.length) return '';
 
-  const targets = Object.fromEntries(
-    ids.map(id => [id, db.muscleById[id].weeklySetTarget ?? settings.defaultSetTarget])
-  );
+  // `null` is meaningful (deliberately untargeted); only `undefined` falls back.
+  const targets = Object.fromEntries(ids.map(id => {
+    const t = db.muscleById[id].weeklySetTarget;
+    return [id, t === undefined ? settings.defaultSetTarget : t];
+  }));
   const scaleMax = Math.max(
-    ...ids.map(id => Math.max(actual[id] ?? 0, targets[id][1])), 1
+    ...ids.map(id => Math.max(actual[id] ?? 0, targets[id] ? targets[id][1] : 0)), 1
   ) * 1.05;
 
   return html`<div class="card">

@@ -252,6 +252,112 @@ main {
 .btn.danger:hover { background: rgba(208, 59, 59, 0.14); }
 .btn.sm { padding: 6px 11px; font-size: 12px; }
 
+/* ---------- Icons: machines + muscle map ---------- */
+
+.icon-eq {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  color: var(--text-2);
+}
+
+.ex-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding-top: 2px;
+}
+
+.icon-eq-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+/* Real photo/illustration, when data/exercises.json supplies `image`. */
+.ex-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.demo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+.demo-link:hover { text-decoration: underline; }
+
+/* Body map. Outline recedes; the highlighted region is the whole point. */
+.bodymap { display: block; }
+.bodymap .bm-outline {
+  fill: var(--surface-3);
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+.bodymap .r-on { fill: var(--accent); }
+.bodymap .r-sec { fill: var(--accent); opacity: 0.35; }
+
+.bodymap-pair { display: inline-flex; gap: 6px; align-items: flex-start; }
+
+.bodymap-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+
+.map-legend {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.map-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.map-legend i {
+  width: 10px; height: 10px; border-radius: 2px;
+  background: var(--accent); display: inline-block;
+}
+.map-legend i.sec { opacity: 0.35; }
+
+/* ---------- Safety callouts ---------- */
+
+.limit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 14px 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(250, 178, 25, 0.12);
+  border: 1px solid rgba(250, 178, 25, 0.45);
+  color: #f3d18a;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.support-tag {
+  font-size: 11px;
+  color: var(--muted);
+}
+
 /* ---------- Exercise / prescription rows ---------- */
 
 .block + .block { margin-top: 16px; }

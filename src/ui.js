@@ -122,8 +122,25 @@ export function prescriptionLine(p) {
  */
 export function volumeRow(name, sets, target, scaleMax) {
   const pct = (v) => `${Math.min(100, (v / scaleMax) * 100)}%`;
-  const [lo, hi] = target;
 
+  // A null target means "deliberately not trained" (e.g. lower back under the
+  // L5-S1 constraints). Show the volume, but no band and no under/over verdict —
+  // flagging it as "under target" would invert the intent.
+  if (!target) {
+    return html`<div class="vol-row">
+      <div class="vol-name">${name}</div>
+      <div class="vol-track" role="img"
+           aria-label="${`${name}: ${fmt.sets(sets)} sets, no target set`}">
+        <div class="vol-bar" style="width:${pct(sets)}"></div>
+      </div>
+      <div class="vol-meta">
+        <span class="sets">${fmt.sets(sets)}</span>
+        <span class="state">no target</span>
+      </div>
+    </div>`;
+  }
+
+  const [lo, hi] = target;
   let icon = '✓', state = 'on target';
   if (sets < lo) { icon = '↓'; state = 'under'; }
   else if (sets > hi) { icon = '↑'; state = 'over'; }

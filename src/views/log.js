@@ -4,6 +4,8 @@
 
 import { html, mount, fmt, CHECK_SVG } from '../ui.js';
 import { dayOf, prescriptionsOf } from '../data.js';
+import { equipmentIcon } from '../icons/equipment.js';
+import { bodyMap } from '../icons/body.js';
 import * as store from '../store.js';
 
 export function render(root, db, { onFinish }) {
@@ -27,7 +29,39 @@ export function render(root, db, { onFinish }) {
 
   const split = db.splitById[session.splitId];
   const day = split ? dayOf(split, session.dayId) : null;
-  const prescriptions = day ? prescriptionsOf(day) : [];
+
+  // The split or day this session was started from no longer exists. Offer a way
+  // out rather than rendering a session that can't be completed coherently.
+  if (!day) {
+    mount(root, html`<div class="stack">
+      <div class="banner warn">
+        <span class="icon">!</span>
+        <div>
+          <strong>This session references a plan that's changed.</strong>
+          It was started from <code>${session.splitId}</code> / <code>${session.dayId}</code>,
+          which is no longer in <code>data/splits.json</code>.
+          Finish it to keep the sets you logged, or discard it.
+        </div>
+      </div>
+      <div class="card row">
+        <button class="btn primary" data-action="finish">Finish and keep sets</button>
+        <button class="btn danger" data-action="discard">Discard</button>
+      </div>
+    </div>`);
+    root.querySelector('[data-action="finish"]').addEventListener('click', () => {
+      store.finishSession(session.id);
+      onFinish();
+    });
+    root.querySelector('[data-action="discard"]').addEventListener('click', () => {
+      if (confirm('Discard this session? Logged sets will be lost.')) {
+        store.discardSession(session.id);
+        onFinish();
+      }
+    });
+    return;
+  }
+
+  const prescriptions = prescriptionsOf(day);
   const byId = Object.fromEntries(prescriptions.map(p => [p.exerciseId, p]));
 
   const totalSets = session.entries.reduce((a, e) => a + e.sets.length, 0);
@@ -98,18 +132,48 @@ function entryCard(db, session, entry, prescription, settings) {
   const last = store.lastPerformance(entry.exerciseId);
   const alternatives = (ex?.alternatives ?? []).filter(id => db.exerciseById[id]);
 
+  // The exercise was removed from the library after this session started —
+  // usually because it was edited out of exercises.json. Never present it as
+  // loggable: under a constraint-driven plan, a deleted movement may have been
+  // deleted precisely because it isn't safe to perform.
+  if (!ex) {
+    return html`<div class="ex" data-exercise="${entry.exerciseId}">
+      <div class="ex-head">
+        <div style="flex:1 1 auto;min-width:0">
+          <div class="ex-name">${entry.exerciseId}</div>
+          <div class="ex-sub">No longer in the exercise library.</div>
+        </div>
+      </div>
+      <div class="banner warn" style="margin:0 14px 14px">
+        <span class="icon">!</span>
+        <div>
+          Removed from <code>data/exercises.json</code> since this session started.
+          Existing sets are kept for history, but you can't log more here.
+        </div>
+      </div>
+    </div>`;
+  }
+
   return html`<div class="ex" data-exercise="${entry.exerciseId}">
     <div class="ex-head">
-      <div>
+      <div class="ex-icons">
+        <span class="icon-eq-box" title="${`Equipment: ${(ex?.equipment ?? []).join(' / ')}`}">
+          ${equipmentIcon(ex)}
+        </span>
+        ${bodyMap({ primary: ex?.primaryMuscles, secondary: ex?.secondaryMuscles, height: 40 })}
+      </div>
+      <div style="flex:1 1 auto;min-width:0">
         <div class="ex-name">${name}</div>
         <div class="ex-sub">
           ${prescription ? `${prescription.sets} x ${prescription.reps}` : 'added'}
+          ${prescription?.tempo ? ` · ${prescription.tempo}` : ''}
           ${ex?.unilateral ? ' · per side' : ''}
         </div>
         ${entry.substitutedFor
           ? html`<div class="ex-sub">${`swapped in for ${db.exerciseById[entry.substitutedFor]?.name ?? entry.substitutedFor}`}</div>`
           : ''}
         ${last ? html`<div class="ex-sub">${lastLine(last, settings.unit)}</div>` : ''}
+        ${ex?.formLimit ? html`<div class="limit" style="margin:6px 0 0">${`⚠ ${ex.formLimit}`}</div>` : ''}
       </div>
       ${alternatives.length ? html`
         <select data-action="swap" aria-label="${`Swap ${name}`}"

@@ -4,6 +4,8 @@
 
 import { html, mount, chip, fmt, prescriptionLine } from '../ui.js';
 import { exercisesForMuscle, daysTraining, plannedWeeklySets } from '../data.js';
+import { equipmentIcon } from '../icons/equipment.js';
+import { bodyMap } from '../icons/body.js';
 
 let mode = 'muscle';        // 'muscle' | 'exercise'
 let selectedId = null;
@@ -102,9 +104,15 @@ function listItem(db, item) {
     meta = (item.primaryMuscles ?? []).map(id => db.muscleById[id]?.name ?? id).join(', ');
   }
 
+  // No body map in the list: the figure's aspect ratio makes it ~13px wide at
+  // list height, which is an unreadable sliver. The map lives in the detail pane
+  // where it has room. Equipment icons do read at this size, so exercises keep one.
   return html`<button class="lib-item" type="button" data-id="${item.id}"
                       aria-pressed="${String(item.id === selectedId)}">
-    <span class="n">${item.name}</span>
+    <span style="display:inline-flex;align-items:center;gap:9px;min-width:0">
+      ${isMuscle ? '' : equipmentIcon(item)}
+      <span class="n">${item.name}</span>
+    </span>
     <span class="m">${meta}</span>
   </button>`;
 }
@@ -128,11 +136,16 @@ function muscleDetail(db, muscle) {
       ${target ? html`<span class="badge">${`target ${target[0]}–${target[1]}/wk`}</span>` : ''}
     </div>
 
+    <div class="bodymap-box" style="margin-top:12px">
+      ${bodyMap({ primary: [muscle.id], view: 'both', height: 120 })}
+    </div>
+    <div class="ex-sub" style="margin-top:6px">Front and back view — highlighted region is ${muscle.name}.</div>
+
     <div class="section-label" style="margin-top:16px">Planned sets per week</div>
     <table class="data" style="margin-top:6px">
       <tbody>
         ${perSplit.map(({ split, sets }) => {
-          let state = '—';
+          let state = 'no target';
           if (target) state = sets < target[0] ? '↓ under' : sets > target[1] ? '↑ over' : '✓ on target';
           return html`<tr>
             <td class="name">${split.name}</td>
@@ -163,12 +176,26 @@ function exerciseDetail(db, ex) {
   const days = daysTraining(db, ex.id);
 
   return html`
-    <div>
-      <h3>${ex.name}</h3>
-      <div class="ex-sub">
-        ${`${ex.pattern} · ${(ex.equipment ?? []).join(' / ')}`}${ex.unilateral ? ' · unilateral' : ''}
+    <div class="row" style="align-items:flex-start;gap:12px">
+      <span class="icon-eq-box" style="width:48px;height:48px">${equipmentIcon(ex)}</span>
+      <div style="flex:1 1 auto;min-width:0">
+        <h3>${ex.name}</h3>
+        <div class="ex-sub">
+          ${`${ex.pattern} · ${(ex.equipment ?? []).join(' / ')}`}${ex.unilateral ? ' · unilateral' : ''}
+        </div>
+        ${ex.aliases?.length ? html`<div class="ex-sub">${`also: ${ex.aliases.join(', ')}`}</div>` : ''}
+        ${ex.support ? html`<div class="support-tag">${`support: ${ex.support.replace(/-/g, ' ')}`}</div>` : ''}
       </div>
-      ${ex.aliases?.length ? html`<div class="ex-sub">${`also: ${ex.aliases.join(', ')}`}</div>` : ''}
+    </div>
+
+    ${ex.formLimit ? html`<div class="limit" style="margin:10px 0 0">${`⚠ ${ex.formLimit}`}</div>` : ''}
+
+    <div class="bodymap-box" style="margin-top:12px">
+      ${bodyMap({ primary: ex.primaryMuscles, secondary: ex.secondaryMuscles, view: 'both', height: 110 })}
+    </div>
+    <div class="map-legend">
+      <span><i></i> primary</span>
+      <span><i class="sec"></i> secondary</span>
     </div>
 
     <div class="section-label" style="margin-top:16px">Primary</div>

@@ -6,7 +6,8 @@
   { "id": "lats",          "name": "Lats",            "group": "back",       "region": "upper", "weeklySetTarget": [10, 20] },
   { "id": "upper-back",    "name": "Upper Back",      "group": "back",       "region": "upper", "weeklySetTarget": [8, 16] },
   { "id": "traps",         "name": "Traps",           "group": "back",       "region": "upper", "weeklySetTarget": [4, 12] },
-  { "id": "lower-back",    "name": "Lower Back",      "group": "back",       "region": "upper", "weeklySetTarget": [4, 10] },
+  { "id": "lower-back",    "name": "Lower Back",      "group": "back",       "region": "upper", "weeklySetTarget": null,
+    "note": "No direct target by design — the L5-S1 constraints rule out loaded lumbar work. Incidental involvement only." },
 
   { "id": "front-delts",   "name": "Front Delts",     "group": "shoulders",  "region": "upper", "weeklySetTarget": [6, 12] },
   { "id": "side-delts",    "name": "Side Delts",      "group": "shoulders",  "region": "upper", "weeklySetTarget": [8, 18] },

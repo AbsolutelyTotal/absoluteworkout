@@ -1,120 +1,107 @@
 [
   {
-    "id": "ppl-3",
-    "name": "Push / Pull / Legs",
+    "id": "core-3",
+    "name": "3-Day Core Split",
     "daysPerWeek": 3,
-    "description": "Three sessions a week, each muscle group once. Higher per-session volume to make one weekly exposure count.",
+    "description": "Default rotation. Push, pull, legs — each with its own core modality.",
+    "defaultTempo": "3:1:2:1",
     "cycle": ["push", "pull", "legs"],
     "days": [
       {
         "id": "push",
-        "name": "Push",
-        "focus": ["chest", "shoulders", "triceps"],
-        "notes": "Two warm-up sets ramping to the first working weight on the bench.",
+        "name": "Push & Anti-Rotation Core",
+        "shortName": "Push",
+        "focus": ["chest", "shoulders", "triceps", "core"],
+        "notes": "1-2 warm-up sets at 60-75% before the incline press. Every rep at 3:1:2:1.",
         "blocks": [
           {
-            "name": "Main",
+            "name": "Chest",
             "items": [
-              {
-                "exerciseId": "barbell-bench-press",
-                "sets": 4,
-                "reps": "6-8",
-                "intensity": { "rir": "1-2" },
-                "restSeconds": 180,
-                "progression": "+2.5kg when you hit 8 on all four sets."
-              },
-              {
-                "exerciseId": "overhead-press",
-                "sets": 3,
-                "reps": "8-10",
-                "intensity": { "rir": "2" },
-                "restSeconds": 150
-              }
+              { "exerciseId": "incline-db-press", "sets": 3, "reps": "6-8", "tempo": "3:1:2:1", "restSeconds": 150 },
+              { "exerciseId": "machine-chest-press", "sets": 3, "reps": "8-10", "tempo": "3:1:2:1", "restSeconds": 120 }
             ]
           },
           {
-            "name": "Accessory",
+            "name": "Shoulders",
             "items": [
-              { "exerciseId": "incline-dumbbell-press", "sets": 3, "reps": "10-12", "restSeconds": 120 },
-              { "exerciseId": "cable-lateral-raise", "sets": 4, "reps": "12-15", "restSeconds": 75 }
+              { "exerciseId": "machine-shoulder-press", "sets": 2, "reps": "8-10", "tempo": "3:1:2:1", "restSeconds": 120 },
+              { "exerciseId": "seated-db-lateral-raise", "sets": 3, "reps": "10-15", "tempo": "3:1:2:1", "restSeconds": 75 }
             ]
           },
           {
-            "name": "Finisher",
+            "name": "Triceps",
             "items": [
-              { "exerciseId": "overhead-cable-extension", "sets": 3, "reps": "10-12", "restSeconds": 75 },
-              { "exerciseId": "cable-triceps-pushdown", "sets": 2, "reps": "12-15", "restSeconds": 60 }
+              { "exerciseId": "overhead-rope-extension", "sets": 2, "reps": "10-15", "tempo": "3:1:2:1", "restSeconds": 75 },
+              { "exerciseId": "tricep-pushdown", "sets": 2, "reps": "12-15", "tempo": "3:1:2:1", "restSeconds": 60 }
+            ]
+          },
+          {
+            "name": "Core — anti-rotation",
+            "items": [
+              { "exerciseId": "pallof-press", "sets": 3, "reps": "10-12 per side", "restSeconds": 60, "notes": "Anti-rotation. The work is in not moving." }
             ]
           }
         ]
       },
       {
         "id": "pull",
-        "name": "Pull",
-        "focus": ["back", "biceps", "shoulders"],
+        "name": "Pull & Anti-Extension Core",
+        "shortName": "Pull",
+        "focus": ["back", "rear-delts", "biceps", "core"],
+        "notes": "1-2 warm-up sets before the first pulling movement. Every rep at 3:1:2:1.",
         "blocks": [
           {
-            "name": "Main",
+            "name": "Back",
             "items": [
-              {
-                "exerciseId": "pull-up",
-                "sets": 4,
-                "reps": "6-10",
-                "intensity": { "rir": "1-2" },
-                "restSeconds": 180,
-                "progression": "Add weight once you clear 10 on all sets."
-              },
-              { "exerciseId": "barbell-row", "sets": 4, "reps": "8-10", "intensity": { "rir": "2" }, "restSeconds": 150 }
+              { "exerciseId": "lat-pulldown", "sets": 3, "reps": "6-10", "tempo": "3:1:2:1", "restSeconds": 150, "notes": "Neutral or wide grip. Assisted pull-ups are an equal swap." },
+              { "exerciseId": "chest-supported-row", "sets": 3, "reps": "8-10", "tempo": "3:1:2:1", "restSeconds": 120 }
             ]
           },
           {
-            "name": "Accessory",
+            "name": "Rear delts",
             "items": [
-              { "exerciseId": "seated-cable-row", "sets": 3, "reps": "10-12", "restSeconds": 120 },
-              { "exerciseId": "face-pull", "sets": 3, "reps": "15-20", "restSeconds": 60 }
+              { "exerciseId": "chest-supported-rear-delt-fly", "sets": 3, "reps": "10-15", "tempo": "3:1:2:1", "restSeconds": 75, "notes": "Reverse pec deck is an equal swap." }
             ]
           },
           {
-            "name": "Finisher",
+            "name": "Biceps",
             "items": [
-              { "exerciseId": "incline-dumbbell-curl", "sets": 3, "reps": "10-12", "restSeconds": 75 },
-              { "exerciseId": "hammer-curl", "sets": 2, "reps": "12-15", "restSeconds": 60 }
+              { "exerciseId": "incline-db-curl", "sets": 3, "reps": "10-15", "tempo": "3:1:2:1", "restSeconds": 75 }
+            ]
+          },
+          {
+            "name": "Core — anti-extension",
+            "items": [
+              { "exerciseId": "straight-arm-cable-pushdown", "sets": 3, "reps": "10-12", "tempo": "3:1:2:1", "restSeconds": 60, "notes": "Anti-extension core and lat finisher in one." }
             ]
           }
         ]
       },
       {
         "id": "legs",
-        "name": "Legs",
-        "focus": ["quads", "hamstrings", "glutes", "calves"],
-        "notes": "Ramp the squat in three warm-up sets. Don't cut depth to chase load.",
+        "name": "Legs & Core Stability",
+        "shortName": "Legs",
+        "focus": ["quads", "hamstrings", "glutes", "core"],
+        "notes": "Two isolations first, then the compound. Leg press stops at 90° knee flexion — no exceptions.",
         "blocks": [
           {
-            "name": "Main",
+            "name": "Isolation",
             "items": [
-              {
-                "exerciseId": "barbell-squat",
-                "sets": 4,
-                "reps": "5-8",
-                "intensity": { "rir": "1-2" },
-                "restSeconds": 210,
-                "progression": "+5kg when you hit 8 on all four sets."
-              },
-              { "exerciseId": "romanian-deadlift", "sets": 3, "reps": "8-10", "intensity": { "rir": "2" }, "restSeconds": 180 }
+              { "exerciseId": "seated-hamstring-curl", "sets": 3, "reps": "12-15", "tempo": "3:1:2:1", "restSeconds": 90 },
+              { "exerciseId": "leg-extension", "sets": 3, "reps": "12-15", "tempo": "3:1:2:1", "restSeconds": 90 }
             ]
           },
           {
-            "name": "Accessory",
+            "name": "Compound",
             "items": [
-              { "exerciseId": "leg-press", "sets": 3, "reps": "12-15", "restSeconds": 120 },
-              { "exerciseId": "seated-leg-curl", "sets": 3, "reps": "12-15", "restSeconds": 90 }
+              { "exerciseId": "seated-horizontal-leg-press", "sets": 3, "reps": "8-10", "tempo": "3:1:2:1", "restSeconds": 150, "notes": "Max 90° knee flexion. Going deeper rounds the lumbar spine." },
+              { "exerciseId": "single-leg-glute-bridge", "sets": 3, "reps": "10-12 per side", "tempo": "3:1:2:1", "restSeconds": 75, "notes": "Replaces the RDL — hip extension without spinal shear." }
             ]
           },
           {
-            "name": "Finisher",
+            "name": "Core — anti-lateral flexion",
             "items": [
-              { "exerciseId": "standing-calf-raise", "sets": 4, "reps": "10-15", "tempo": "2-1-1-1", "restSeconds": 60 },
-              { "exerciseId": "hanging-leg-raise", "sets": 3, "reps": "10-15", "restSeconds": 60 }
+              { "exerciseId": "side-plank-knee-modified", "sets": 3, "reps": "20-30s per side", "restSeconds": 60, "notes": "Half-kneeling Pallof press is an equal swap." }
             ]
           }
         ]
@@ -122,121 +109,143 @@
     ]
   },
   {
-    "id": "ppl-upper-4",
-    "name": "Push / Pull / Legs / Upper",
+    "id": "core-4",
+    "name": "4-Day Split",
     "daysPerWeek": 4,
-    "description": "Adds a fourth upper-body session, so chest, back and delts get a second weekly exposure. Per-session volume drops to pay for it.",
+    "description": "The 3-day rotation plus an upper-body session, so chest, back and delts get hit twice a week.",
+    "defaultTempo": "3:1:2:1",
     "cycle": ["push", "pull", "legs", "upper"],
     "days": [
       {
         "id": "push",
-        "name": "Push",
-        "focus": ["chest", "shoulders", "triceps"],
+        "name": "Push & Anti-Rotation Core",
+        "shortName": "Push",
+        "focus": ["chest", "shoulders", "triceps", "core"],
+        "notes": "1-2 warm-up sets at 60-75% before the incline press. Every rep at 3:1:2:1.",
         "blocks": [
           {
-            "name": "Main",
+            "name": "Chest",
             "items": [
-              {
-                "exerciseId": "barbell-bench-press",
-                "sets": 4,
-                "reps": "5-7",
-                "intensity": { "rir": "1" },
-                "restSeconds": 180,
-                "progression": "+2.5kg when you hit 7 on all four sets."
-              },
-              { "exerciseId": "seated-dumbbell-press", "sets": 3, "reps": "8-10", "restSeconds": 150 }
+              { "exerciseId": "incline-db-press", "sets": 3, "reps": "6-8", "tempo": "3:1:2:1", "restSeconds": 150 },
+              { "exerciseId": "machine-chest-press", "sets": 3, "reps": "8-10", "tempo": "3:1:2:1", "restSeconds": 120 }
             ]
           },
           {
-            "name": "Accessory",
+            "name": "Shoulders",
             "items": [
-              { "exerciseId": "cable-lateral-raise", "sets": 3, "reps": "12-15", "restSeconds": 75 },
-              { "exerciseId": "overhead-cable-extension", "sets": 3, "reps": "10-12", "restSeconds": 75 }
+              { "exerciseId": "machine-shoulder-press", "sets": 2, "reps": "8-10", "tempo": "3:1:2:1", "restSeconds": 120 },
+              { "exerciseId": "seated-db-lateral-raise", "sets": 3, "reps": "10-15", "tempo": "3:1:2:1", "restSeconds": 75 }
+            ]
+          },
+          {
+            "name": "Triceps",
+            "items": [
+              { "exerciseId": "overhead-rope-extension", "sets": 2, "reps": "10-15", "tempo": "3:1:2:1", "restSeconds": 75 },
+              { "exerciseId": "tricep-pushdown", "sets": 2, "reps": "12-15", "tempo": "3:1:2:1", "restSeconds": 60 }
+            ]
+          },
+          {
+            "name": "Core — anti-rotation",
+            "items": [
+              { "exerciseId": "pallof-press", "sets": 3, "reps": "10-12 per side", "restSeconds": 60 }
             ]
           }
         ]
       },
       {
         "id": "pull",
-        "name": "Pull",
-        "focus": ["back", "biceps"],
+        "name": "Pull & Anti-Extension Core",
+        "shortName": "Pull",
+        "focus": ["back", "rear-delts", "biceps", "core"],
         "blocks": [
           {
-            "name": "Main",
+            "name": "Back",
             "items": [
-              { "exerciseId": "pull-up", "sets": 4, "reps": "6-10", "intensity": { "rir": "1" }, "restSeconds": 180 },
-              { "exerciseId": "barbell-row", "sets": 3, "reps": "8-10", "restSeconds": 150 }
+              { "exerciseId": "lat-pulldown", "sets": 3, "reps": "6-10", "tempo": "3:1:2:1", "restSeconds": 150 },
+              { "exerciseId": "chest-supported-row", "sets": 3, "reps": "8-10", "tempo": "3:1:2:1", "restSeconds": 120 }
             ]
           },
           {
-            "name": "Accessory",
+            "name": "Rear delts",
             "items": [
-              { "exerciseId": "face-pull", "sets": 3, "reps": "15-20", "restSeconds": 60 },
-              { "exerciseId": "barbell-curl", "sets": 3, "reps": "10-12", "restSeconds": 75 }
+              { "exerciseId": "chest-supported-rear-delt-fly", "sets": 3, "reps": "10-15", "tempo": "3:1:2:1", "restSeconds": 75 }
+            ]
+          },
+          {
+            "name": "Biceps",
+            "items": [
+              { "exerciseId": "incline-db-curl", "sets": 3, "reps": "10-15", "tempo": "3:1:2:1", "restSeconds": 75 }
+            ]
+          },
+          {
+            "name": "Core — anti-extension",
+            "items": [
+              { "exerciseId": "straight-arm-cable-pushdown", "sets": 3, "reps": "10-12", "tempo": "3:1:2:1", "restSeconds": 60 }
             ]
           }
         ]
       },
       {
         "id": "legs",
-        "name": "Legs",
-        "focus": ["quads", "hamstrings", "glutes", "calves"],
+        "name": "Legs & Core Stability",
+        "shortName": "Legs",
+        "focus": ["quads", "hamstrings", "glutes", "core"],
+        "notes": "Leg press stops at 90° knee flexion — no exceptions.",
         "blocks": [
           {
-            "name": "Main",
+            "name": "Isolation",
             "items": [
-              { "exerciseId": "barbell-squat", "sets": 4, "reps": "5-8", "intensity": { "rir": "1-2" }, "restSeconds": 210 },
-              { "exerciseId": "romanian-deadlift", "sets": 3, "reps": "8-10", "restSeconds": 180 }
+              { "exerciseId": "seated-hamstring-curl", "sets": 3, "reps": "12-15", "tempo": "3:1:2:1", "restSeconds": 90 },
+              { "exerciseId": "leg-extension", "sets": 3, "reps": "12-15", "tempo": "3:1:2:1", "restSeconds": 90 }
             ]
           },
           {
-            "name": "Accessory",
+            "name": "Compound",
             "items": [
-              { "exerciseId": "bulgarian-split-squat", "sets": 3, "reps": "10-12", "restSeconds": 90 },
-              { "exerciseId": "seated-leg-curl", "sets": 3, "reps": "12-15", "restSeconds": 90 },
-              { "exerciseId": "standing-calf-raise", "sets": 4, "reps": "10-15", "restSeconds": 60 }
+              { "exerciseId": "seated-horizontal-leg-press", "sets": 3, "reps": "8-10", "tempo": "3:1:2:1", "restSeconds": 150, "notes": "Max 90° knee flexion." },
+              { "exerciseId": "single-leg-glute-bridge", "sets": 3, "reps": "10-12 per side", "tempo": "3:1:2:1", "restSeconds": 75 }
+            ]
+          },
+          {
+            "name": "Core — anti-lateral flexion",
+            "items": [
+              { "exerciseId": "side-plank-knee-modified", "sets": 3, "reps": "20-30s per side", "restSeconds": 60 }
             ]
           }
         ]
       },
       {
         "id": "upper",
-        "name": "Upper",
-        "focus": ["chest", "back", "shoulders", "biceps", "triceps"],
-        "notes": "Second upper exposure — machines and cables over free weights, keep 2+ RIR throughout.",
+        "name": "Upper Body & Core",
+        "shortName": "Upper",
+        "focus": ["chest", "back", "shoulders", "biceps", "triceps", "core"],
+        "notes": "Second upper exposure: two chest, one back, one shoulder, one arm superset.",
         "blocks": [
           {
-            "name": "Main",
+            "name": "Chest",
             "items": [
-              { "exerciseId": "incline-dumbbell-press", "sets": 3, "reps": "10-12", "intensity": { "rir": "2" }, "restSeconds": 120 },
-              { "exerciseId": "lat-pulldown", "sets": 3, "reps": "10-12", "intensity": { "rir": "2" }, "restSeconds": 120 }
+              { "exerciseId": "incline-smith-press", "sets": 3, "reps": "6-10", "tempo": "3:1:2:1", "restSeconds": 150 },
+              { "exerciseId": "pec-deck-fly", "sets": 2, "reps": "10-15", "tempo": "3:1:2:1", "restSeconds": 90 }
             ]
           },
           {
-            "name": "Accessory",
+            "name": "Back & shoulders",
             "items": [
-              { "exerciseId": "chest-supported-row", "sets": 3, "reps": "12-15", "restSeconds": 90 },
-              { "exerciseId": "incline-cable-fly", "sets": 3, "reps": "12-15", "restSeconds": 75 },
-              { "exerciseId": "reverse-pec-deck", "sets": 3, "reps": "15-20", "restSeconds": 60 }
+              { "exerciseId": "lat-pulldown", "sets": 3, "reps": "8-10", "tempo": "3:1:2:1", "restSeconds": 120 },
+              { "exerciseId": "seated-db-lateral-raise", "sets": 3, "reps": "10-12", "tempo": "3:1:2:1", "restSeconds": 75 }
             ]
           },
           {
-            "name": "Finisher",
+            "name": "Arms — superset",
             "items": [
-              {
-                "exerciseId": "hammer-curl",
-                "sets": 3,
-                "reps": "12-15",
-                "restSeconds": 45,
-                "supersetWith": "cable-triceps-pushdown"
-              },
-              {
-                "exerciseId": "cable-triceps-pushdown",
-                "sets": 3,
-                "reps": "12-15",
-                "restSeconds": 90,
-                "supersetWith": "hammer-curl"
-              }
+              { "exerciseId": "cable-curl", "sets": 3, "reps": "12-15", "tempo": "3:1:2:1", "restSeconds": 30, "supersetWith": "tricep-pushdown" },
+              { "exerciseId": "tricep-pushdown", "sets": 3, "reps": "12-15", "tempo": "3:1:2:1", "restSeconds": 90, "supersetWith": "cable-curl" }
+            ]
+          },
+          {
+            "name": "Core — anti-rotation",
+            "items": [
+              { "exerciseId": "half-kneeling-pallof-press", "sets": 3, "reps": "10-12 per side", "restSeconds": 60 }
             ]
           }
         ]

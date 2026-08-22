@@ -14,9 +14,12 @@
 ---
 
 Read the plan, log the sets, see whether the volume actually landed where it was
-supposed to. Switch between a 3-day (Push / Pull / Legs) and a 4-day
-(Push / Pull / Legs / Upper) split — the same exercise library feeds both, so you
-can compare what each one gives a muscle before committing to it.
+supposed to. Built around a set of **L5-S1 lumbar constraints** — every movement
+is chest-supported, seated, or otherwise off the spine.
+
+Switch between the 3-day core split and the 4-day extension; the same exercise
+library feeds both, so you can compare what each one gives a muscle before
+committing to it.
 
 ## ✨ Features
 
@@ -71,17 +74,40 @@ data/               the data store (below)
 | File | Count | What it is |
 | --- | --- | --- |
 | `muscles.json` | 20 | Muscles, their roll-up group, and weekly set targets |
-| `exercises.json` | 37 | The exercise library — what each movement is |
-| `splits.json` | 2 | The programs — how each movement is trained right now |
+| `exercises.json` | 27 | The exercise library — what each movement is |
+| `splits.json` | 2 | The 3-day and 4-day rotations |
+| `constraints.json` | — | The L5-S1 safety rules, replacement ledger, and execution parameters |
 | `types.ts` | — | Schema documentation |
 
 `types.ts` is reference documentation, not compiled. The JSON files are the
 source of truth.
 
-> [!NOTE]
-> **The data is placeholder.** `muscles.json` is real and shouldn't need editing,
-> but the exercises and both splits are representative stubs so the app renders —
-> replace them with your actual plan.
+## 🩺 Safety constraints
+
+This plan is built around an **L5-S1 lumbar disc herniation**: zero axial
+loading, zero lumbar flexion or shear, rigid external back support, isometric
+core only. The full rule set and the replacement ledger (what was swapped out,
+what replaced it, and why) live in [`data/constraints.json`](data/constraints.json).
+
+Two consequences that are easy to undo by accident:
+
+1. **Contraindicated movements are absent from `exercises.json`, not flagged
+   in it.** Back squats, RDLs, standing overhead press, bent-over rows, crunches
+   and loaded carries aren't in the library at all. If they were merely marked
+   unsafe they could still surface in the swap dropdown as an "alternative" —
+   which is exactly the wrong place to learn about a ban. Don't add them back to
+   use them as reference data.
+2. **`lower-back` has `weeklySetTarget: null`.** That means "deliberately not
+   trained", and the volume chart renders it without a band or an under/over
+   verdict. A numeric target would report it as chronically "under", inverting
+   the intent.
+
+`formLimit` on an exercise is a hard safety stop, shown as a warning pill
+(the leg press's `Max 90° knee flexion`). General form advice belongs in `cues`.
+
+> [!WARNING]
+> Nothing here is medical advice, and the app can't enforce anything. It reflects
+> constraints as recorded — verify changes against whoever is treating you.
 
 ### 🔗 The one rule
 
@@ -126,10 +152,33 @@ Logged sessions live in this browser's localStorage under
 backup. Exported files match `absoluteworkout-*.json` and are gitignored, since
 they contain bodyweight and training data.
 
+## 🖼️ Exercise visuals
+
+Two separate problems, with different answers.
+
+**Muscles — solved.** `src/icons/body.js` draws a front/back schematic figure
+with a highlightable region per muscle. Small beside each exercise, large in the
+Library. Deliberately geometric: at 30px an anatomically accurate serratus is
+mud, a blocky "outer mid-back" is not.
+
+**Machines — placeholder.** `src/icons/equipment.js` has 17 hand-authored line
+icons, and they're honestly not good enough to teach station recognition — chest
+press, shoulder press, leg extension and hamstring curl all reduce to similar
+brackets at 26px. The upgrade path is data, not code:
+
+- Set `image` on an exercise (e.g. `assets/exercises/leg-press.webp`) and it
+  replaces the line icon. Must be a relative same-origin path; absolute URLs are
+  rejected at render time.
+- Set `demoUrl` for a form video. Rendered as a link, never an embed, so no
+  third-party script or tracker loads on the page.
+
+Open [`icons.html`](icons.html) for a contact sheet of every icon and body-map
+region — use it when adding an exercise, or after editing a region path.
+
 ## 🚧 Status
 
-Scaffold. The app works end to end against placeholder data; the real plan goes
-in next.
+Working end to end on the real 3-day and 4-day plans. Body maps done; machine
+imagery is the open item.
 
 ## ⚖️ License
 

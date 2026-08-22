@@ -66,13 +66,52 @@ export type Equipment =
   | "kettlebell"
   | "band";
 
+/** How the spine is supported during the movement. Central to this plan: the
+ *  L5-S1 constraints in constraints.json require a pad or backrest for all
+ *  upper-body pressing and pulling. */
+export type Support =
+  | "chest-supported"
+  | "high-back-seat"
+  | "incline-bench"
+  | "supine-bench"
+  | "supine-floor"
+  | "seated-thigh-pad"
+  | "seated-upright"
+  | "half-kneeling"
+  | "side-lying"
+  | "quadruped"
+  | "standing-braced"
+  | "hanging";
+
 export interface Exercise {
-  id: string;                   // slug, e.g. "barbell-bench-press"
-  name: string;                 // display, e.g. "Barbell Bench Press"
-  aliases?: string[];           // searchable alternates, e.g. ["flat bench"]
+  id: string;                   // slug, e.g. "incline-db-press"
+  name: string;                 // display, e.g. "Incline Dumbbell Press"
+  aliases?: string[];           // searchable alternates, e.g. ["30 degree db press"]
 
   pattern: MovementPattern;
   equipment: Equipment[];       // more than one when a variation is allowed
+
+  /** Key into the machine icon set in src/icons/equipment.js. Falls back to the
+   *  first `equipment` entry, then a generic glyph — a missing key never breaks
+   *  a render. */
+  icon?: string;
+
+  /** Self-hosted photo or illustration of the station, e.g.
+   *  "assets/exercises/leg-press.webp". Takes precedence over `icon`. Must be a
+   *  relative same-origin path — absolute URLs are rejected at render time.
+   *  This is the upgrade path from the placeholder line art. */
+  image?: string;
+
+  /** External form-demo video. Rendered as a "▶ form demo" link, not embedded,
+   *  so no third-party script or tracker loads on the page. */
+  demoUrl?: string;
+
+  support?: Support;
+
+  /** Hard execution limit shown as a warning pill in the UI, e.g.
+   *  "Max 90° knee flexion" on the leg press. Use only for real safety stops,
+   *  not general form advice — that belongs in `cues`. */
+  formLimit?: string;
 
   /** Muscle ids. Primary counts 1.0 toward weekly set volume, secondary 0.5 —
    *  the standard hypertrophy accounting. Every id must exist in muscles.json. */
@@ -94,10 +133,11 @@ export interface Exercise {
 // ---------------------------------------------------------------------------
 
 export interface Split {
-  id: string;                   // slug, e.g. "ppl-3"
-  name: string;                 // display, e.g. "Push / Pull / Legs"
+  id: string;                   // slug, e.g. "core-3"
+  name: string;                 // display, e.g. "3-Day Core Split"
   daysPerWeek: number;          // 3 or 4 today; the schema doesn't care
   description?: string;         // one line, shown under the split picker
+  defaultTempo?: string;        // e.g. "3:1:2:1" — applies unless a Prescription overrides
 
   /** Ordered day ids forming the rotation. May repeat a day id if the cycle
    *  hits it twice. The "next session" suggestion walks this list. */
@@ -108,8 +148,9 @@ export interface Split {
 
 export interface Day {
   id: string;                   // slug, unique within the split, e.g. "push"
-  name: string;                 // display, e.g. "Push"
-  focus: MuscleGroup[];         // headline muscle groups, shown as badges
+  name: string;                 // display, e.g. "Push & Anti-Rotation Core"
+  shortName?: string;           // for the day chips, e.g. "Push"
+  focus: string[];              // headline muscle groups, shown as badges
   notes?: string;               // warm-up protocol, session intent
 
   /** Optional grouping — "Main", "Accessory", "Finisher". Use a single

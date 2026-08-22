@@ -3,6 +3,8 @@
 
 import { html, mount, chip, prescriptionLine, fmt } from '../ui.js';
 import { prescriptionsOf, dayOf, plannedWeeklySets, byGroup, suggestNextDay } from '../data.js';
+import { equipmentIcon } from '../icons/equipment.js';
+import { bodyMap } from '../icons/body.js';
 import * as store from '../store.js';
 
 let selectedDayId = null;
@@ -39,7 +41,7 @@ export function render(root, db, { onStartSession }) {
         <div class="row" style="margin-top:8px" data-role="day-picker">
           ${split.cycle.map(id => {
             const d = dayOf(split, id);
-            return d ? chip(d.name + (id === suggested ? ' ·' : ''), {
+            return d ? chip((d.shortName ?? d.name) + (id === suggested ? ' ·' : ''), {
               pressed: id === dayId,
               value: id
             }) : '';
@@ -121,16 +123,27 @@ function exerciseRow(db, p) {
 
   return html`<div class="ex">
     <div class="ex-head">
-      <div>
+      <div class="ex-icons">
+        <span class="icon-eq-box" title="${`Equipment: ${(ex.equipment ?? []).join(' / ')}`}">
+          ${equipmentIcon(ex)}
+        </span>
+        ${bodyMap({ primary: ex.primaryMuscles, secondary: ex.secondaryMuscles, height: 40 })}
+      </div>
+      <div style="flex:1 1 auto;min-width:0">
         <div class="ex-name">${ex.name}</div>
         <div class="ex-sub">${muscles}${ex.unilateral ? ' · per side' : ''}</div>
+        ${ex.support ? html`<div class="support-tag">${`support: ${ex.support.replace(/-/g, ' ')}`}</div>` : ''}
         ${superset ? html`<div class="ex-sub">${`superset with ${superset}`}</div>` : ''}
+        ${ex.demoUrl
+          ? html`<a class="demo-link" href="${ex.demoUrl}" target="_blank" rel="noopener">▶ form demo</a>`
+          : ''}
       </div>
       <div class="ex-pres">
         <div class="sets">${prescriptionLine(p)}</div>
         <div class="rest">${fmt.rest(p.restSeconds)}</div>
       </div>
     </div>
+    ${ex.formLimit ? html`<div class="limit">${`⚠ ${ex.formLimit}`}</div>` : ''}
     ${ex.cues?.length ? html`<ul class="cues">${ex.cues.map(c => html`<li>${c}</li>`)}</ul>` : ''}
     ${ex.setupNotes ? html`<div class="note">${ex.setupNotes}</div>` : ''}
     ${p.notes ? html`<div class="note">${p.notes}</div>` : ''}

@@ -1,0 +1,90 @@
+{
+  "condition": "L5-S1 lumbar disc herniation",
+  "objective": "Hypertrophy and strength with zero spinal compression or lumbar shear.",
+  "philosophy": "Train every major muscle group using rigid external back support (chest-supported benches, high-back seats) and static/isometric core bracing.",
+
+  "rules": [
+    {
+      "id": "no-axial-loading",
+      "name": "Zero axial loading",
+      "detail": "No load bearing down through the spine.",
+      "bans": ["standing overhead press", "barbell back squat", "barbell front squat", "conventional deadlift"]
+    },
+    {
+      "id": "no-lumbar-flexion-shear",
+      "name": "Zero lumbar flexion or shear",
+      "detail": "No hinging or rounding under load, and no loaded spinal flexion.",
+      "bans": ["Romanian deadlift", "standing bent-over row", "bent-over rear delt fly", "sit-up", "crunch"]
+    },
+    {
+      "id": "pelvic-position-control",
+      "name": "Pelvic position control",
+      "detail": "Leg press depth stops at a 90 degree knee angle, to eliminate lumbar rounding (butt-wink) at the bottom."
+    },
+    {
+      "id": "support-requirement",
+      "name": "Support requirement",
+      "detail": "Upper-body pressing and pulling must use a chest-supported pad or an 80-90 degree backrest."
+    },
+    {
+      "id": "core-modality",
+      "name": "Isometric core only",
+      "detail": "Core work is anti-extension, anti-rotation, or anti-lateral-flexion. No dynamic spinal flexion."
+    }
+  ],
+
+  "execution": {
+    "tempo": "3:1:2:1",
+    "tempoDetail": "3s eccentric lowering, 1s stretch pause, 2s concentric lift, 1s peak squeeze.",
+    "warmup": "1-2 warm-up sets at 60-75% of working weight before each primary compound. Should not be fatiguing — groove the movement so the first working set is the best one.",
+    "machinePreference": [
+      "Leg press: seated horizontal is preferred over 45 degree incline.",
+      "Rows: 30-45 degree incline chest-supported bench or chest-supported leverage machine, never a standing variant."
+    ]
+  },
+
+  "ledger": [
+    {
+      "replaced": "Romanian deadlift",
+      "with": ["single-leg-glute-bridge", "seated-hamstring-curl"],
+      "why": "RDLs create high axial shear stress across the L5-S1 segment."
+    },
+    {
+      "replaced": "Deadbug / captain's chair",
+      "with": ["straight-arm-cable-pushdown", "bear-plank"],
+      "why": "Easier core engagement without arching the lower back."
+    },
+    {
+      "replaced": "Suitcase carry",
+      "with": ["side-plank-knee-modified", "half-kneeling-pallof-press"],
+      "why": "Removes the dynamic walking load while keeping lateral core stability."
+    },
+    {
+      "replaced": "Standing lateral raise",
+      "with": ["seated-db-lateral-raise", "cable-lateral-raise"],
+      "why": "Removes torso sway and momentum, taking stress off the lower back."
+    },
+    {
+      "replaced": "Bent-over rear delt fly",
+      "with": ["chest-supported-rear-delt-fly", "reverse-pec-deck"],
+      "why": "Removes the unsupported hinged position."
+    },
+    {
+      "replaced": "Lying dumbbell pullover",
+      "with": ["straight-arm-cable-pushdown"],
+      "why": "Avoids extreme spinal arching while keeping continuous cable tension."
+    },
+    {
+      "replaced": "Barbell back squat",
+      "with": ["seated-horizontal-leg-press", "leg-extension"],
+      "why": "Axial loading through the spine."
+    }
+  ],
+
+  "permitted": [
+    {
+      "movement": "Flat bench press",
+      "condition": "Acceptable alternative to machine chest press provided the glutes stay glued to the bench and the lower back does not hyper-arch."
+    }
+  ]
+}
