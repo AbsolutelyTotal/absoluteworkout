@@ -125,7 +125,6 @@ export interface Exercise {
   cues?: string[];              // 1-3 short execution cues, shown in the session view
   setupNotes?: string;          // rig/pin/seat settings worth remembering
   alternatives?: string[];      // exercise ids — swap when the station is taken
-  demoUrl?: string;             // link to a form demo
 }
 
 // ---------------------------------------------------------------------------
