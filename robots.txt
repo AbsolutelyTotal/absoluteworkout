@@ -1,0 +1,6 @@
+# Crawling is allowed so that crawlers can read the noindex directive in
+# index.html. Blocking here would hide it and let the URL be indexed anyway.
+User-agent: *
+Allow: /
+
+# No sitemap on purpose — nothing here is meant to be discovered by search.

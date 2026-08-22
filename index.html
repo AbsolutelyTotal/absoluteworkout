@@ -8,7 +8,16 @@
 <meta name="author" content="AbsolutelyTotal">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#14161c">
+<link rel="canonical" href="https://absolutelytotal.github.io/absoluteworkout/">
 
+<!-- Public so GitHub Pages will serve it, but deliberately not search-indexed:
+     data/constraints.json describes a real medical condition. robots.txt still
+     ALLOWS crawling so that crawlers can actually read this noindex — a
+     Disallow would hide the directive and let the URL be indexed anyway.
+     To make it discoverable, delete this tag. -->
+<meta name="robots" content="noindex, follow">
+
+<meta property="og:url" content="https://absolutelytotal.github.io/absoluteworkout/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="absoluteworkout — Push / Pull / Legs planner and tracker">
 <meta property="og:description" content="Zero-build workout planner and set tracker. 3-day and 4-day PPL splits, in-gym logging, weekly volume per muscle.">

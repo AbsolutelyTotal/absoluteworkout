@@ -8,6 +8,9 @@
 ![Modules](https://img.shields.io/badge/modules-native_ESM-blue)
 ![Build](https://img.shields.io/badge/build-none-555)
 ![Storage](https://img.shields.io/badge/storage-localStorage-d3f26a)
+![Pages](https://img.shields.io/badge/hosting-GitHub_Pages-222?logo=github)
+
+[🌐 Live](https://absolutelytotal.github.io/absoluteworkout/) · [🖼️ Icon sheet](https://absolutelytotal.github.io/absoluteworkout/icons.html)
 
 </div>
 
@@ -30,6 +33,24 @@ committing to it.
 - 📊 **Weekly volume per muscle** — actual sets against a target band, primary movers counted 1.0 and secondary 0.5.
 - 🔍 **Two-sided cross-reference** — pick a muscle to see what trains it and how many sets each split gives it; pick an exercise to see what it works and which days program it.
 - 💾 **Export / import** — localStorage is one cleared cache from gone, so the log downloads as JSON and merges back in.
+
+## 🌐 Hosting
+
+Live at **<https://absolutelytotal.github.io/absoluteworkout/>** (GitHub Pages,
+served from `main` at the repo root — no build step, no workflow).
+
+The repo is public because Pages won't serve a private repo on a free plan. It
+carries a `noindex` meta tag so the page isn't listed in search results —
+`data/constraints.json` describes a real medical condition, and public-but-not-
+indexed is a deliberate middle ground. `robots.txt` still *allows* crawling on
+purpose: a `Disallow` would stop crawlers reading the `noindex` and the URL could
+end up indexed regardless. Delete the tag in `index.html` to make it findable.
+
+> [!IMPORTANT]
+> Logged sets live in the browser's localStorage, so they are **per-device** and
+> never leave it — nothing is uploaded and nothing is in this repo. The flip side
+> is that logging on your phone and your laptop gives you two separate histories.
+> Pick one primary device; use the ⤓ export/import to move data between them.
 
 ## 🚀 Run locally
 
