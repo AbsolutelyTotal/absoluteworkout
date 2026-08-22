@@ -883,6 +883,11 @@ main {
   width: calc(100% - 24px);
   max-height: 82vh;
   padding: 16px 18px calc(18px + env(safe-area-inset-bottom));
+}
+/* The flex layout MUST be scoped to [open]. A closed <dialog> is display:none
+   via the UA stylesheet, and an unconditional `display: flex` overrides that —
+   which left the picker permanently rendered at the foot of every view. */
+#picker-dialog[open] {
   display: flex;
   flex-direction: column;
 }
