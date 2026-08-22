@@ -229,6 +229,10 @@ export interface LoggedEntry {
   /** Set when this exercise stood in for the prescribed one, so history still
    *  attributes the volume correctly. */
   substitutedFor?: string;
+  /** Added mid-session via the picker rather than coming from the split. Only
+   *  these can be removed again — a prescribed exercise stays on the list even
+   *  if you skip it, so the plan is still visible. */
+  addedDuringSession?: boolean;
   sets: LoggedSet[];
 }
 

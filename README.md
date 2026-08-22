@@ -29,7 +29,8 @@ committing to it.
 - 🗓 **Two splits, one library** — 3-day and 4-day rotations share `exercises.json`; prescriptions live per split.
 - 🎯 **Next-day suggestion** — the rotation advances from your last completed session.
 - ✅ **In-gym logging** — big tap targets, numeric keypads, last session's numbers as placeholders so repeating a load is one tap. Every keystroke persists; there's no save button.
-- 🔄 **Swap mid-session** — station taken? Pick a listed alternative and the volume is still attributed correctly.
+- 🔄 **Swap mid-session** — `⇄` opens a picker pre-filtered to the muscle group that exercise trains. Volume stays correctly attributed via `substitutedFor`.
+- ➕ **Add mid-session** — `+ Add an exercise`, filterable by muscle group. Everything pickable is permitted under the constraints, because the picker draws from the same library.
 - 📊 **Weekly volume per muscle** — actual sets against a target band, primary movers counted 1.0 and secondary 0.5.
 - 🔍 **Two-sided cross-reference** — pick a muscle to see what trains it and how many sets each split gives it; pick an exercise to see what it works and which days program it.
 - 💾 **Export / import** — localStorage is one cleared cache from gone, so the log downloads as JSON and merges back in.

@@ -5,6 +5,7 @@
 import { html, mount, fmt, CHECK_SVG } from '../ui.js';
 import { dayOf, prescriptionsOf } from '../data.js';
 import { equipmentIcon } from '../icons/equipment.js';
+import { openPicker } from './picker.js';
 import { bodyMap } from '../icons/body.js';
 import * as store from '../store.js';
 
@@ -81,6 +82,10 @@ export function render(root, db, { onFinish }) {
 
       ${session.entries.map(entry => entryCard(db, session, entry, byId[entry.substitutedFor ?? entry.exerciseId], settings))}
 
+      <button class="btn add-exercise" type="button" data-action="add-exercise">
+        + Add an exercise
+      </button>
+
       <div class="card">
         <div class="section-label">Finish</div>
         <div class="row" style="margin-top:10px">
@@ -128,7 +133,6 @@ function entryCard(db, session, entry, prescription, settings) {
   const ex = db.exerciseById[entry.exerciseId];
   const name = ex?.name ?? entry.exerciseId;
   const last = store.lastPerformance(entry.exerciseId);
-  const alternatives = (ex?.alternatives ?? []).filter(id => db.exerciseById[id]);
 
   // The exercise was removed from the library after this session started —
   // usually because it was edited out of exercises.json. Never present it as
@@ -169,13 +173,19 @@ function entryCard(db, session, entry, prescription, settings) {
           ? html`<div class="ex-sub">${`swapped in for ${db.exerciseById[entry.substitutedFor]?.name ?? entry.substitutedFor}`}</div>`
           : ''}
         ${last ? html`<div class="ex-sub">${lastLine(last, settings.unit)}</div>` : ''}
+        ${entry.addedDuringSession ? html`<div class="ex-sub">added this session</div>` : ''}
+        ${ex?.demoUrl
+          ? html`<a class="demo-link" href="${ex.demoUrl}" target="_blank" rel="noopener">▶ form demo</a>`
+          : ''}
         ${ex?.formLimit ? html`<div class="limit" style="margin:6px 0 0">${`⚠ ${ex.formLimit}`}</div>` : ''}
       </div>
-      ${alternatives.length ? html`
-        <select class="swap-select" data-action="swap" aria-label="${`Swap ${name}`}">
-          <option value="">Swap…</option>
-          ${alternatives.map(id => html`<option value="${id}">${db.exerciseById[id].name}</option>`)}
-        </select>` : ''}
+      <span class="ex-tools">
+        <button class="tool-btn" type="button" data-action="swap" title="Swap this exercise"
+                aria-label="${`Swap ${name}`}">⇄</button>
+        ${entry.addedDuringSession ? html`
+          <button class="tool-btn danger" type="button" data-action="remove"
+                  title="Remove this exercise" aria-label="${`Remove ${name}`}">×</button>` : ''}
+      </span>
     </div>
 
     <div class="sets-grid">
@@ -294,10 +304,53 @@ function wire(root, db, session, onFinish, rerender) {
     }
   });
 
-  root.addEventListener('change', (e) => {
-    const swap = e.target.closest('select[data-action="swap"]');
-    if (!swap?.value) return;
-    store.substitute(session.id, swap.closest('[data-exercise]').dataset.exercise, swap.value);
-    rerender();
+  root.addEventListener('click', (e) => {
+    const swapBtn = e.target.closest('[data-action="swap"]');
+    if (swapBtn) {
+      const fromId = swapBtn.closest('[data-exercise]').dataset.exercise;
+      const ex = db.exerciseById[fromId];
+      // Default the filter to what this exercise actually trains, so the first
+      // thing you see is a like-for-like replacement rather than the whole library.
+      const group = db.muscleById[(ex?.primaryMuscles ?? [])[0]]?.group ?? 'all';
+      openPicker({
+        db,
+        title: `Swap ${ex?.name ?? fromId}`,
+        group,
+        exclude: session.entries.map(x => x.exerciseId),
+        onPick: (toId) => {
+          const logged = session.entries
+            .find(x => x.exerciseId === fromId)?.sets.some(sx => sx.done);
+          if (logged && !confirm(
+            'You have already logged sets here. Swapping re-attributes them to the new exercise. Continue?'
+          )) return;
+          store.substitute(session.id, fromId, toId);
+          rerender();
+        }
+      });
+      return;
+    }
+
+    const addBtn = e.target.closest('[data-action="add-exercise"]');
+    if (addBtn) {
+      openPicker({
+        db,
+        title: 'Add an exercise',
+        group: 'all',
+        exclude: session.entries.map(x => x.exerciseId),
+        onPick: (id) => { store.addExercise(session.id, id, 3); rerender(); }
+      });
+      return;
+    }
+
+    const removeBtn = e.target.closest('[data-action="remove"]');
+    if (removeBtn) {
+      const id = removeBtn.closest('[data-exercise]').dataset.exercise;
+      const res = store.removeExercise(session.id, id);
+      if (!res.removed && res.reason === 'has-logged-sets') {
+        alert('This exercise has logged sets. Untick them first if you really want it gone.');
+        return;
+      }
+      rerender();
+    }
   });
 }

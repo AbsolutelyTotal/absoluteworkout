@@ -7,6 +7,7 @@ import * as plan from './views/plan.js';
 import * as log from './views/log.js';
 import * as history from './views/history.js';
 import * as library from './views/library.js';
+import { initPicker } from './views/picker.js';
 
 const VIEWS = {
   plan: (root, db) => plan.render(root, db, { onStartSession: startSession }),
@@ -58,6 +59,7 @@ async function init() {
   renderTabs();
   wireBackup();
   wirePhotoLightbox();
+  initPicker();
 }
 
 // Delegated so it survives every re-render, in any view.

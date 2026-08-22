@@ -8,7 +8,7 @@ const VERSION = 1;
 const DEFAULTS = {
   version: VERSION,
   settings: {
-    activeSplitId: 'ppl-3',
+    activeSplitId: 'core-3',   // must match an id in data/splits.json
     unit: 'kg',
     defaultSetTarget: [10, 20]
   },
@@ -141,6 +141,35 @@ export function addSet(sessionId, exerciseId) {
   entry.sets.push({ weight: last?.weight ?? null, reps: null, done: false });
   persist();
   notify('set');
+}
+
+/** Add an exercise mid-session. Only ids from the library are accepted by the
+ *  caller, which is what keeps the L5-S1 constraints intact — the library is
+ *  the safety filter, so anything pickable is permitted. */
+export function addExercise(sessionId, exerciseId, sets = 3) {
+  const session = state.sessions.find(s => s.id === sessionId);
+  if (!session) return;
+  if (session.entries.some(e => e.exerciseId === exerciseId)) return;   // already there
+  session.entries.push({
+    exerciseId,
+    addedDuringSession: true,
+    sets: Array.from({ length: sets }, () => ({ weight: null, reps: null, done: false }))
+  });
+  persist();
+  notify('exercise-add');
+}
+
+/** Remove an exercise from the session. Refuses once sets are logged, so a
+ *  mis-tap can't silently delete work. */
+export function removeExercise(sessionId, exerciseId) {
+  const session = state.sessions.find(s => s.id === sessionId);
+  const entry = session?.entries.find(e => e.exerciseId === exerciseId);
+  if (!entry) return { removed: false, reason: 'not-found' };
+  if (entry.sets.some(s => s.done)) return { removed: false, reason: 'has-logged-sets' };
+  session.entries = session.entries.filter(e => e !== entry);
+  persist();
+  notify('exercise-remove');
+  return { removed: true };
 }
 
 export function substitute(sessionId, fromExerciseId, toExerciseId) {
