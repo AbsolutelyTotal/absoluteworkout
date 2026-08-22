@@ -1,0 +1,263 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "style": {
+    "exercise": "Clean semi-realistic 3D character render, matte finish, smooth studio look. A single athletic adult man, mid-30s, short dark hair, SHIRTLESS with a bare torso, wearing charcoal athletic shorts and grey training shoes. No shirt, no vest, no tank top. Gym equipment in desaturated mid-grey brushed steel with matte black padding. BACKGROUND: a completely plain, very dark near-black charcoal backdrop, hex #1C1F27, much darker than the figure. No floor line, no horizon, no wall, no room, no windows, no other people, no clutter. The background must be dark, not mid-grey. Soft broad key light from the upper left, gentle rim light along the far edge of the body, no harsh shadows. FRAMING: tight crop. The man and the equipment together fill almost the whole frame, touching or nearly touching the top and bottom edges. Very little empty background. MUSCLE HIGHLIGHT: the target muscle is lit from within with a soft lime-green (#D3F26A) luminescence beneath the skin. It must trace the muscle's TRUE ANATOMICAL FORM at full size — covering the entire muscle belly, both left and right sides symmetrically where the muscle is paired, spanning the muscle's whole real extent across the body. It is NOT a small patch, blob, dot or spot in the middle of the body. The glow fades softly into the surrounding skin with no hard outline or border. It must read as illuminated muscle tissue under translucent skin, and must NOT look like a garment, bra, crop top, vest, sticker, painted patch or hard-edged shape. Absolutely no text, numbers, logos, watermarks, arrows or labels anywhere in the image. 3:2 landscape.",
+    "muscle": "Clean semi-realistic 3D anatomical render, matte finish. Two views of the same standing male figure side by side in one square image: anterior (front) view on the left, posterior (back) view on the right. Athletic adult man, mid-30s, shirtless, plain charcoal shorts, barefoot. Neutral standing pose, arms hanging slightly away from the body, feet shoulder-width. Both figures the same size, aligned, evenly lit, both filling most of the frame vertically. BACKGROUND: completely plain, very dark near-black charcoal, hex #1C1F27, no floor line, no room. The background must be dark, not mid-grey. Soft broad key light from the upper left. The whole body in matte neutral grey-tan. ONLY the named muscle is tinted bright lime green (#D3F26A), following its true anatomical outline and natural striations, with softly feathered edges. Every other muscle stays neutral grey-tan. The tint must read as muscle tissue beneath translucent skin, never as clothing or a painted patch. Absolutely no text, labels, leader lines, logos or watermarks. 1:1 square."
+  },
+  "aspect": {
+    "exercise": "3:2",
+    "muscle": "1:1"
+  },
+  "outDir": {
+    "exercise": "assets/exercises",
+    "muscle": "assets/muscles"
+  },
+  "resize": {
+    "exercise": 1000,
+    "muscle": 800
+  },
+  "reference": {
+    "exercise": "assets/exercises/machine-chest-press.jpg",
+    "muscle": "assets/muscles/lats.jpg"
+  },
+  "items": [
+    {
+      "id": "machine-chest-press",
+      "kind": "exercise",
+      "prompt": "Direct side view from his left. He is seated in a chest press machine, back flat against a tall vertical backrest, feet flat on the floor. Both hands grip handles at chest height and press them FORWARD, horizontally away from his chest, to almost-straight arms. The elbows stay tucked in toward the ribcage, not flared wide to the sides. The two weights stay parallel, level and about shoulder-width apart, and do NOT touch or converge. This is a straight-line PRESS, not a fly or a butterfly — the arms never open outwards in a wide sweeping arc. BOTH pectoral muscles glow lime across their full width, from the breastbone out to each shoulder."
+    },
+    {
+      "id": "incline-db-press",
+      "kind": "exercise",
+      "prompt": "Side view. He lies on an adjustable bench whose backrest is only slightly raised from flat — about one third of the way up from horizontal to vertical, clearly much closer to flat than to upright. He presses two dumbbells straight up above his upper chest. Glutes and lower back flat on the pad with no arch. The elbows stay tucked in toward the ribcage, not flared wide to the sides. The two weights stay parallel, level and about shoulder-width apart, and do NOT touch or converge. This is a straight-line PRESS, not a fly or a butterfly — the arms never open outwards in a wide sweeping arc. BOTH pectoral muscles glow lime — two symmetrical fan-shaped slabs spanning from the breastbone out to each shoulder, with the upper portion nearest the collarbones brightest."
+    },
+    {
+      "id": "incline-smith-press",
+      "kind": "exercise",
+      "prompt": "Side view. He lies on a bench whose backrest is raised only about one third of the way from flat to vertical, inside a Smith machine — a fixed barbell running on two vertical steel rails either side. The bar is lowered to upper-chest level. Back flat on the pad. The elbows stay tucked toward the ribs, not flared wide. BOTH pectoral muscles glow lime across their full width, upper portion brightest."
+    },
+    {
+      "id": "flat-bench-press",
+      "kind": "exercise",
+      "prompt": "Side view. He lies on a flat bench pressing a barbell straight up above his mid-chest, glutes firmly on the bench, lower back completely flat with no arch, feet planted. Elbows tucked toward the ribs, not flared wide. BOTH pectoral muscles glow lime across their full width."
+    },
+    {
+      "id": "pec-deck-fly",
+      "kind": "exercise",
+      "prompt": "Front three-quarter view. He is seated in a pec deck machine, back against the vertical pad, forearms flat against two tall vertical pads, bringing them together in front of his chest. This is a FLY: the arms sweep in a wide arc out to the sides with a fixed slight bend at the elbow. It is not a press. BOTH pectoral muscles glow lime across their full width."
+    },
+    {
+      "id": "machine-shoulder-press",
+      "kind": "exercise",
+      "prompt": "Side view. He is seated in a shoulder press machine with a tall backrest supporting his whole spine, pressing two handles straight up overhead. Torso upright and still, not leaning back. The elbows stay tucked in toward the ribcage, not flared wide to the sides. The two weights stay parallel, level and about shoulder-width apart, and do NOT touch or converge. This is a straight-line PRESS, not a fly or a butterfly — the arms never open outwards in a wide sweeping arc. BOTH front deltoids glow lime — the full rounded front cap of each shoulder."
+    },
+    {
+      "id": "seated-db-lateral-raise",
+      "kind": "exercise",
+      "prompt": "Front view. He sits upright on the end of a bench, torso perfectly vertical and motionless, raising two dumbbells out sideways to exactly shoulder height, leading with the elbows, arms slightly bent, shoulders down not shrugged. BOTH side deltoids glow lime — the full outer cap of each shoulder, not a small dot."
+    },
+    {
+      "id": "cable-lateral-raise",
+      "kind": "exercise",
+      "prompt": "Front three-quarter view. He sits upright on a bench beside a cable tower, one arm raising a single low-pulley cable handle out sideways to shoulder height across his body. Torso vertical and still. Side deltoid of the working arm glowing lime."
+    },
+    {
+      "id": "chest-supported-rear-delt-fly",
+      "kind": "exercise",
+      "prompt": "Side three-quarter view. He lies face-down with his chest pressed flat against a bench pad raised roughly halfway between flat and vertical, clearly supported by it, head above the top edge. He raises two dumbbells out sideways and slightly upward. This is a FLY: the arms sweep in a wide arc out to the sides with a fixed slight bend at the elbow. It is not a press. His chest stays in contact with the pad throughout. BOTH rear deltoids glow lime — the full rounded rear cap of each shoulder."
+    },
+    {
+      "id": "reverse-pec-deck",
+      "kind": "exercise",
+      "prompt": "Side three-quarter view. He sits facing into a reverse pec deck machine with his chest against the front pad, sweeping two handles backwards and outwards. Rear deltoids glowing lime."
+    },
+    {
+      "id": "overhead-rope-extension",
+      "kind": "exercise",
+      "prompt": "Side view. He is seated on a bench with a tall high backrest, back flat against it, holding a rope attachment overhead behind his head and extending his arms forward and up. Elbows tucked close to the head. The tall high backrest is clearly visible and clearly supporting his lower back. Triceps glowing lime."
+    },
+    {
+      "id": "tricep-pushdown",
+      "kind": "exercise",
+      "prompt": "Side view. He stands upright and braced at a cable tower, elbows pinned to his sides, pushing a straight bar attachment straight down to full extension. Torso vertical, no forward lean. Triceps glowing lime."
+    },
+    {
+      "id": "lat-pulldown",
+      "kind": "exercise",
+      "prompt": "Front three-quarter view. He is seated at a lat pulldown machine with his thighs secured under a padded restraint, pulling a wide bar down toward his upper chest, elbows driving down toward his ribs. Chest tall, minimal lean. Lats glowing lime."
+    },
+    {
+      "id": "assisted-pullup",
+      "kind": "exercise",
+      "prompt": "Front view. He hangs from a pull-up bar on an assisted pull-up machine, knees resting on a padded platform that counterbalances him, pulling his chest up toward the bar. Lats glowing lime."
+    },
+    {
+      "id": "chest-supported-row",
+      "kind": "exercise",
+      "prompt": "Side three-quarter view. He lies face-down on a bench whose pad is raised roughly halfway between flat and vertical, his chest and stomach pressed flat against that pad and clearly supported by it, head and shoulders above the top edge. He rows two dumbbells up and back, elbows driving past his ribs, shoulder blades squeezing together. His torso never leaves the pad. Upper back and lats glowing lime."
+    },
+    {
+      "id": "straight-arm-cable-pushdown",
+      "kind": "exercise",
+      "prompt": "Side view. He stands upright and braced facing a high cable pulley, arms almost straight, sweeping a straight bar down in an arc from head height to his thighs, hinging only at the shoulders. Ribs down, torso rigid. Lats and abdominals both glowing lime."
+    },
+    {
+      "id": "incline-db-curl",
+      "kind": "exercise",
+      "prompt": "Side view. He sits back against a bench backrest raised roughly halfway between flat and vertical, arms hanging straight down and slightly behind the line of his torso, curling two dumbbells up. Biceps glowing lime."
+    },
+    {
+      "id": "cable-curl",
+      "kind": "exercise",
+      "prompt": "Side view. He stands upright at a low cable pulley, elbows tucked at his sides, curling a straight bar attachment up. Torso vertical and still. Biceps glowing lime."
+    },
+    {
+      "id": "seated-horizontal-leg-press",
+      "kind": "exercise",
+      "prompt": "Side view. He is seated in a horizontal seated leg press: an upright seat with a tall backrest, and a flat foot platform directly in front of him at about hip height. This is a horizontal press, NOT an inclined 45-degree sled. His back is flat against the backrest. His thigh and his shin form a clean right angle at the knee, like the corner of a square — the knee is bent no further than that and does not travel closer to his chest. Hips square against the seat, lower back flat. Quads and glutes glowing lime."
+    },
+    {
+      "id": "leg-extension",
+      "kind": "exercise",
+      "prompt": "Side view. He is seated in a leg extension machine, back against a tall backrest, shins behind a padded roller, extending both legs out to straight without locking the knees hard. Quads glowing lime."
+    },
+    {
+      "id": "seated-hamstring-curl",
+      "kind": "exercise",
+      "prompt": "Side view. He is seated in a seated hamstring curl machine with a tall backrest and a thigh restraint pad, pulling his heels down and back under the seat against a padded roller. Hamstrings glowing lime."
+    },
+    {
+      "id": "single-leg-glute-bridge",
+      "kind": "exercise",
+      "prompt": "Side view. He lies face-up on the floor on an exercise mat, one knee bent with that foot flat on the floor, the other leg extended straight out. He drives his hips up so his torso and extended leg form a straight line, ribs down, no lower-back arch. Glutes glowing lime."
+    },
+    {
+      "id": "seated-calf-raise",
+      "kind": "exercise",
+      "prompt": "Side view. He is seated upright in a seated calf raise machine, a padded bar across his thighs, the balls of his feet on a small platform, heels pressed up at the top of the movement. Calves glowing lime."
+    },
+    {
+      "id": "pallof-press",
+      "kind": "exercise",
+      "prompt": "Front three-quarter view. He stands upright and braced side-on to a cable stack set at chest height, both hands pressing a single handle straight out in front of his sternum, resisting the cable's pull to twist him. Torso square and unrotated, ribs down. Obliques and abdominals glowing lime."
+    },
+    {
+      "id": "half-kneeling-pallof-press",
+      "kind": "exercise",
+      "prompt": "Front three-quarter view. He is in a half-kneeling position, one knee down on a mat and the other foot forward and flat, torso tall and vertical, side-on to a chest-height cable stack, pressing a handle straight out in front of his sternum with both hands. Torso square and unrotated. Obliques and abdominals glowing lime."
+    },
+    {
+      "id": "side-plank-knee-modified",
+      "kind": "exercise",
+      "prompt": "Side view slightly above. He holds a side plank on a mat, supported on one forearm with the elbow under the shoulder and BOTH knees bent and resting on the mat, forming a straight line from knee to shoulder. Hips lifted and stacked, not sagging. Obliques glowing lime."
+    },
+    {
+      "id": "bear-plank",
+      "kind": "exercise",
+      "prompt": "Side view slightly above. He is on a mat on hands and toes with knees bent at 90 degrees hovering roughly an inch off the floor, back completely flat and level, ribs down. Abdominals glowing lime."
+    },
+    {
+      "id": "lats",
+      "kind": "muscle",
+      "prompt": "Highlight: Latissimus dorsi, the broad wings down the sides of the back. Visible on the posterior view; leave the anterior view entirely neutral."
+    },
+    {
+      "id": "upper-chest",
+      "kind": "muscle",
+      "prompt": "Highlight: Clavicular pectoralis, the upper chest just below the collarbones. Visible on the anterior view; leave the posterior view entirely neutral."
+    },
+    {
+      "id": "mid-chest",
+      "kind": "muscle",
+      "prompt": "Highlight: The main body of the pectoralis major, mid chest. Visible on the anterior view; leave the posterior view entirely neutral."
+    },
+    {
+      "id": "lower-chest",
+      "kind": "muscle",
+      "prompt": "Highlight: The lower border of the pectoralis major, just above the ribs. Visible on the anterior view; leave the posterior view entirely neutral."
+    },
+    {
+      "id": "upper-back",
+      "kind": "muscle",
+      "prompt": "Highlight: Rhomboids and mid-trapezius between the shoulder blades. Visible on the posterior view; leave the anterior view entirely neutral."
+    },
+    {
+      "id": "traps",
+      "kind": "muscle",
+      "prompt": "Highlight: Trapezius, the diamond from the neck to the mid-back, plus the upper trapezius ridge visible from the front."
+    },
+    {
+      "id": "lower-back",
+      "kind": "muscle",
+      "prompt": "Highlight: Erector spinae, the columns either side of the lower spine. Visible on the posterior view; leave the anterior view entirely neutral."
+    },
+    {
+      "id": "front-delts",
+      "kind": "muscle",
+      "prompt": "Highlight: Anterior deltoid, the front of both shoulders. Visible on the anterior view; leave the posterior view entirely neutral."
+    },
+    {
+      "id": "side-delts",
+      "kind": "muscle",
+      "prompt": "Highlight: Lateral deltoid, the outer cap of both shoulders. Visible on both views."
+    },
+    {
+      "id": "rear-delts",
+      "kind": "muscle",
+      "prompt": "Highlight: Posterior deltoid, the rear of both shoulders. Visible on the posterior view; leave the anterior view entirely neutral."
+    },
+    {
+      "id": "biceps",
+      "kind": "muscle",
+      "prompt": "Highlight: Biceps brachii, the front of both upper arms. Visible on the anterior view; leave the posterior view entirely neutral."
+    },
+    {
+      "id": "triceps",
+      "kind": "muscle",
+      "prompt": "Highlight: Triceps brachii, the back of both upper arms. Visible on the posterior view; leave the anterior view entirely neutral."
+    },
+    {
+      "id": "forearms",
+      "kind": "muscle",
+      "prompt": "Highlight: The forearm flexors and extensors of both lower arms. Visible on both views."
+    },
+    {
+      "id": "quads",
+      "kind": "muscle",
+      "prompt": "Highlight: Quadriceps, the front of both thighs. Visible on the anterior view; leave the posterior view entirely neutral."
+    },
+    {
+      "id": "hamstrings",
+      "kind": "muscle",
+      "prompt": "Highlight: Hamstrings, the back of both thighs. Visible on the posterior view; leave the anterior view entirely neutral."
+    },
+    {
+      "id": "glutes",
+      "kind": "muscle",
+      "prompt": "Highlight: Gluteus maximus, both buttocks. Visible on the posterior view; leave the anterior view entirely neutral."
+    },
+    {
+      "id": "adductors",
+      "kind": "muscle",
+      "prompt": "Highlight: The adductors of the inner thighs. Visible on the anterior view; leave the posterior view entirely neutral."
+    },
+    {
+      "id": "calves",
+      "kind": "muscle",
+      "prompt": "Highlight: Gastrocnemius and soleus, the back of both lower legs. Visible on the posterior view, and along the sides of the lower legs on the anterior view."
+    },
+    {
+      "id": "abs",
+      "kind": "muscle",
+      "prompt": "Highlight: Rectus abdominis, the central abdominal column. Visible on the anterior view; leave the posterior view entirely neutral."
+    },
+    {
+      "id": "obliques",
+      "kind": "muscle",
+      "prompt": "Highlight: The obliques along the sides of the waist. Visible on the anterior view; leave the posterior view entirely neutral."
+    }
+  ],
+  "quality": 84,
+  "referenceModel": "gemini-3-pro-image",
+  "imageSize": "2K"
+}

@@ -122,7 +122,8 @@
       "Stop at shoulder height",
       "Constant tension — don't let the stack rest"
     ],
-    "alternatives": ["seated-db-lateral-raise"]
+    "alternatives": ["seated-db-lateral-raise"],
+    "image": "assets/exercises/cable-lateral-raise.jpg"
   },
   {
     "id": "overhead-rope-extension",
@@ -139,7 +140,8 @@
       "Twist the pinkies outwards at the end"
     ],
     "setupNotes": "High backrest is required — this is what keeps the overhead position from arching the lower back.",
-    "alternatives": ["tricep-pushdown"]
+    "alternatives": ["tricep-pushdown"],
+    "image": "assets/exercises/overhead-rope-extension.jpg"
   },
   {
     "id": "tricep-pushdown",
@@ -214,7 +216,8 @@
       "Avoid shrugging"
     ],
     "setupNotes": "Chest on the pad. This is the supported replacement for a bent-over fly.",
-    "alternatives": ["reverse-pec-deck"]
+    "alternatives": ["reverse-pec-deck"],
+    "image": "assets/exercises/chest-supported-rear-delt-fly.jpg"
   },
   {
     "id": "reverse-pec-deck",
@@ -324,7 +327,8 @@
     ],
     "setupNotes": "Hard depth limit: 90° at the knee. Going deeper rounds the lumbar spine (butt-wink) and is the single biggest risk in this session. Seated horizontal is preferred over the 45° incline version.",
     "formLimit": "Max 90° knee flexion",
-    "alternatives": ["leg-extension"]
+    "alternatives": ["leg-extension"],
+    "image": "assets/exercises/seated-horizontal-leg-press.jpg"
   },
   {
     "id": "single-leg-glute-bridge",
@@ -343,7 +347,8 @@
       "Ribs down — don't arch to get higher"
     ],
     "setupNotes": "The hip-extension half of the RDL replacement. Supine, so there's no shear load on the spine.",
-    "alternatives": ["seated-hamstring-curl"]
+    "alternatives": ["seated-hamstring-curl"],
+    "image": "assets/exercises/single-leg-glute-bridge.jpg"
   },
   {
     "id": "seated-calf-raise",
@@ -388,7 +393,8 @@
     "unilateral": true,
     "cues": ["Tall spine, glute of the down leg squeezed", "Resist rotation", "Press slow"],
     "setupNotes": "Half-kneeling takes the legs out and makes the core do the anti-rotation work. Replaces suitcase carries.",
-    "alternatives": ["pallof-press", "side-plank-knee-modified"]
+    "alternatives": ["pallof-press", "side-plank-knee-modified"],
+    "image": "assets/exercises/half-kneeling-pallof-press.jpg"
   },
   {
     "id": "side-plank-knee-modified",
@@ -403,7 +409,8 @@
     "unilateral": true,
     "cues": ["Straight line from knee to shoulder", "Hips stacked, don't sag", "Hold — no movement"],
     "setupNotes": "Anti-lateral-flexion. Knees down keeps the lever short and the spine neutral.",
-    "alternatives": ["half-kneeling-pallof-press"]
+    "alternatives": ["half-kneeling-pallof-press"],
+    "image": "assets/exercises/side-plank-knee-modified.jpg"
   },
   {
     "id": "bear-plank",
@@ -416,6 +423,7 @@
     "secondaryMuscles": ["obliques"],
     "cues": ["Knees an inch off the floor", "Flat back, ribs down", "Hold still"],
     "setupNotes": "Anti-extension without the lower-back arch that deadbugs and captain's chair invite.",
-    "alternatives": ["straight-arm-cable-pushdown"]
+    "alternatives": ["straight-arm-cable-pushdown"],
+    "image": "assets/exercises/bear-plank.jpg"
   }
 ]

@@ -4,7 +4,6 @@
 import { html, mount, chip, prescriptionLine, fmt } from '../ui.js';
 import { prescriptionsOf, dayOf, plannedWeeklySets, byGroup, suggestNextDay } from '../data.js';
 import { equipmentIcon } from '../icons/equipment.js';
-import { bodyMap } from '../icons/body.js';
 import * as store from '../store.js';
 
 let selectedDayId = null;
@@ -125,7 +124,6 @@ function exerciseRow(db, p) {
     <div class="ex-head">
       <div class="ex-icons">
         ${equipmentIcon(ex)}
-        ${bodyMap({ primary: ex.primaryMuscles, secondary: ex.secondaryMuscles, height: 40 })}
       </div>
       <div style="flex:1 1 auto;min-width:0">
         <div class="ex-name">${ex.name}</div>

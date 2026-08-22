@@ -136,10 +136,15 @@ function muscleDetail(db, muscle) {
       ${target ? html`<span class="badge">${`target ${target[0]}–${target[1]}/wk`}</span>` : ''}
     </div>
 
-    <div class="bodymap-box" style="margin-top:12px">
-      ${bodyMap({ primary: [muscle.id], view: 'both', height: 120 })}
-    </div>
-    <div class="ex-sub" style="margin-top:6px">Front and back view — highlighted region is ${muscle.name}.</div>
+    ${muscle.image
+      ? html`<button type="button" class="muscle-figure" data-photo="${muscle.image}"
+                     data-photo-name="${muscle.name}" title="Tap to enlarge">
+          <img src="${muscle.image}" alt="${`Front and back view highlighting ${muscle.name}`}" loading="lazy">
+        </button>`
+      : html`<div class="bodymap-box" style="margin-top:12px">
+          ${bodyMap({ primary: [muscle.id], view: 'both', height: 120 })}
+        </div>`}
+    <div class="ex-sub" style="margin-top:6px">Front and back view — highlighted is ${muscle.name}.</div>
 
     <div class="section-label" style="margin-top:16px">Planned sets per week</div>
     <table class="data" style="margin-top:6px">
@@ -189,14 +194,6 @@ function exerciseDetail(db, ex) {
     </div>
 
     ${ex.formLimit ? html`<div class="limit" style="margin:10px 0 0">${`⚠ ${ex.formLimit}`}</div>` : ''}
-
-    <div class="bodymap-box" style="margin-top:12px">
-      ${bodyMap({ primary: ex.primaryMuscles, secondary: ex.secondaryMuscles, view: 'both', height: 110 })}
-    </div>
-    <div class="map-legend">
-      <span><i></i> primary</span>
-      <span><i class="sec"></i> secondary</span>
-    </div>
 
     <div class="section-label" style="margin-top:16px">Primary</div>
     <div class="row" style="margin-top:6px">

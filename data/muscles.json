@@ -1,28 +1,163 @@
 [
-  { "id": "upper-chest",   "name": "Upper Chest",     "group": "chest",      "region": "upper", "weeklySetTarget": [6, 12] },
-  { "id": "mid-chest",     "name": "Mid Chest",       "group": "chest",      "region": "upper", "weeklySetTarget": [8, 16] },
-  { "id": "lower-chest",   "name": "Lower Chest",     "group": "chest",      "region": "upper", "weeklySetTarget": [4, 10] },
-
-  { "id": "lats",          "name": "Lats",            "group": "back",       "region": "upper", "weeklySetTarget": [10, 20] },
-  { "id": "upper-back",    "name": "Upper Back",      "group": "back",       "region": "upper", "weeklySetTarget": [8, 16] },
-  { "id": "traps",         "name": "Traps",           "group": "back",       "region": "upper", "weeklySetTarget": [4, 12] },
-  { "id": "lower-back",    "name": "Lower Back",      "group": "back",       "region": "upper", "weeklySetTarget": null,
-    "note": "No direct target by design — the L5-S1 constraints rule out loaded lumbar work. Incidental involvement only." },
-
-  { "id": "front-delts",   "name": "Front Delts",     "group": "shoulders",  "region": "upper", "weeklySetTarget": [6, 12] },
-  { "id": "side-delts",    "name": "Side Delts",      "group": "shoulders",  "region": "upper", "weeklySetTarget": [8, 18] },
-  { "id": "rear-delts",    "name": "Rear Delts",      "group": "shoulders",  "region": "upper", "weeklySetTarget": [6, 16] },
-
-  { "id": "biceps",        "name": "Biceps",          "group": "biceps",     "region": "upper", "weeklySetTarget": [8, 16] },
-  { "id": "triceps",       "name": "Triceps",         "group": "triceps",    "region": "upper", "weeklySetTarget": [8, 16] },
-  { "id": "forearms",      "name": "Forearms",        "group": "forearms",   "region": "upper", "weeklySetTarget": [2, 8] },
-
-  { "id": "quads",         "name": "Quads",           "group": "quads",      "region": "lower", "weeklySetTarget": [10, 20] },
-  { "id": "hamstrings",    "name": "Hamstrings",      "group": "hamstrings", "region": "lower", "weeklySetTarget": [8, 16] },
-  { "id": "glutes",        "name": "Glutes",          "group": "glutes",     "region": "lower", "weeklySetTarget": [8, 16] },
-  { "id": "adductors",     "name": "Adductors",       "group": "quads",      "region": "lower", "weeklySetTarget": [2, 8] },
-  { "id": "calves",        "name": "Calves",          "group": "calves",     "region": "lower", "weeklySetTarget": [6, 14] },
-
-  { "id": "abs",           "name": "Abs",             "group": "core",       "region": "core",  "weeklySetTarget": [6, 14] },
-  { "id": "obliques",      "name": "Obliques",        "group": "core",       "region": "core",  "weeklySetTarget": [4, 10] }
+  {
+    "id": "upper-chest",
+    "name": "Upper Chest",
+    "group": "chest",
+    "region": "upper",
+    "weeklySetTarget": [6, 12],
+    "image": "assets/muscles/upper-chest.jpg"
+  },
+  {
+    "id": "mid-chest",
+    "name": "Mid Chest",
+    "group": "chest",
+    "region": "upper",
+    "weeklySetTarget": [8, 16],
+    "image": "assets/muscles/mid-chest.jpg"
+  },
+  {
+    "id": "lower-chest",
+    "name": "Lower Chest",
+    "group": "chest",
+    "region": "upper",
+    "weeklySetTarget": [4, 10],
+    "image": "assets/muscles/lower-chest.jpg"
+  },
+  {
+    "id": "lats",
+    "name": "Lats",
+    "group": "back",
+    "region": "upper",
+    "weeklySetTarget": [10, 20],
+    "image": "assets/muscles/lats.jpg"
+  },
+  {
+    "id": "upper-back",
+    "name": "Upper Back",
+    "group": "back",
+    "region": "upper",
+    "weeklySetTarget": [8, 16],
+    "image": "assets/muscles/upper-back.jpg"
+  },
+  {
+    "id": "traps",
+    "name": "Traps",
+    "group": "back",
+    "region": "upper",
+    "weeklySetTarget": [4, 12],
+    "image": "assets/muscles/traps.jpg"
+  },
+  {
+    "id": "lower-back",
+    "name": "Lower Back",
+    "group": "back",
+    "region": "upper",
+    "weeklySetTarget": null,
+    "note": "No direct target by design — the L5-S1 constraints rule out loaded lumbar work. Incidental involvement only.",
+    "image": "assets/muscles/lower-back.jpg"
+  },
+  {
+    "id": "front-delts",
+    "name": "Front Delts",
+    "group": "shoulders",
+    "region": "upper",
+    "weeklySetTarget": [6, 12],
+    "image": "assets/muscles/front-delts.jpg"
+  },
+  {
+    "id": "side-delts",
+    "name": "Side Delts",
+    "group": "shoulders",
+    "region": "upper",
+    "weeklySetTarget": [8, 18],
+    "image": "assets/muscles/side-delts.jpg"
+  },
+  {
+    "id": "rear-delts",
+    "name": "Rear Delts",
+    "group": "shoulders",
+    "region": "upper",
+    "weeklySetTarget": [6, 16],
+    "image": "assets/muscles/rear-delts.jpg"
+  },
+  {
+    "id": "biceps",
+    "name": "Biceps",
+    "group": "biceps",
+    "region": "upper",
+    "weeklySetTarget": [8, 16],
+    "image": "assets/muscles/biceps.jpg"
+  },
+  {
+    "id": "triceps",
+    "name": "Triceps",
+    "group": "triceps",
+    "region": "upper",
+    "weeklySetTarget": [8, 16],
+    "image": "assets/muscles/triceps.jpg"
+  },
+  {
+    "id": "forearms",
+    "name": "Forearms",
+    "group": "forearms",
+    "region": "upper",
+    "weeklySetTarget": [2, 8],
+    "image": "assets/muscles/forearms.jpg"
+  },
+  {
+    "id": "quads",
+    "name": "Quads",
+    "group": "quads",
+    "region": "lower",
+    "weeklySetTarget": [10, 20],
+    "image": "assets/muscles/quads.jpg"
+  },
+  {
+    "id": "hamstrings",
+    "name": "Hamstrings",
+    "group": "hamstrings",
+    "region": "lower",
+    "weeklySetTarget": [8, 16],
+    "image": "assets/muscles/hamstrings.jpg"
+  },
+  {
+    "id": "glutes",
+    "name": "Glutes",
+    "group": "glutes",
+    "region": "lower",
+    "weeklySetTarget": [8, 16],
+    "image": "assets/muscles/glutes.jpg"
+  },
+  {
+    "id": "adductors",
+    "name": "Adductors",
+    "group": "quads",
+    "region": "lower",
+    "weeklySetTarget": [2, 8],
+    "image": "assets/muscles/adductors.jpg"
+  },
+  {
+    "id": "calves",
+    "name": "Calves",
+    "group": "calves",
+    "region": "lower",
+    "weeklySetTarget": [6, 14],
+    "image": "assets/muscles/calves.jpg"
+  },
+  {
+    "id": "abs",
+    "name": "Abs",
+    "group": "core",
+    "region": "core",
+    "weeklySetTarget": [6, 14],
+    "image": "assets/muscles/abs.jpg"
+  },
+  {
+    "id": "obliques",
+    "name": "Obliques",
+    "group": "core",
+    "region": "core",
+    "weeklySetTarget": [4, 10],
+    "image": "assets/muscles/obliques.jpg"
+  }
 ]

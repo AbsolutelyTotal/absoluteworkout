@@ -14,3 +14,10 @@
 # Exported workout logs — these contain bodyweight and training data.
 # Keep backups outside the repo, especially if it ever goes public.
 absoluteworkout-*.json
+
+# API keys must never land in this repo — it is public. Keys go in the shell
+# environment for the session only, never in a file. See tools/gen-images.mjs.
+*.key
+.env
+.env.*
+**/gemini-key*

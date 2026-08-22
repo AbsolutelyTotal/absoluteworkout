@@ -59,7 +59,29 @@ async function init() {
   renderTabs();
   wireBackup();
   wirePhotoLightbox();
+  wireImageFallback();
   initPicker();
+}
+
+/**
+ * An `image` path that 404s must not leave a broken-image glyph in the row.
+ * Falls the whole photo button back to nothing, so the layout stays clean and
+ * the exercise still reads by name.
+ *
+ * Uses a capture-phase listener rather than an inline onerror: `error` does not
+ * bubble, and ui.js's scrub() strips on* attributes by design.
+ */
+function wireImageFallback() {
+  document.addEventListener('error', (e) => {
+    const img = e.target;
+    if (img.tagName !== 'IMG' || img.dataset.failed) return;
+    img.dataset.failed = '1';
+    const holder = img.closest('.ex-photo');
+    if (holder) {
+      holder.remove();
+      console.warn(`Missing image, falling back: ${img.getAttribute('src')}`);
+    }
+  }, true);
 }
 
 // Delegated so it survives every re-render, in any view.

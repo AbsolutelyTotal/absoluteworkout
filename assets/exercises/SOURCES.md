@@ -1,47 +1,49 @@
-# Exercise image sources
+# Exercise and muscle image sources
 
-## Free Exercise DB (19 images)
+All 47 images (27 exercises, 20 muscles) are **generated**, not photographed:
+`gemini-3-pro-image` for the two style references, `gemini-3.1-flash-image` for
+the rest. Prompts and the generator live in `tools/`.
 
-From [yuhonas/free-exercise-db](https://github.com/yuhonas/free-exercise-db),
-released under **The Unlicense** — public domain, no attribution required.
-Credited here anyway.
+Regenerate any single one:
 
-Downloaded at 850x567 and resized to 420px wide (`sips -Z 420`) to keep the
-repo small; every use in the app is a thumbnail.
+```bash
+export NODE_EXTRA_CA_CERTS="$HOME/.certs/checkpoint-harmony-sase.pem"   # Harmony SASE TLS interception
+read -rs GEMINI_API_KEY && export GEMINI_API_KEY                        # session only, never a file
+node tools/gen-images.mjs --only <id> --force
+```
 
-Each file is named after its exercise id, so `exercises.json` just points at
-`assets/exercises/<id>.jpg`.
+## Why generated rather than stock
 
-### Vetted, not bulk-imported
+An earlier pass used [Free Exercise DB](https://github.com/yuhonas/free-exercise-db)
+(public domain). It was dropped because a generic library cannot respect the
+L5-S1 constraints in `data/constraints.json`:
 
-Every image was checked against the L5-S1 constraints in
-`data/constraints.json` before being included. Four candidates were **rejected**:
+- Its leg press showed a 45-degree sled with the knees well past 90 degrees —
+  the exact position `formLimit` forbids. An authoritative-looking photo of a
+  banned position is worse than no photo.
+- Its overhead extension was standing and hinged forward, where the plan
+  requires a seated high backrest.
+- Its rows had unsupported torsos where the plan requires chest support.
+- It had nothing for the constraint-driven substitutions (single-leg glute
+  bridge, knee-modified side plank, bear plank, half-kneeling Pallof).
 
-| Rejected | Why |
+Generated art fixes this: the prompt states the safe position.
+
+## Style consistency
+
+These models edit as much as they generate, so consistency comes from a
+reference image, not from repeated adjectives. `machine-chest-press.jpg` and
+`muscles/lats.jpg` are the references; every other prompt attaches one as
+input. `tools/gen-images.mjs` refuses to regenerate a reference without
+`--regen-reference`, because replacing one silently restyles the other 45.
+
+## Known imperfections
+
+Reviewed and accepted rather than re-rolled. Worth fixing if you regenerate:
+
+| Image | Issue |
 | --- | --- |
-| `Leg_Press` | 45° incline press, and the model's knees are well past 90°. Directly contradicts the `Max 90° knee flexion` limit on `seated-horizontal-leg-press`. An authoritative-looking photo of the banned depth is worse than no photo. |
-| `Cable_Rope_Overhead_Triceps_Extension` | Standing and hinged forward. `overhead-rope-extension` specifically requires a seated high backrest — that backrest is the whole point of the exercise. |
-| `Seated_Cable_Rows` | Seated but with an unsupported torso. The plan requires chest-supported rows. |
-| `Machine_Bench_Press` | Fine, but a duplicate of `Leverage_Chest_Press`, which was the better shot. |
-
-`chest-supported-row` uses `Lying_T-Bar_Row` — a T-bar rather than a dumbbell or
-leverage row, but the chest is fully on the pad, which is the constraint that
-matters.
-
-### Still on line icons (8)
-
-`cable-lateral-raise`, `overhead-rope-extension`, `chest-supported-rear-delt-fly`,
-`seated-horizontal-leg-press`, `single-leg-glute-bridge`,
-`half-kneeling-pallof-press`, `side-plank-knee-modified`, `bear-plank`.
-
-These are mostly the constraint-driven substitutions — the unusual movements a
-generic exercise database doesn't carry. Photographing your own gym is the fix.
-
-## Adding your own
-
-1. Drop a photo at `assets/exercises/<exercise-id>.jpg`.
-2. Add `"image": "assets/exercises/<exercise-id>.jpg"` to that exercise.
-3. Resize first: `sips -Z 420 <file>.jpg`.
-
-Paths must be relative and same-origin — absolute URLs are rejected at render
-time (see `equipmentIcon` in `src/icons/equipment.js`).
+| `muscles/lower-back.jpg` | Highlights the upper/mid back, not the lumbar erectors. Factually wrong. Lowest-impact of the set, since `lower-back` is deliberately untargeted. |
+| `muscles/obliques.jpg` | Highlights the front abdominal wall rather than the flanks. |
+| `exercises/seated-horizontal-leg-press.jpg` | Only one leg on the platform, and caught near lockout so the 90-degree stop is not depicted. The machine type and flat spine are correct. |
+| Upper-body exercise glow | The highlight covers most of the torso rather than one muscle — the prompt over-corrected away from an earlier too-small blob. The muscle images carry precise anatomy instead. |
