@@ -39,12 +39,14 @@ committing to it.
 Live at **<https://absolutelytotal.github.io/absoluteworkout/>** (GitHub Pages,
 served from `main` at the repo root — no build step, no workflow).
 
-The repo is public because Pages won't serve a private repo on a free plan. It
-carries a `noindex` meta tag so the page isn't listed in search results —
-`data/constraints.json` describes a real medical condition, and public-but-not-
-indexed is a deliberate middle ground. `robots.txt` still *allows* crawling on
-purpose: a `Disallow` would stop crawlers reading the `noindex` and the URL could
-end up indexed regardless. Delete the tag in `index.html` to make it findable.
+The repo is public only because Pages won't serve a private repo on a free
+plan. This isn't meant to be found: the page sends `noindex, nofollow`, and
+there are no social-preview or canonical tags. `robots.txt` deliberately
+*allows* crawling — a `Disallow` would stop crawlers reading the `noindex`,
+which can leave the URL indexed anyway from an inbound link.
+
+Public is not private, though: the repo contents, including
+`data/constraints.json`, are readable by anyone who looks.
 
 > [!IMPORTANT]
 > Logged sets live in the browser's localStorage, so they are **per-device** and
