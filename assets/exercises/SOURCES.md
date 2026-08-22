@@ -39,11 +39,29 @@ input. `tools/gen-images.mjs` refuses to regenerate a reference without
 
 ## Known imperfections
 
-Reviewed and accepted rather than re-rolled. Worth fixing if you regenerate:
+Reviewed and accepted rather than re-rolled further. Fix these if you regenerate.
 
 | Image | Issue |
 | --- | --- |
-| `muscles/lower-back.jpg` | Highlights the upper/mid back, not the lumbar erectors. Factually wrong. Lowest-impact of the set, since `lower-back` is deliberately untargeted. |
-| `muscles/obliques.jpg` | Highlights the front abdominal wall rather than the flanks. |
-| `exercises/seated-horizontal-leg-press.jpg` | Only one leg on the platform, and caught near lockout so the 90-degree stop is not depicted. The machine type and flat spine are correct. |
-| Upper-body exercise glow | The highlight covers most of the torso rather than one muscle — the prompt over-corrected away from an earlier too-small blob. The muscle images carry precise anatomy instead. |
+| `pallof-press`, `half-kneeling-pallof-press` | The glow covers the whole midsection instead of just the flanks. Three phrasings were tried; the obliques sit directly beside the abs and the model does not reliably separate adjacent muscles in the same region. Position and machine are correct, which is what matters mid-workout. |
+| `muscles/obliques.jpg` | Same adjacency problem — also tints the lower back. |
+| `seated-horizontal-leg-press` | Shows a mid-to-extended knee angle, not the 90-degree stop. This is deliberate: asking for "the bottom of the press" made the model put both feet on the floor instead of the platform. The `formLimit` warning pill in the UI carries the 90-degree rule far more reliably than a rendered joint angle ever could. The image's job is machine recognition. |
+
+## What went wrong along the way
+
+Kept as notes for whoever regenerates these:
+
+- **Degrees are ignored.** "30-degree incline" produced 45. Describing geometry
+  against landmarks works — "about one third of the way up from flat to vertical".
+- **Say what must NOT glow.** Naming only the target muscle produced a green wash
+  over the whole torso. Adding "every other muscle stays in normal matte skin
+  tone, no green spill" fixed it in one pass.
+- **Say where the cable comes from.** Unspecified pulley height gave a tricep
+  pushdown wired to a low pulley, which is not the exercise. Every cable
+  movement now states pulley height and attachment.
+- **Say "exactly one piece of equipment".** Renders kept adding a second cable
+  tower behind the figure.
+- **Lead with the body, not the rig.** The overhead extension resolved to a
+  pulldown until the prompt described hand and elbow position first.
+- **Never regenerate a style reference casually.** Doing so restyles all 45
+  downstream images. `gen-images.mjs` now requires `--regen-reference`.

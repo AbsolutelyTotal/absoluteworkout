@@ -34,7 +34,7 @@ const argv = process.argv.slice(2);
 const flag = (name) => argv.includes(`--${name}`);
 const value = (name) => {
   const i = argv.indexOf(`--${name}`);
-  return i >= 0 ? argv[i + 1] : undefined;
+  return i >= 0 ? argv[i + 1] : undefined;   // --only accepts a comma-separated list
 };
 
 const DRY = flag('dry-run');
@@ -224,7 +224,15 @@ async function main() {
 
   let items = cfg.items;
   if (KIND) items = items.filter(i => i.kind === KIND);
-  if (ONLY) items = items.filter(i => i.id === ONLY);
+  if (ONLY) {
+    const wanted = new Set(ONLY.split(',').map(x => x.trim()).filter(Boolean));
+    const unknown = [...wanted].filter(id => !cfg.items.some(i => i.id === id));
+    if (unknown.length) {
+      console.error(`Unknown id(s): ${unknown.join(', ')}`);
+      process.exit(1);
+    }
+    items = items.filter(i => wanted.has(i.id));
+  }
   if (!items.length) { console.error('Nothing matched those filters.'); process.exit(1); }
 
   // References first, so later items can attach them.
