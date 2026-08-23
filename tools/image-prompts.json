@@ -269,7 +269,7 @@
     {
       "id": "abductors",
       "kind": "muscle",
-      "prompt": "Highlight: the gluteus medius and gluteus minimus — the muscles on the OUTER upper hip, above and to the side of the gluteus maximus, in the region between the top of the pelvis and the hip joint. Do NOT highlight the main gluteus maximus buttock mass or the outer thigh below the hip. Visible on both the posterior and anterior views as the outer curve of the upper hip."
+      "prompt": "Highlight: the gluteus MEDIUS and MINIMUS only — a small fan-shaped muscle on the upper OUTER side of the hip, on the side of the pelvis just below the waistband and ABOVE the buttock, at the widest point of the hip where it flares out. Think of the spot you would touch putting your hand on your hip. CRITICAL: do NOT highlight the gluteus maximus — the large round buttock mass must stay completely neutral grey-tan with no green on it at all. The highlighted region sits higher and further to the side than the buttock, and is much smaller. Visible on both views as the outer flare of the upper hip; the buttocks stay neutral on the posterior view."
     }
   ],
   "quality": 84,

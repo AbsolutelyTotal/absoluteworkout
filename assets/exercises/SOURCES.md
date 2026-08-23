@@ -1,6 +1,6 @@
 # Exercise and muscle image sources
 
-All 47 images (27 exercises, 20 muscles) are **generated**, not photographed:
+All 50 images (29 exercises, 21 muscles) are **generated**, not photographed:
 `gemini-3-pro-image` for the two style references, `gemini-3.1-flash-image` for
 the rest. Prompts and the generator live in `tools/`.
 
@@ -45,6 +45,7 @@ Reviewed and accepted rather than re-rolled further. Fix these if you regenerate
 | --- | --- |
 | `pallof-press`, `half-kneeling-pallof-press` | The glow covers the whole midsection instead of just the flanks. Three phrasings were tried; the obliques sit directly beside the abs and the model does not reliably separate adjacent muscles in the same region. Position and machine are correct, which is what matters mid-workout. |
 | `muscles/obliques.jpg` | Same adjacency problem — also tints the lower back. |
+| `muscles/abductors.jpg` | Highlights the gluteus maximus instead of the medius/minimus, so it is currently indistinguishable from `glutes.jpg`. The prompt has been sharpened; regenerate with `--only abductors --force`. |
 | `seated-horizontal-leg-press` | Shows a mid-to-extended knee angle, not the 90-degree stop. This is deliberate: asking for "the bottom of the press" made the model put both feet on the floor instead of the platform. The `formLimit` warning pill in the UI carries the 90-degree rule far more reliably than a rendered joint angle ever could. The image's job is machine recognition. |
 
 ## What went wrong along the way
