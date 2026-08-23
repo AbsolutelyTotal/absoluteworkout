@@ -2,14 +2,45 @@
 //
 // Reference documentation, not compiled. The JSON files are the source of truth.
 //
-// Three files, each a flat array:
-//   muscles.json    — anatomy. Stable; you shouldn't need to touch it.
-//   exercises.json  — the exercise library. One entry per movement, reused across splits.
-//   splits.json     — the programs. Prescriptions reference exercises by id.
+// Five files, each a flat array:
+//   profiles.json            — constraint profiles. Each split belongs to one.
+//   muscles.json             — anatomy. Stable; you shouldn't need to touch it.
+//   exercises.json           — the constraint-safe library. Always loaded.
+//   exercises-extended.json  — movements only unrestricted profiles may use.
+//   splits.json              — the programs. Prescriptions reference exercises by id.
 //
 // Rule: exercises.json describes *what a movement is*; splits.json describes
 // *how you're training it right now*. Sets/reps/rest never live on an Exercise —
 // the same bench press is 5x5 on one split and 3x12 on another.
+
+// ---------------------------------------------------------------------------
+// profiles.json
+// ---------------------------------------------------------------------------
+//
+// A constraint profile. Each Split belongs to exactly one, via Split.profileId.
+//
+// SAFETY MODEL — read before changing this. Restriction works by *loading*, not
+// by filtering: `data/exercises-extended.json` (squats, deadlifts, RDLs,
+// standing presses, bent-over rows, crunches, carries) is fetched ONLY when the
+// active profile sets allowExtendedLibrary: true. For a restricted profile those
+// exercises never enter memory, so the picker, `alternatives` and the swap flow
+// are safe without knowing profiles exist.
+//
+// The tempting alternative — one library, each exercise tagged, filtered at
+// render time — inverts the guarantee. Safety would then depend on every call
+// site filtering correctly, and one missed site offers a banned movement. Here a
+// bug can only ever hide an exercise, never surface a contraindicated one.
+//
+// A Split with no profileId, or an unknown one, resolves to the most restrictive
+// profile. Fail closed.
+
+export interface Profile {
+  id: string;                    // slug, e.g. "l5s1"
+  name: string;                  // shown in the Plan view: "constraints: <name>"
+  summary?: string;              // one line
+  constraintsRef?: string;       // path to the full rule document
+  allowExtendedLibrary: boolean; // true only for profiles with no exclusions
+}
 
 // ---------------------------------------------------------------------------
 // muscles.json
@@ -134,6 +165,11 @@ export interface Exercise {
 export interface Split {
   id: string;                   // slug, e.g. "core-3"
   name: string;                 // display, e.g. "3-Day Core Split"
+
+  /** Which Profile's constraints this split runs under. Absent or unknown =>
+   *  the most restrictive profile. See the safety note above profiles.json. */
+  profileId?: string;
+
   daysPerWeek: number;          // 3 or 4 today; the schema doesn't care
   description?: string;         // one line, shown under the split picker
   defaultTempo?: string;        // e.g. "3:1:2:1" — applies unless a Prescription overrides

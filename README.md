@@ -100,6 +100,8 @@ data/               the data store (below)
 | `muscles.json` | 20 | Muscles, their roll-up group, and weekly set targets |
 | `exercises.json` | 27 | The exercise library — what each movement is |
 | `splits.json` | 2 | The 3-day and 4-day rotations |
+| `profiles.json` | 1 | Constraint profiles. Each split runs under one. |
+| `exercises-extended.json` | 0 | Movements only unrestricted profiles may load (empty today) |
 | `constraints.json` | — | The L5-S1 safety rules, replacement ledger, and execution parameters |
 | `types.ts` | — | Schema documentation |
 
@@ -112,6 +114,27 @@ This plan is built around an **L5-S1 lumbar disc herniation**: zero axial
 loading, zero lumbar flexion or shear, rigid external back support, isometric
 core only. The full rule set and the replacement ledger (what was swapped out,
 what replaced it, and why) live in [`data/constraints.json`](data/constraints.json).
+
+### How multiple plans stay safe
+
+Each split declares a `profileId`. Restriction works by **loading**, not
+filtering: `exercises-extended.json` — squats, deadlifts, RDLs, standing
+presses, bent-over rows, crunches, carries — is fetched *only* when the active
+profile sets `allowExtendedLibrary: true`. Under the `l5s1` profile those
+exercises never enter memory, so the picker, `alternatives` and the swap flow
+are safe without knowing profiles exist.
+
+The obvious alternative — one library, every exercise tagged, filtered at render
+time — inverts the guarantee. Safety would depend on every call site filtering
+correctly, and one missed site offers a banned movement. As built, a bug can only
+hide an exercise, never surface a contraindicated one.
+
+A split with no `profileId`, or an unknown one, resolves to the most restrictive
+profile. Fail closed.
+
+**To add a plan for someone else:** add a profile to `profiles.json`, add a split
+with that `profileId`, and put any movements their profile permits but yours
+doesn't into `exercises-extended.json`.
 
 Two consequences that are easy to undo by accident:
 

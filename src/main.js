@@ -10,7 +10,14 @@ import * as library from './views/library.js';
 import { initPicker } from './views/picker.js';
 
 const VIEWS = {
-  plan: (root, db) => plan.render(root, db, { onStartSession: startSession }),
+  plan: (root, db) => plan.render(root, db, {
+    onStartSession: startSession,
+    onProfileChange: async (splitId) => {
+      const changed = await ensureProfileFor(splitId);
+      if (changed) show('plan');
+      return changed;
+    }
+  }),
   log: (root, db) => log.render(root, db, { onFinish: () => show('history') }),
   history: (root, db) => history.render(root, db),
   library: (root, db) => library.render(root, db)
@@ -25,7 +32,9 @@ const bannerEl = document.getElementById('banner');
 
 async function init() {
   try {
-    db = await loadData();
+    // Boot on the profile of the remembered split, so the correct exercise
+    // library is loaded before anything renders.
+    db = await loadData(await profileIdForSplit(store.getSettings().activeSplitId));
   } catch (err) {
     mount(viewEl, html`<div class="banner warn">
       <span class="icon">!</span>
@@ -82,6 +91,30 @@ function wireImageFallback() {
       console.warn(`Missing image, falling back: ${img.getAttribute('src')}`);
     }
   }, true);
+}
+
+/** Peek at splits.json for a remembered split's profile, before the full load
+ *  decides which exercise library is permitted. */
+async function profileIdForSplit(splitId) {
+  try {
+    const splits = await fetch('data/splits.json', { cache: 'no-store' }).then(r => r.json());
+    return splits.find(s => s.id === splitId)?.profileId;
+  } catch {
+    return undefined;              // loadData then picks the most restrictive
+  }
+}
+
+/**
+ * A split on another profile permits a different exercise library, so switching
+ * to one requires reloading the data — re-rendering alone would leave the old
+ * library in memory, which for a restricted profile is the unsafe direction.
+ */
+async function ensureProfileFor(splitId) {
+  const wanted = db.splitById[splitId]?.profileId;
+  if (!wanted || wanted === db.profile?.id) return false;
+  db = await loadData(wanted);
+  mount(bannerEl, issuesBanner(db.issues));
+  return true;
 }
 
 // Delegated so it survives every re-render, in any view.

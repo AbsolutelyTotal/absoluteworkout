@@ -1,0 +1,10 @@
+[
+  {
+    "id": "l5s1",
+    "name": "Tal — L5-S1",
+    "summary": "Zero axial loading, zero lumbar flexion or shear. Supported positions only, isometric core.",
+    "constraintsRef": "data/constraints.json",
+
+    "allowExtendedLibrary": false
+  }
+]

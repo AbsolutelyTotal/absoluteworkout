@@ -255,6 +255,21 @@
       "id": "obliques",
       "kind": "muscle",
       "prompt": "Highlight: the oblique muscles on the LEFT and RIGHT SIDES of the waist — the flanks, running diagonally down the sides of the torso between the lower ribs and the hip bones. Do NOT highlight the central abdominal six-pack down the middle of the stomach; that central strip must stay neutral. Visible from the front and the sides."
+    },
+    {
+      "id": "hip-abduction-machine",
+      "kind": "exercise",
+      "prompt": "Front three-quarter view. He is seated in a hip abduction machine — an upright seat with a backrest and two large vertical pads on the OUTER sides of his knees. His back is flat against the backrest, torso upright and not leaning forward. He pushes both knees OUTWARD away from each other against the pads, legs spread wide at the end of the movement. ONLY the gluteus medius and minimus on the outer upper hip of each side glow lime. Every other muscle stays completely un-highlighted in normal matte skin tone, with no green tint or spill."
+    },
+    {
+      "id": "hip-adduction-machine",
+      "kind": "exercise",
+      "prompt": "Front three-quarter view. He is seated in a hip adduction machine — an upright seat with a backrest and two large vertical pads on the INNER sides of his knees, legs starting apart. His back is flat against the backrest, torso upright. He squeezes both knees INWARD toward each other against the pads. ONLY the adductors on the inner thigh of each leg glow lime. Every other muscle stays completely un-highlighted in normal matte skin tone, with no green tint or spill."
+    },
+    {
+      "id": "abductors",
+      "kind": "muscle",
+      "prompt": "Highlight: the gluteus medius and gluteus minimus — the muscles on the OUTER upper hip, above and to the side of the gluteus maximus, in the region between the top of the pelvis and the hip joint. Do NOT highlight the main gluteus maximus buttock mass or the outer thigh below the hip. Visible on both the posterior and anterior views as the outer curve of the upper hip."
     }
   ],
   "quality": 84,

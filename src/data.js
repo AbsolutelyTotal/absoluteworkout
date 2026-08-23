@@ -1,18 +1,54 @@
 // Loads the JSON files, indexes them, and derives the cross-references the
 // views need. All read-only — nothing here touches stored state.
 
-export async function loadData() {
+/**
+ * Loads the data set for one constraint profile.
+ *
+ * Safety design: this filters by *loading*, not by filtering. The extended
+ * library — squats, deadlifts, RDLs, standing presses, anything a restricted
+ * profile bans — is only fetched when the profile explicitly allows it. So for
+ * the l5s1 profile those exercises never enter memory at all, and every
+ * downstream consumer (picker, alternatives, swap, Library) is safe without
+ * knowing profiles exist.
+ *
+ * A tagged single library filtered at render time would be the obvious
+ * alternative, but it inverts the guarantee: safety would depend on the filter
+ * being correct everywhere, and one missed call site offers you an RDL. This
+ * way the worst case of a bug is a missing exercise, not a contraindicated one.
+ */
+export async function loadData(profileId) {
   const noCache = { cache: 'no-store' };
-  const [muscles, exercises, splits] = await Promise.all([
-    fetch('data/muscles.json', noCache).then(r => r.json()),
-    fetch('data/exercises.json', noCache).then(r => r.json()),
-    fetch('data/splits.json', noCache).then(r => r.json())
+  const get = (path) => fetch(path, noCache).then(r => {
+    if (!r.ok) throw new Error(`${path}: HTTP ${r.status}`);
+    return r.json();
+  });
+
+  const [muscles, baseExercises, splits, profiles] = await Promise.all([
+    get('data/muscles.json'),
+    get('data/exercises.json'),
+    get('data/splits.json'),
+    get('data/profiles.json')
   ]);
+
+  const profileById = Object.fromEntries(profiles.map(p => [p.id, p]));
+  const requested = profileId ?? splits[0]?.profileId;
+  const profile = profileById[requested] ?? profiles[0] ?? null;
+
+  // Absent or unknown profile => most restrictive. Never open by default.
+  let exercises = baseExercises;
+  if (profile?.allowExtendedLibrary === true) {
+    const extended = await get('data/exercises-extended.json').catch(() => []);
+    const seen = new Set(baseExercises.map(e => e.id));
+    exercises = [...baseExercises, ...extended.filter(e => !seen.has(e.id))];
+  }
 
   const db = {
     muscles,
     exercises,
     splits,
+    profiles,
+    profile,
+    profileById,
     muscleById: Object.fromEntries(muscles.map(m => [m.id, m])),
     exerciseById: Object.fromEntries(exercises.map(e => [e.id, e])),
     splitById: Object.fromEntries(splits.map(s => [s.id, s]))
@@ -20,6 +56,16 @@ export async function loadData() {
 
   db.issues = validate(db);
   return db;
+}
+
+/** The profile a split runs under, defaulting to the most restrictive. */
+export function profileOfSplit(db, split) {
+  return db.profileById[split?.profileId] ?? db.profiles?.[0] ?? null;
+}
+
+/** Splits visible under a profile — a split belongs to exactly one. */
+export function splitsForProfile(db, profileId) {
+  return db.splits.filter(s => (s.profileId ?? db.profiles?.[0]?.id) === profileId);
 }
 
 /** Dangling ids are the failure mode of hand-curated cross-referenced JSON.
@@ -40,6 +86,9 @@ function validate(db) {
   const norm = (t) => (t ?? '').toLowerCase().split(/\s+/).join(' ').replace(/\.$/, '');
 
   for (const split of db.splits) {
+    if (split.profileId && !db.profileById?.[split.profileId]) {
+      issues.push(`split "${split.id}" → unknown profileId "${split.profileId}"`);
+    }
     const dayIds = new Set(split.days.map(d => d.id));
     for (const id of split.cycle) {
       if (!dayIds.has(id)) issues.push(`split "${split.id}" cycle → unknown day "${id}"`);

@@ -351,6 +351,43 @@
     "image": "assets/exercises/single-leg-glute-bridge.jpg"
   },
   {
+    "id": "hip-abduction-machine",
+    "name": "Seated Hip Abduction Machine",
+    "aliases": ["hip abduction", "abductor machine", "outer thigh machine", "legs out"],
+    "pattern": "isolation",
+    "equipment": ["machine"],
+    "icon": "machine",
+    "image": "assets/exercises/hip-abduction-machine.jpg",
+    "support": "high-back-seat",
+    "primaryMuscles": ["abductors"],
+    "secondaryMuscles": ["glutes"],
+    "cues": [
+      "Push the knees apart against the pads",
+      "Sit tall with your back on the pad — don't lean forward to get more range",
+      "Pause at the widest point, control the return"
+    ],
+    "setupNotes": "Legs-out direction. Seated with a backrest, so no spinal load — safe under the L5-S1 constraints. Leaning the torso forward is the only way to make this movement a problem; keep the back against the pad.",
+    "alternatives": ["hip-adduction-machine", "single-leg-glute-bridge"]
+  },
+  {
+    "id": "hip-adduction-machine",
+    "name": "Seated Hip Adduction Machine",
+    "aliases": ["hip adduction", "adductor machine", "inner thigh machine", "legs in"],
+    "pattern": "isolation",
+    "equipment": ["machine"],
+    "icon": "machine",
+    "image": "assets/exercises/hip-adduction-machine.jpg",
+    "support": "high-back-seat",
+    "primaryMuscles": ["adductors"],
+    "cues": [
+      "Squeeze the knees together against the pads",
+      "Back stays on the pad, hips square",
+      "Control the opening — don't let the stack pull you apart"
+    ],
+    "setupNotes": "Legs-in direction, the same machine set the other way. Seated and supported, so no spinal load.",
+    "alternatives": ["hip-abduction-machine"]
+  },
+  {
     "id": "seated-calf-raise",
     "name": "Seated Calf Raise",
     "pattern": "isolation",

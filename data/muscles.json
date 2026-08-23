@@ -129,6 +129,15 @@
     "image": "assets/muscles/glutes.jpg"
   },
   {
+    "id": "abductors",
+    "name": "Abductors",
+    "group": "glutes",
+    "region": "lower",
+    "weeklySetTarget": [4, 10],
+    "note": "Gluteus medius and minimus — the muscles that move the leg away from the midline. Distinct from the gluteus maximus that 'Glutes' covers.",
+    "image": "assets/muscles/abductors.jpg"
+  },
+  {
     "id": "adductors",
     "name": "Adductors",
     "group": "quads",

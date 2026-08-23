@@ -1,6 +1,7 @@
 [
   {
     "id": "core-3",
+    "profileId": "l5s1",
     "name": "3-Day Core Split",
     "daysPerWeek": 3,
     "description": "Default rotation. Push, pull, legs — each with its own core modality.",
@@ -110,6 +111,7 @@
   },
   {
     "id": "core-4",
+    "profileId": "l5s1",
     "name": "4-Day Split",
     "daysPerWeek": 4,
     "description": "The 3-day rotation plus an upper-body session, so chest, back and delts get hit twice a week.",

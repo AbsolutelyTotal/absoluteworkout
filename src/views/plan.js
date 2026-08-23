@@ -2,18 +2,20 @@
 // beyond the active-split setting; starting a session hands off to the Log view.
 
 import { html, mount, chip, prescriptionLine, fmt } from '../ui.js';
-import { prescriptionsOf, dayOf, plannedWeeklySets, byGroup, suggestNextDay } from '../data.js';
+import { prescriptionsOf, dayOf, plannedWeeklySets, byGroup, suggestNextDay, profileOfSplit } from '../data.js';
 import { equipmentIcon } from '../icons/equipment.js';
 import * as store from '../store.js';
 
 let selectedDayId = null;
 
-export function render(root, db, { onStartSession }) {
+export function render(root, db, handlers) {
+  const { onStartSession, onProfileChange } = handlers;
   const settings = store.getSettings();
   const split = db.splitById[settings.activeSplitId] ?? db.splits[0];
   const suggested = suggestNextDay(split, store.getSessions());
   const dayId = selectedDayId && dayOf(split, selectedDayId) ? selectedDayId : suggested;
   const day = dayOf(split, dayId);
+  const profile = profileOfSplit(db, split);
 
   const planned = byGroup(db, plannedWeeklySets(db, split));
   const totalSets = Object.values(planned).reduce((a, b) => a + b, 0);
@@ -33,6 +35,9 @@ export function render(root, db, { onStartSession }) {
         <div class="ex-sub" style="margin-top:6px">
           ${`${split.cycle.length}-day rotation · ${fmt.sets(totalSets)} planned sets/week`}
         </div>
+        ${profile ? html`<div class="support-tag" style="margin-top:4px">
+          ${`constraints: ${profile.name}`}
+        </div>` : ''}
       </div>
 
       <div class="card">
@@ -55,19 +60,22 @@ export function render(root, db, { onStartSession }) {
     </div>
   `);
 
-  root.querySelector('[data-role="split-picker"]')?.addEventListener('click', (e) => {
+  root.querySelector('[data-role="split-picker"]')?.addEventListener('click', async (e) => {
     const btn = e.target.closest('.chip');
     if (!btn) return;
     store.updateSettings({ activeSplitId: btn.dataset.value });
     selectedDayId = null;
-    render(root, db, { onStartSession });
+    // A split on another profile permits a different exercise library, so the
+    // data must be reloaded before rendering against it.
+    if (onProfileChange && await onProfileChange(btn.dataset.value)) return;
+    render(root, db, handlers);
   });
 
   root.querySelector('[data-role="day-picker"]')?.addEventListener('click', (e) => {
     const btn = e.target.closest('.chip');
     if (!btn) return;
     selectedDayId = btn.dataset.value;
-    render(root, db, { onStartSession });
+    render(root, db, handlers);
   });
 
   root.querySelector('[data-action="start"]')?.addEventListener('click', () => {
