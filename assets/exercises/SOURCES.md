@@ -45,6 +45,7 @@ Reviewed and accepted rather than re-rolled further. Fix these if you regenerate
 | --- | --- |
 | `pallof-press`, `half-kneeling-pallof-press` | The glow covers the whole midsection instead of just the flanks. Three phrasings were tried; the obliques sit directly beside the abs and the model does not reliably separate adjacent muscles in the same region. Position and machine are correct, which is what matters mid-workout. |
 | `muscles/obliques.jpg` | Same adjacency problem — also tints the lower back. |
+| `high-low-cable-fly` | The glow covers both pectorals in full rather than just the lower border. Same adjacency limit as the obliques: upper and lower chest are one muscle, and the model will not split it. Machine and position are correct. |
 | `muscles/abductors.jpg` | Highlights the gluteus maximus instead of the medius/minimus, so it is currently indistinguishable from `glutes.jpg`. The prompt has been sharpened; regenerate with `--only abductors --force`. |
 | `seated-horizontal-leg-press` | Shows a mid-to-extended knee angle, not the 90-degree stop. This is deliberate: asking for "the bottom of the press" made the model put both feet on the floor instead of the platform. The `formLimit` warning pill in the UI carries the 90-degree rule far more reliably than a rendered joint angle ever could. The image's job is machine recognition. |
 
