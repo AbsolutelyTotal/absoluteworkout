@@ -358,11 +358,17 @@ async function main() {
   }
 }
 
+// Order matters as much as wording: this model tends to EDIT THE LAST IMAGE it is
+// given. Pass the style reference first and the form reference last, so the thing
+// being redrawn is the form. Passing style last made it reproduce the style
+// image's exercise verbatim and ignore the form entirely.
 const LABELS = {
-  form: 'FORM REFERENCE — copy the machine, the body position and the joint angles from this image ' +
-        'ONLY. Ignore its colours, shading, realism, background and any text or watermark:',
-  style: 'STYLE REFERENCE — copy the palette, line weight, framing and background from this image ' +
-         'ONLY. Ignore what exercise it shows:'
+  style: 'STYLE REFERENCE — PALETTE AND DRAWING TECHNIQUE ONLY. This image shows a COMPLETELY ' +
+         'DIFFERENT exercise. DO NOT COPY IT. Do not copy its machine, its pose, its arm position or ' +
+         'its exercise. Take from it ONLY the colours, the line weight and the background:',
+  form: 'FORM REFERENCE — THIS IS THE PICTURE TO REDRAW. Reproduce this machine, this body position ' +
+        'and these joint angles exactly, but re-render them in the flat style of the style ' +
+        'reference. Take none of this image\'s grey colours, shading, realism or background:'
 };
 
 /** --reference accepts "a.jpg" or a role-tagged list: "form=a.jpg,style=b.jpg". */
@@ -375,7 +381,10 @@ async function loadReferences(cfg, kind) {
 
   const out = [];
   for (const { role, relPath } of entries) {
-    const p = path.join(ROOT, relPath);
+    // A form reference is usually a photo living OUTSIDE this repo — this repo is
+    // public, so third-party images must not be copied into it. path.join would
+    // graft an absolute path onto ROOT, so resolve it instead.
+    const p = path.isAbsolute(relPath) ? relPath : path.join(ROOT, relPath);
     if (!await exists(p)) {
       console.log(`  note: no reference at ${relPath} yet — skipping it.`);
       continue;
