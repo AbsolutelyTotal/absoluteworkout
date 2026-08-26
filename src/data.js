@@ -207,31 +207,42 @@ export function exercisesForMuscle(db, muscleId) {
 // Weeks, tonnage, PRs
 // ---------------------------------------------------------------------------
 
-/** ISO week key, e.g. "2026-W34". Monday-based, matching how weekly volume
- *  targets are conventionally read. */
-export function weekKey(dateStr) {
+/**
+ * The date a week starts, as "YYYY-MM-DD", used as the bucket key.
+ *
+ * Deliberately NOT ISO week numbers. ISO weeks are Monday-based, which put a
+ * Sunday session in the *previous* week — so a Sunday + Tuesday week counted as
+ * one session, not two. Israel (and the US) start the week on Sunday. Keying by
+ * the week's actual start date supports any weekStartsOn without a second
+ * numbering scheme to get wrong.
+ *
+ * @param {string} dateStr  "YYYY-MM-DD" (local date)
+ * @param {number} startsOn 0 = Sunday, 1 = Monday, … 6 = Saturday
+ */
+export function weekKey(dateStr, startsOn = 0) {
   const d = new Date(`${dateStr}T00:00:00`);
-  const day = (d.getDay() + 6) % 7;          // Mon = 0
-  d.setDate(d.getDate() - day + 3);          // nearest Thursday
-  const firstThursday = new Date(d.getFullYear(), 0, 4);
-  const fday = (firstThursday.getDay() + 6) % 7;
-  firstThursday.setDate(firstThursday.getDate() - fday + 3);
-  const week = 1 + Math.round((d - firstThursday) / (7 * 86400000));
-  return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`;
+  const shift = (d.getDay() - startsOn + 7) % 7;
+  d.setDate(d.getDate() - shift);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-export function groupByWeek(sessions) {
+/** Adds `days` to a "YYYY-MM-DD" key, staying in local time. */
+export function addDays(dateStr, days) {
+  const d = new Date(`${dateStr}T00:00:00`);
+  d.setDate(d.getDate() + days);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+export function groupByWeek(sessions, startsOn = 0) {
   const weeks = new Map();
   for (const s of sessions) {
-    const k = weekKey(s.date);
+    const k = weekKey(s.date, startsOn);
     if (!weeks.has(k)) weeks.set(k, []);
     weeks.get(k).push(s);
   }
   return weeks;
 }
 
-/** Sum of weight x reps over completed sets. Unit-agnostic — it's whatever
- *  Settings.unit says, so never mix a kg log with an lb one. */
 export function tonnage(sessions) {
   let total = 0;
   for (const s of sessions) {
@@ -270,18 +281,20 @@ export function personalRecords(sessions) {
 }
 
 /** Consecutive weeks (ending with the current one) containing >= 1 session. */
-export function weekStreak(sessions) {
-  const weeks = new Set([...groupByWeek(sessions.filter(s => s.completedAt)).keys()]);
+export function weekStreak(sessions, startsOn = 0) {
+  const done = sessions.filter(s => s.completedAt);
+  const weeks = new Set([...groupByWeek(done, startsOn).keys()]);
   if (!weeks.size) return 0;
+
+  const today = new Date();
+  let cursor = weekKey(
+    `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`,
+    startsOn
+  );
   let streak = 0;
-  const cursor = new Date();
-  for (;;) {
-    const k = weekKey(
-      `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}-${String(cursor.getDate()).padStart(2, '0')}`
-    );
-    if (!weeks.has(k)) break;
+  while (weeks.has(cursor)) {
     streak++;
-    cursor.setDate(cursor.getDate() - 7);
+    cursor = addDays(cursor, -7);
   }
   return streak;
 }

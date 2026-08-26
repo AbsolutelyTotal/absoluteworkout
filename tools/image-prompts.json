@@ -270,6 +270,11 @@
       "id": "abductors",
       "kind": "muscle",
       "prompt": "Highlight: the gluteus MEDIUS and MINIMUS only — a small fan-shaped muscle on the upper OUTER side of the hip, on the side of the pelvis just below the waistband and ABOVE the buttock, at the widest point of the hip where it flares out. Think of the spot you would touch putting your hand on your hip. CRITICAL: do NOT highlight the gluteus maximus — the large round buttock mass must stay completely neutral grey-tan with no green on it at all. The highlighted region sits higher and further to the side than the buttock, and is much smaller. Visible on both views as the outer flare of the upper hip; the buttocks stay neutral on the posterior view."
+    },
+    {
+      "id": "machine-lateral-raise",
+      "kind": "exercise",
+      "prompt": "Front three-quarter view. He is seated in a lateral raise machine — an upright seat with a backrest, and two padded arms that his upper arms press against from underneath, one either side of his torso. Back flat against the pad, torso completely still. He drives both pads upward and outward with the outside of his upper arms until they reach shoulder height, elbows leading. Shoulders down, not shrugged. ONLY the lateral deltoids — the outer cap of each shoulder — glow lime. Every other muscle stays completely un-highlighted in normal matte skin tone, with no green tint or spill."
     }
   ],
   "quality": 84,

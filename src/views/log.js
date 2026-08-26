@@ -6,9 +6,20 @@ import { html, mount, fmt, CHECK_SVG } from '../ui.js';
 import { dayOf, prescriptionsOf } from '../data.js';
 import { equipmentIcon } from '../icons/equipment.js';
 import { openPicker } from './picker.js';
+import { openExerciseDetail } from './exercise-detail.js';
 import * as store from '../store.js';
 
+// #view persists across renders — mount() only swaps its children — so
+// listeners bound to it accumulate. An even number of handler copies made every
+// done-tap toggle twice and land back on false, losing the set. One controller
+// per render, aborted on the next, guarantees exactly one live set of handlers.
+let wiring = null;
+
 export function render(root, db, { onFinish }) {
+  wiring?.abort();
+  wiring = new AbortController();
+  const signal = wiring.signal;
+
   const session = store.activeSession();
   const settings = store.getSettings();
   // Structural changes (+set, swap) re-render; typing and ticking are patched
@@ -109,7 +120,7 @@ export function render(root, db, { onFinish }) {
     </div>
   `);
 
-  wire(root, db, session, onFinish, rerender);
+  wire(root, db, session, onFinish, rerender, signal);
 }
 
 /** Repaints only the bits that depend on how many sets are done. */
@@ -122,6 +133,14 @@ function syncChrome(root, session) {
 
   const finish = root.querySelector('[data-action="finish"]');
   if (finish) finish.disabled = done === 0;
+}
+
+/** What this set was last time, shown per row. A single summary line above the
+ *  grid was too easy to miss when you're mid-set and looking at one row. */
+function prevSet(last, i, unit) {
+  const s = last?.sets?.[i];
+  if (!s || s.weight == null && s.reps == null) return '';
+  return `${s.weight ?? '—'}${unit}×${s.reps ?? '—'}`;
 }
 
 function startedAt(session) {
@@ -161,7 +180,9 @@ function entryCard(db, session, entry, prescription, settings) {
         ${equipmentIcon(ex)}
       </div>
       <div style="flex:1 1 auto;min-width:0">
-        <div class="ex-name">${name}</div>
+        <button class="ex-name tappable-name" type="button" data-action="detail">
+          ${name} <span class="info-dot">i</span>
+        </button>
         <div class="ex-sub">
           ${prescription ? `${prescription.sets} x ${prescription.reps}` : 'added'}
           ${prescription?.tempo ? ` · ${prescription.tempo}` : ''}
@@ -191,6 +212,7 @@ function entryCard(db, session, entry, prescription, settings) {
       <div class="col-label">${settings.unit}</div>
       <div class="col-label">reps</div>
       <div></div>
+      <div class="col-label prev">last</div>
       ${entry.sets.map((set, i) => html`
         <div class="idx">${i + 1}</div>
         <input type="number" inputmode="decimal" step="0.5" data-field="weight" data-set="${i}"
@@ -205,6 +227,7 @@ function entryCard(db, session, entry, prescription, settings) {
                 aria-pressed="${String(set.done)}" aria-label="${`Mark set ${i + 1} done`}">
           ${CHECK_SVG}
         </button>
+        <div class="prev-set">${prevSet(last, i, settings.unit)}</div>
       `)}
     </div>
 
@@ -227,7 +250,7 @@ function lastLine(last, unit) {
   return `last ${fmt.date(last.date)}: ${summary}`;
 }
 
-function wire(root, db, session, onFinish, rerender) {
+function wire(root, db, session, onFinish, rerender, signal) {
   // Persist on input rather than on blur — a phone that sleeps mid-set must not
   // lose the number that was just typed.
   root.addEventListener('input', (e) => {
@@ -244,7 +267,7 @@ function wire(root, db, session, onFinish, rerender) {
     if (bw) { session.bodyweight = bw.value === '' ? undefined : Number(bw.value); return; }
     const notes = e.target.closest('input.notes');
     if (notes) session.notes = notes.value;
-  });
+  }, { signal });
 
   root.addEventListener('click', (e) => {
     const doneBtn = e.target.closest('[data-action="done"]');
@@ -300,7 +323,7 @@ function wire(root, db, session, onFinish, rerender) {
         onFinish();
       }
     }
-  });
+  }, { signal });
 
   root.addEventListener('click', (e) => {
     const swapBtn = e.target.closest('[data-action="swap"]');
@@ -324,7 +347,7 @@ function wire(root, db, session, onFinish, rerender) {
           store.substitute(session.id, fromId, toId);
           rerender();
         }
-      });
+      }, { signal });
       return;
     }
 
@@ -336,7 +359,14 @@ function wire(root, db, session, onFinish, rerender) {
         group: 'all',
         exclude: session.entries.map(x => x.exerciseId),
         onPick: (id) => { store.addExercise(session.id, id, 3); rerender(); }
-      });
+      }, { signal });
+      return;
+    }
+
+    const detailBtn = e.target.closest('[data-action="detail"]');
+    if (detailBtn) {
+      const id = detailBtn.closest('[data-exercise]').dataset.exercise;
+      openExerciseDetail(db.exerciseById[id], db);
       return;
     }
 
@@ -350,5 +380,5 @@ function wire(root, db, session, onFinish, rerender) {
       }
       rerender();
     }
-  });
+  }, { signal });
 }

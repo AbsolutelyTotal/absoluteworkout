@@ -94,12 +94,16 @@ export function chip(label, { pressed = false, value = '', count } = {}) {
   </button>`;
 }
 
-export function tile(label, value, { unit, sub } = {}) {
-  return html`<div class="tile">
+export function tile(label, value, { unit, sub, action } = {}) {
+  const body = html`
     <div class="label">${label}</div>
     <div class="value">${value}${unit ? html`<span class="unit">${unit}</span>` : ''}</div>
     ${sub ? html`<div class="sub">${sub}</div>` : ''}
-  </div>`;
+    ${action ? html`<div class="tile-more">tap for detail</div>` : ''}`;
+
+  return action
+    ? html`<button type="button" class="tile tappable" data-action="${action}">${body}</button>`
+    : html`<div class="tile">${body}</div>`;
 }
 
 /** Prescription summary, e.g. "4 x 6-8 @ 1-2 RIR". */

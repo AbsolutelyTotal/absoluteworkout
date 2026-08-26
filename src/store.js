@@ -10,6 +10,9 @@ const DEFAULTS = {
   settings: {
     activeSplitId: 'core-3',   // must match an id in data/splits.json
     unit: 'kg',
+    // 0 = Sunday. Israel and the US start the week on Sunday; ISO/Europe on
+    // Monday. This drives every weekly bucket in the History view.
+    weekStartsOn: 0,
     defaultSetTarget: [10, 20]
   },
   sessions: []

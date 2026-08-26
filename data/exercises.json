@@ -105,7 +105,7 @@
     "primaryMuscles": ["side-delts"],
     "cues": ["Lead with your elbows", "Avoid shrugging", "Control the lowering"],
     "setupNotes": "Seated removes the torso sway that a standing raise invites.",
-    "alternatives": ["cable-lateral-raise"],
+    "alternatives": ["cable-lateral-raise", "machine-lateral-raise"],
     "image": "assets/exercises/seated-db-lateral-raise.jpg"
   },
   {
@@ -122,8 +122,26 @@
       "Stop at shoulder height",
       "Constant tension — don't let the stack rest"
     ],
-    "alternatives": ["seated-db-lateral-raise"],
+    "alternatives": ["seated-db-lateral-raise", "machine-lateral-raise"],
     "image": "assets/exercises/cable-lateral-raise.jpg"
+  },
+  {
+    "id": "machine-lateral-raise",
+    "name": "Seated Machine Lateral Raise",
+    "aliases": ["machine lateral raise", "lateral raise machine", "side delt machine"],
+    "pattern": "isolation",
+    "equipment": ["machine"],
+    "icon": "machine",
+    "image": "assets/exercises/machine-lateral-raise.jpg",
+    "support": "high-back-seat",
+    "primaryMuscles": ["side-delts"],
+    "cues": [
+      "Drive the pads up with the outside of the upper arms, not the hands",
+      "Stop at shoulder height",
+      "Shoulders down — don't shrug into it"
+    ],
+    "setupNotes": "Seat height so the pivot lines up with your shoulder joint. The fixed path means no torso sway at all, which makes this the most spine-neutral lateral raise of the three.",
+    "alternatives": ["seated-db-lateral-raise", "cable-lateral-raise"]
   },
   {
     "id": "overhead-rope-extension",

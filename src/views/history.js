@@ -3,7 +3,7 @@
 
 import { html, mount, tile, fmt, volumeRow, trendChart } from '../ui.js';
 import {
-  actualSets, plannedWeeklySets, groupByWeek, weekKey, tonnage,
+  actualSets, plannedWeeklySets, groupByWeek, weekKey, addDays, tonnage,
   personalRecords, weekStreak
 } from '../data.js';
 import * as store from '../store.js';
@@ -22,28 +22,74 @@ export function render(root, db) {
     return;
   }
 
-  const weeks = groupByWeek(sessions);
-  const thisWeek = weeks.get(weekKey(store.localDate())) ?? [];
+  const startsOn = settings.weekStartsOn ?? 0;
+  const weeks = groupByWeek(sessions, startsOn);
+  const thisWeekKey = weekKey(store.localDate(), startsOn);
+  const thisWeek = weeks.get(thisWeekKey) ?? [];
   const split = db.splitById[settings.activeSplitId] ?? db.splits[0];
 
   mount(root, html`
     <div class="stack">
-      ${tiles(db, sessions, thisWeek, settings)}
+      ${tiles(db, sessions, thisWeek, settings, startsOn, thisWeekKey)}
+      ${weekDetail(db, thisWeek, settings, thisWeekKey)}
       ${volumeCard(db, split, thisWeek, settings)}
-      ${trendCard(weeks)}
+      ${trendCard(weeks, thisWeekKey)}
       ${prCard(db, sessions, settings)}
       ${sessionsCard(db, sessions)}
     </div>
   `);
+
+  root.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-action="show-week"]')) return;
+    expanded = !expanded;
+    render(root, db);
+  }, { signal: (wiring?.abort(), wiring = new AbortController()).signal });
 }
 
-function tiles(db, sessions, thisWeek, settings) {
+let expanded = false;
+let wiring = null;
+
+/** This week's sessions, exercise by exercise. Opened from the tile. */
+function weekDetail(db, thisWeek, settings, thisWeekKey) {
+  if (!expanded) return '';
+  if (!thisWeek.length) {
+    return html`<div class="card"><div class="ex-sub">Nothing logged this week yet.</div></div>`;
+  }
+  const dayName = (s) => db.splitById[s.splitId]?.days.find(d => d.id === s.dayId)?.name ?? s.dayId;
+
+  return html`<div class="card">
+    <div class="spread">
+      <h3>${`This week — ${fmt.date(thisWeekKey)} to ${fmt.date(addDays(thisWeekKey, 6))}`}</h3>
+      <button class="btn sm" type="button" data-action="show-week">Hide</button>
+    </div>
+    ${[...thisWeek].reverse().map(s => html`
+      <div class="block" style="margin-top:12px">
+        <div class="block-name">
+          ${`${new Date(`${s.date}T00:00:00`).toLocaleDateString(undefined, { weekday: 'long' })} ${fmt.date(s.date)} · ${dayName(s)}`}
+        </div>
+        <table class="data">
+          <tbody>
+            ${s.entries.map(en => html`<tr>
+              <td class="name">${db.exerciseById[en.exerciseId]?.name ?? en.exerciseId}</td>
+              <td>${en.sets.map(x => `${x.weight ?? '—'}${settings.unit}x${x.reps ?? '—'}`).join('  ')}</td>
+            </tr>`)}
+          </tbody>
+        </table>
+      </div>`)}
+  </div>`;
+}
+
+function tiles(db, sessions, thisWeek, settings, startsOn, thisWeekKey) {
   const done = thisWeek.reduce((a, s) => a + s.entries.reduce((b, e) => b + e.sets.length, 0), 0);
   const bw = [...sessions].reverse().find(s => s.bodyweight != null);
+  const weekLabel = `${fmt.date(thisWeekKey)} – ${fmt.date(addDays(thisWeekKey, 6))}`;
 
   return html`<div class="tiles">
-    ${tile('Sessions this week', String(thisWeek.length), { sub: `${done} sets logged` })}
-    ${tile('Week streak', String(weekStreak(sessions)), { sub: 'consecutive weeks trained' })}
+    ${tile('Sessions this week', String(thisWeek.length), {
+      sub: `${done} sets · ${weekLabel}`,
+      action: 'show-week'
+    })}
+    ${tile('Week streak', String(weekStreak(sessions, startsOn)), { sub: 'consecutive weeks trained' })}
     ${tile('Volume this week', fmt.tonnage(tonnage(thisWeek), settings.unit), { sub: 'weight x reps' })}
     ${tile('Total sessions', String(sessions.length), {
       sub: bw ? `bodyweight ${bw.bodyweight}${settings.unit}` : 'all time'
@@ -89,16 +135,16 @@ function volumeCard(db, split, thisWeek, settings) {
   </div>`;
 }
 
-function trendCard(weeks) {
+function trendCard(weeks, thisWeekKey) {
   const keys = [...weeks.keys()].sort();
   if (keys.length < 2) return '';
 
   // Fill gaps so a skipped week reads as a gap, not as a missing bar.
-  const span = fillWeeks(keys[0], weekKey(store.localDate()));
+  const span = fillWeeks(keys[0], thisWeekKey);
   const points = span.slice(-WEEKS_SHOWN).map(k => {
     const ss = weeks.get(k) ?? [];
     const sets = ss.reduce((a, s) => a + s.entries.reduce((b, e) => b + e.sets.length, 0), 0);
-    return { label: k, short: k.slice(-3).replace('W', 'w'), value: sets };
+    return { label: `week of ${fmt.date(k)}`, short: fmt.date(k).replace(/ /g, '\u00a0'), value: sets };
   });
 
   return html`<div class="card">
@@ -108,28 +154,16 @@ function trendCard(weeks) {
   </div>`;
 }
 
-/** Walks ISO week keys from `from` to `to` inclusive. */
+/** Walks week-start keys from `from` to `to` inclusive, in 7-day steps. */
 function fillWeeks(from, to) {
   const out = [];
-  const cursor = mondayOf(from);
-  const end = mondayOf(to);
+  let cursor = from;
   let guard = 0;
-  while (cursor <= end && guard++ < 520) {
-    out.push(weekKey(
-      `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}-${String(cursor.getDate()).padStart(2, '0')}`
-    ));
-    cursor.setDate(cursor.getDate() + 7);
+  while (cursor <= to && guard++ < 520) {
+    out.push(cursor);
+    cursor = addDays(cursor, 7);
   }
   return out;
-}
-
-function mondayOf(key) {
-  const [year, week] = key.split('-W').map(Number);
-  const jan4 = new Date(year, 0, 4);
-  const day = (jan4.getDay() + 6) % 7;
-  const monday = new Date(jan4);
-  monday.setDate(jan4.getDate() - day + (week - 1) * 7);
-  return monday;
 }
 
 function prCard(db, sessions, settings) {

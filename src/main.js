@@ -8,6 +8,7 @@ import * as log from './views/log.js';
 import * as history from './views/history.js';
 import * as library from './views/library.js';
 import { initPicker } from './views/picker.js';
+import { initExerciseDetail } from './views/exercise-detail.js';
 
 const VIEWS = {
   plan: (root, db) => plan.render(root, db, {
@@ -70,6 +71,7 @@ async function init() {
   wirePhotoLightbox();
   wireImageFallback();
   initPicker();
+  initExerciseDetail();
 }
 
 /**
