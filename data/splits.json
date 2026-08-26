@@ -241,7 +241,7 @@
             "name": "Core — anti-rotation",
             "items": [
               {
-                "exerciseId": "half-kneeling-pallof-press",
+                "exerciseId": "pallof-press",
                 "sets": 3,
                 "reps": "10-12 per side",
                 "restSeconds": 60
@@ -490,7 +490,7 @@
             "name": "Core — anti-rotation",
             "items": [
               {
-                "exerciseId": "half-kneeling-pallof-press",
+                "exerciseId": "pallof-press",
                 "sets": 3,
                 "reps": "10-12 per side",
                 "restSeconds": 60
