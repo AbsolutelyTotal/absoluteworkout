@@ -66,9 +66,25 @@ export interface Muscle {
   group: MuscleGroup;         // volume roll-up bucket
   region: "upper" | "lower" | "core";
 
-  /** Weekly working-set target range, [min, max]. Drives the target band in the
-   *  history chart. Omit for muscles you don't track a target for. */
-  weeklySetTarget?: [number, number];
+  /**
+   * Weekly working-set target range, [min, max], used by the Library to judge
+   * whether a split gives this muscle enough work.
+   *
+   * CALIBRATED TO THIS PROGRAM, not to general hypertrophy literature. The lower
+   * bound is roughly what the leaner 3-day split prescribes, so executing the
+   * plan reads as adequate; the upper bound leaves room to progress. Generic
+   * 10-20 sets/week ranges flagged 16 of 20 muscles as under-target on a
+   * deliberately compact 3-day plan — a metric that fires on almost everything
+   * conveys nothing. Don't swap literature values back in without also changing
+   * the program.
+   *
+   * `null` means deliberately untrained (see `lower-back`) and renders without a
+   * verdict. `undefined` falls back to Settings.defaultSetTarget.
+   *
+   * NOTE: the History view does NOT use this. It compares the week against what
+   * the active split actually prescribes, which needs no hand-tuned numbers.
+   */
+  weeklySetTarget?: [number, number] | null;
 }
 
 // ---------------------------------------------------------------------------

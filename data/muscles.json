@@ -4,7 +4,7 @@
     "name": "Upper Chest",
     "group": "chest",
     "region": "upper",
-    "weeklySetTarget": [6, 12],
+    "weeklySetTarget": [3, 10],
     "image": "assets/muscles/upper-chest.jpg"
   },
   {
@@ -12,7 +12,7 @@
     "name": "Mid Chest",
     "group": "chest",
     "region": "upper",
-    "weeklySetTarget": [8, 16],
+    "weeklySetTarget": [3, 10],
     "image": "assets/muscles/mid-chest.jpg"
   },
   {
@@ -20,7 +20,7 @@
     "name": "Lower Chest",
     "group": "chest",
     "region": "upper",
-    "weeklySetTarget": [4, 10],
+    "weeklySetTarget": [2, 8],
     "image": "assets/muscles/lower-chest.jpg"
   },
   {
@@ -28,7 +28,7 @@
     "name": "Lats",
     "group": "back",
     "region": "upper",
-    "weeklySetTarget": [10, 20],
+    "weeklySetTarget": [8, 20],
     "image": "assets/muscles/lats.jpg"
   },
   {
@@ -36,7 +36,7 @@
     "name": "Upper Back",
     "group": "back",
     "region": "upper",
-    "weeklySetTarget": [8, 16],
+    "weeklySetTarget": [6, 14],
     "image": "assets/muscles/upper-back.jpg"
   },
   {
@@ -44,7 +44,7 @@
     "name": "Traps",
     "group": "back",
     "region": "upper",
-    "weeklySetTarget": [4, 12],
+    "weeklySetTarget": [1, 5],
     "image": "assets/muscles/traps.jpg"
   },
   {
@@ -61,7 +61,7 @@
     "name": "Front Delts",
     "group": "shoulders",
     "region": "upper",
-    "weeklySetTarget": [6, 12],
+    "weeklySetTarget": [5, 13],
     "image": "assets/muscles/front-delts.jpg"
   },
   {
@@ -69,7 +69,7 @@
     "name": "Side Delts",
     "group": "shoulders",
     "region": "upper",
-    "weeklySetTarget": [8, 18],
+    "weeklySetTarget": [4, 14],
     "image": "assets/muscles/side-delts.jpg"
   },
   {
@@ -77,7 +77,7 @@
     "name": "Rear Delts",
     "group": "shoulders",
     "region": "upper",
-    "weeklySetTarget": [6, 16],
+    "weeklySetTarget": [4, 12],
     "image": "assets/muscles/rear-delts.jpg"
   },
   {
@@ -85,7 +85,7 @@
     "name": "Biceps",
     "group": "biceps",
     "region": "upper",
-    "weeklySetTarget": [8, 16],
+    "weeklySetTarget": [6, 16],
     "image": "assets/muscles/biceps.jpg"
   },
   {
@@ -93,7 +93,7 @@
     "name": "Triceps",
     "group": "triceps",
     "region": "upper",
-    "weeklySetTarget": [8, 16],
+    "weeklySetTarget": [8, 18],
     "image": "assets/muscles/triceps.jpg"
   },
   {
@@ -101,7 +101,7 @@
     "name": "Forearms",
     "group": "forearms",
     "region": "upper",
-    "weeklySetTarget": [2, 8],
+    "weeklySetTarget": [1, 6],
     "image": "assets/muscles/forearms.jpg"
   },
   {
@@ -109,7 +109,7 @@
     "name": "Quads",
     "group": "quads",
     "region": "lower",
-    "weeklySetTarget": [10, 20],
+    "weeklySetTarget": [6, 16],
     "image": "assets/muscles/quads.jpg"
   },
   {
@@ -117,7 +117,7 @@
     "name": "Hamstrings",
     "group": "hamstrings",
     "region": "lower",
-    "weeklySetTarget": [8, 16],
+    "weeklySetTarget": [6, 14],
     "image": "assets/muscles/hamstrings.jpg"
   },
   {
@@ -125,7 +125,7 @@
     "name": "Glutes",
     "group": "glutes",
     "region": "lower",
-    "weeklySetTarget": [8, 16],
+    "weeklySetTarget": [7, 15],
     "image": "assets/muscles/glutes.jpg"
   },
   {
@@ -133,7 +133,7 @@
     "name": "Abductors",
     "group": "glutes",
     "region": "lower",
-    "weeklySetTarget": [4, 10],
+    "weeklySetTarget": [3, 8],
     "note": "Gluteus medius and minimus — the muscles that move the leg away from the midline. Distinct from the gluteus maximus that 'Glutes' covers.",
     "image": "assets/muscles/abductors.jpg"
   },
@@ -142,7 +142,7 @@
     "name": "Adductors",
     "group": "quads",
     "region": "lower",
-    "weeklySetTarget": [2, 8],
+    "weeklySetTarget": [4, 10],
     "image": "assets/muscles/adductors.jpg"
   },
   {
@@ -150,7 +150,7 @@
     "name": "Calves",
     "group": "calves",
     "region": "lower",
-    "weeklySetTarget": [6, 14],
+    "weeklySetTarget": [3, 10],
     "image": "assets/muscles/calves.jpg"
   },
   {
@@ -158,7 +158,7 @@
     "name": "Abs",
     "group": "core",
     "region": "core",
-    "weeklySetTarget": [6, 14],
+    "weeklySetTarget": [8, 18],
     "image": "assets/muscles/abs.jpg"
   },
   {
@@ -166,7 +166,7 @@
     "name": "Obliques",
     "group": "core",
     "region": "core",
-    "weeklySetTarget": [4, 10],
+    "weeklySetTarget": [6, 16],
     "image": "assets/muscles/obliques.jpg"
   }
 ]

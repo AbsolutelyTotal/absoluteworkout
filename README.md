@@ -172,8 +172,18 @@ the page.
 - A **primary** mover counts as a full set, a **secondary** as a half — the
   conventional way to credit indirect work without ignoring it.
 - Only **ticked** sets count. Unticked ones are dropped when you finish.
-- Targets come from `weeklySetTarget` on each muscle, falling back to
-  `settings.defaultSetTarget`.
+- **History compares the week against what the active split prescribes**, not
+  against an absolute ideal. The bar is what you did; the marker is the plan.
+  Derived, so there are no numbers to keep in sync.
+
+  It used to compare against generic 10-20 sets/week literature ranges, which
+  flagged **16 of 20 muscles as under-target** on a deliberately compact 3-day
+  plan. A metric that fires on almost everything conveys nothing, and it buried
+  the two findings that mattered (calves and lower chest at zero).
+- `weeklySetTarget` on a muscle is still used by the **Library**, to judge
+  whether a split gives that muscle enough work across the week. Those values are
+  **calibrated to this program**, not imported from the literature — see the note
+  in `types.ts` before changing them.
 - Estimated 1RM uses Epley. It's reliable in the 1–12 rep range and overstates
   above that, which is why the UI labels it an estimate.
 

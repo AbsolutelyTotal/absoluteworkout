@@ -556,15 +556,16 @@ main {
   border-radius: 3px;
   overflow: hidden;
 }
-/* Target range drawn behind the bar — state is read from position against the
-   band plus the text label, never from bar colour. */
-.vol-band {
+/* A single reference marker at the planned volume. A line is the right mark for
+   one value; the band this replaced implied a range that never existed. */
+.vol-target {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  background: var(--band);
-  border-left: 1px solid rgba(57, 135, 229, 0.5);
-  border-right: 1px solid rgba(57, 135, 229, 0.5);
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--text-2);
+  border-radius: 1px;
 }
 .vol-bar {
   position: relative;
@@ -573,6 +574,10 @@ main {
   border-radius: 0 4px 4px 0;
   min-width: 2px;
 }
+/* Met or exceeded: a slightly lighter step of the SAME hue, so it reads as
+   emphasis rather than a second category. Never a different colour — the text
+   label carries the verdict. */
+.vol-bar.met { background: var(--ramp-4); }
 .vol-meta {
   display: flex;
   align-items: center;

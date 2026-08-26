@@ -118,47 +118,57 @@ export function prescriptionLine(p) {
 }
 
 /**
- * One volume row: bar length carries magnitude, the target band sits behind it,
- * and state is spelled out in text with an icon. Colour never carries state —
- * status-good vs status-critical is ΔE 4.1 under deuteranopia, so a red/green
- * under-vs-over indicator would be unreadable for a red-green colourblind
- * reader. One hue plus a labelled band says the same thing to everyone.
+ * One volume row: bar length is what you actually did, and a vertical marker
+ * sits at what the plan prescribed.
+ *
+ * The band this replaced compared actual volume against generic
+ * hypertrophy-literature ranges, which flagged 16 of 20 muscles as "under" on a
+ * deliberately compact 3-day plan — a metric that fires on almost everything
+ * tells you nothing. Comparing against the plan's own prescription answers the
+ * question actually worth asking mid-week: did I do the work?
+ *
+ * Colour never carries the verdict — status-good vs status-critical is ΔE 4.1
+ * under deuteranopia, so a red/green done-vs-short indicator would be
+ * unreadable for a red-green colourblind reader. The marker position and the
+ * text label say it instead.
  */
-export function volumeRow(name, sets, target, scaleMax) {
+export function volumeRow(name, actual, planned, scaleMax) {
   const pct = (v) => `${Math.min(100, (v / scaleMax) * 100)}%`;
 
-  // A null target means "deliberately not trained" (e.g. lower back under the
-  // L5-S1 constraints). Show the volume, but no band and no under/over verdict —
-  // flagging it as "under target" would invert the intent.
-  if (!target) {
+  // Not prescribed by this split at all — show what was done, but don't imply a
+  // shortfall against a target that doesn't exist.
+  if (!planned) {
     return html`<div class="vol-row">
       <div class="vol-name">${name}</div>
       <div class="vol-track" role="img"
-           aria-label="${`${name}: ${fmt.sets(sets)} sets, no target set`}">
-        <div class="vol-bar" style="width:${pct(sets)}"></div>
+           aria-label="${`${name}: ${fmt.sets(actual)} sets, not in this split's plan`}">
+        <div class="vol-bar" style="width:${pct(actual)}"></div>
       </div>
       <div class="vol-meta">
-        <span class="sets">${fmt.sets(sets)}</span>
-        <span class="state">no target</span>
+        <span class="sets">${fmt.sets(actual)}</span>
+        <span class="state">${actual > 0 ? 'extra' : 'not planned'}</span>
       </div>
     </div>`;
   }
 
-  const [lo, hi] = target;
-  let icon = '✓', state = 'on target';
-  if (sets < lo) { icon = '↓'; state = 'under'; }
-  else if (sets > hi) { icon = '↑'; state = 'over'; }
+  const short = planned - actual;
+  let state;
+  if (actual === 0) state = 'not done';
+  else if (short > 0.4) state = `${fmt.sets(short)} short`;
+  else if (actual - planned > 0.4) state = `✓ +${fmt.sets(actual - planned)}`;
+  else state = '✓ done';
 
   return html`<div class="vol-row">
     <div class="vol-name">${name}</div>
     <div class="vol-track" role="img"
-         aria-label="${`${name}: ${fmt.sets(sets)} sets, target ${lo} to ${hi}, ${state}`}">
-      <div class="vol-band" style="left:${pct(lo)};width:${pct(hi - lo)}"></div>
-      <div class="vol-bar" style="width:${pct(sets)}"></div>
+         aria-label="${`${name}: ${fmt.sets(actual)} of ${fmt.sets(planned)} planned sets, ${state}`}">
+      <div class="vol-bar${actual >= planned - 0.4 ? ' met' : ''}" style="width:${pct(actual)}"></div>
+      <div class="vol-target" style="left:${pct(planned)}"
+           title="${`planned: ${fmt.sets(planned)} sets`}"></div>
     </div>
     <div class="vol-meta">
-      <span class="sets">${fmt.sets(sets)}</span>
-      <span class="state">${`${icon} ${state}`}</span>
+      <span class="sets">${`${fmt.sets(actual)}/${fmt.sets(planned)}`}</span>
+      <span class="state">${state}</span>
     </div>
   </div>`;
 }

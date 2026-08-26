@@ -110,28 +110,33 @@ function volumeCard(db, split, thisWeek, settings) {
   // missing from the list is the thing you most want to notice.
   const ids = [...new Set([...Object.keys(planned), ...Object.keys(actual)])]
     .filter(id => db.muscleById[id])
-    .sort((a, b) => (actual[b] ?? 0) - (actual[a] ?? 0));
+    .sort((a, b) => {
+      // Biggest shortfall first: that's the actionable end of the list.
+      const gapA = (planned[a] ?? 0) - (actual[a] ?? 0);
+      const gapB = (planned[b] ?? 0) - (actual[b] ?? 0);
+      if (gapB !== gapA) return gapB - gapA;
+      return (actual[b] ?? 0) - (actual[a] ?? 0);
+    });
 
   if (!ids.length) return '';
 
-  // `null` is meaningful (deliberately untargeted); only `undefined` falls back.
-  const targets = Object.fromEntries(ids.map(id => {
-    const t = db.muscleById[id].weeklySetTarget;
-    return [id, t === undefined ? settings.defaultSetTarget : t];
-  }));
   const scaleMax = Math.max(
-    ...ids.map(id => Math.max(actual[id] ?? 0, targets[id] ? targets[id][1] : 0)), 1
-  ) * 1.05;
+    ...ids.map(id => Math.max(actual[id] ?? 0, planned[id] ?? 0)), 1
+  ) * 1.08;
+
+  const totalPlanned = Object.values(planned).reduce((a, b) => a + b, 0);
+  const totalActual = ids.reduce((a, id) => a + (actual[id] ?? 0), 0);
 
   return html`<div class="card">
     <div class="spread">
-      <h3>Sets this week, by muscle</h3>
-      <span class="badge">${`target band = ${split.name}`}</span>
+      <h3>This week against the plan</h3>
+      <span class="badge">${`${fmt.sets(totalActual)} / ${fmt.sets(totalPlanned)} sets`}</span>
     </div>
     <div class="ex-sub" style="margin-bottom:10px">
-      Primary movers count as one set, secondary as a half. Shaded band is the weekly target range.
+      Bar is what you did; the marker is what ${split.name} prescribes for a full
+      week. Primary movers count as one set, secondary as a half.
     </div>
-    ${ids.map(id => volumeRow(db.muscleById[id].name, actual[id] ?? 0, targets[id], scaleMax))}
+    ${ids.map(id => volumeRow(db.muscleById[id].name, actual[id] ?? 0, planned[id] ?? 0, scaleMax))}
   </div>`;
 }
 

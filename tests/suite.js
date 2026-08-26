@@ -94,6 +94,16 @@ export async function run(scratch) {
       return eq(bad, [], 'dangling: ');
     });
     check('loader reports no issues', () => eq(db.issues, [], 'issues: '));
+    check('every muscle and exercise entry has an id', () => {
+      // Guards against documentation or comments being smuggled into a data
+      // array, which would render as a nameless row and index under `undefined`.
+      const bad = [
+        ...db.muscles.filter(m => !m.id).map(() => 'muscle without id'),
+        ...db.exercises.filter(e => !e.id).map(() => 'exercise without id')
+      ];
+      eq(bad, [], 'entries: ');
+      return eq(db.muscleById['undefined'], undefined, 'undefined key: ');
+    });
     check('every exercise declares an image', () => {
       const missing = db.exercises.filter(e => !e.image).map(e => e.id);
       return eq(missing, [], 'without image: ');
