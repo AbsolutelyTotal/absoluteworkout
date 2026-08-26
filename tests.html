@@ -19,7 +19,7 @@
   .case.p .mark { color: #6ee06e; }
   .case.f .mark { color: #f0a3a3; }
   .case .nm { flex: 1 1 auto; }
-  .case .dt { color: var(--muted); font-size: 11.5px; text-align: right; max-width: 45%; }
+  .case .dt { color: var(--ink-2); font-size: 11.5px; text-align: right; max-width: 45%; }
   .case.f .dt { color: #f0a3a3; }
   #scratch { position: absolute; left: -99999px; width: 380px; }
 </style>
@@ -69,7 +69,7 @@ try {
   out.innerHTML =
     `<div class="tally">
        <span class="n ${fail ? 'fail' : 'pass'}">${pass}/${results.length}</span>
-       <span style="color:var(--muted)">${fail ? `${fail} failing` : 'all passing'}</span>
+       <span style="color:var(--ink-2)">${fail ? `${fail} failing` : 'all passing'}</span>
      </div>` +
     groups.map(g => `<div class="grp card">
       <div class="section-label">${esc(g)}</div>

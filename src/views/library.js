@@ -183,7 +183,7 @@ function exerciseDetail(db, ex) {
   return html`
     <div class="row" style="align-items:flex-start;gap:12px">
       ${equipmentIcon(ex)}
-      <div style="flex:1 1 auto;min-width:0">
+      <div class="ex-titles">
         <h3>${ex.name}</h3>
         <div class="ex-sub">
           ${`${ex.pattern} · ${(ex.equipment ?? []).join(' / ')}`}${ex.unilateral ? ' · unilateral' : ''}

@@ -1,69 +1,103 @@
-/* absoluteworkout — dark-only. Structural tokens follow terroir; the viz tokens
-   are the validated set (see README § Charts before changing any --series-*). */
+/* ===========================================================================
+   absoluteworkout — visual system
+   ---------------------------------------------------------------------------
+   Warm blush cream ground with a dot lattice, vermilion primary, butter
+   secondary, deep navy ink, and hard offset shadows with no blur. Anton
+   condensed caps for display, Inter for everything else.
+
+   Two rules worth knowing before editing:
+
+   1. VERMILION IS UI CHROME, NOT DATA. The volume chart uses --series and
+      --series-met (two steps of one blue hue) so a chart colour can never be
+      confused with an accent. Status good vs critical sit at dE 4.1 under
+      deuteranopia, so no verdict in this app is carried by colour alone — the
+      marker position and the text label say it.
+   2. INPUTS ARE 16px. Below that, iOS Safari zooms the page on focus. You tap
+      ~19 fields in a session; 14px means 19 involuntary zooms.
+   =========================================================================== */
+
+/* Self-hosted so the app makes no third-party requests and works offline.
+   Latin subsets only — 59KB for both. */
+@font-face {
+  font-family: 'Anton';
+  src: url('assets/fonts/anton-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'InterVar';
+  src: url('assets/fonts/inter-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  --bg: #14161c;
-  --surface: #1c1f27;
-  --surface-2: #232732;
-  --surface-3: #2b3040;
+  /* ground + ink */
+  --cream: #fdf2ea;
+  --card: #fff9f4;
+  --white: #ffffff;
+  --ink: #1f2124;
+  --ink-2: #6b6d72;
+  --ink-3: #a3a5aa;
 
-  --text: #ecebe6;
-  --text-2: #c3c2b7;
-  --muted: #898781;
+  /* accents — chrome only */
+  --verm: #ef4a1f;
+  --butter: #fbd96b;
+  --navy: #2b2c6b;
+  --lav: #ccd0f2;
 
-  --line: rgba(255, 255, 255, 0.08);
-  --line-strong: rgba(255, 255, 255, 0.16);
+  /* the dot lattice */
+  --dot: #e9b493;
 
-  /* Brand accent — UI chrome only. Deliberately never used as a data colour,
-     so it can't be mistaken for a series or a status. */
-  --accent: #d3f26a;
-  --accent-ink: #14161c;
+  /* data layer — one hue, two steps. Never an accent colour. */
+  --series: #2f6fa8;
+  --series-met: #6fa3cf;
 
-  /* Data layer. Single hue: magnitude is read from bar length, not colour. */
-  --series-1: #3987e5;
-  --grid: #2c2f38;
-  --baseline: #383c46;
-  --band: rgba(57, 135, 229, 0.10);   /* weekly target range */
-
-  /* Ordinal ramp, dark→light for increasing magnitude on a dark surface.
-     Validated on --surface: monotone L, all ΔL gaps >= 0.06, single hue. */
-  --ramp-1: #184f95;
-  --ramp-2: #256abf;
-  --ramp-3: #3987e5;
-  --ramp-4: #86b6ef;
-  --ramp-0: #232732;                  /* zero — recedes into the surface */
-
-  /* Status. Ships with an icon + label, never colour alone: good vs critical
-     is ΔE 4.1 under deuteranopia. */
-  --good: #0ca30c;
-  --warning: #fab219;
+  /* status. Icon + label always; never colour alone. */
   --critical: #d03b3b;
 
-  --radius: 10px;
-  --radius-sm: 6px;
+  --line: rgba(43, 44, 107, 0.16);
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 5px 5px 0 var(--lav);
+  --shadow-sm: 3px 3px 0 var(--lav);
+
+  --display: Anton, 'Arial Narrow', sans-serif;
+  --body: InterVar, system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-
 html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--body);
   font-size: 14px;
   line-height: 1.55;
-  color: var(--text);
-  background: var(--bg);
+  color: var(--ink);
+  background-color: var(--cream);
+  /* the lattice — fixed so it reads as paper the app sits on, not wallpaper
+     that scrolls with the content */
+  background-image: radial-gradient(circle, var(--dot) 1.15px, transparent 1.15px);
+  background-size: 21px 21px;
+  background-position: 6px 6px;
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4 { margin: 0; font-weight: 600; line-height: 1.25; }
-
+h1, h2, h3, h4 { margin: 0; font-weight: 400; line-height: 1.1; }
+h2, h3 { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.1px; }
+h2 { font-size: 27px; }
+h3 { font-size: 17px; }
 button { font: inherit; color: inherit; }
+a { color: var(--verm); }
 
-a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; }
 
 /* ---------- App bar ---------- */
 
@@ -75,115 +109,129 @@ header.appbar {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  height: 48px;
-  padding: 0 16px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
+  height: 50px;
+  padding-left: max(15px, env(safe-area-inset-left));
+  padding-right: max(15px, env(safe-area-inset-right));
+  background: var(--white);
+  border-bottom: 2px solid var(--navy);
 }
 
 .wordmark {
   display: flex;
   align-items: baseline;
   gap: 7px;
-  font-size: 13.5px;
+  font-family: var(--display);
+  font-size: 19px;
+  text-transform: uppercase;
+  color: var(--verm);
 }
-.wordmark .mark { font-weight: 700; color: var(--accent); letter-spacing: 0.2px; }
-.wordmark .sep { color: var(--line-strong); }
-.wordmark .tag { color: var(--text-2); font-weight: 500; }
+.wordmark .mark { color: var(--verm); }
+.wordmark .mark b { font-weight: 400; color: var(--navy); }
+.wordmark .sep { display: none; }        /* the two-tone wordmark carries it */
+.wordmark .tag {
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  color: var(--navy);
+  background: var(--butter);
+  border: 2px solid var(--navy);
+  border-radius: 6px;
+  padding: 2px 7px;
+  box-shadow: var(--shadow-sm);
+}
 
-.appbar-actions { display: flex; align-items: center; gap: 8px; }
+.appbar-actions { display: flex; align-items: center; gap: 9px; }
 
 .icon-link, .icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
-  border: 1px solid var(--line-strong);
-  background: transparent;
-  color: var(--text-2);
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--navy);
+  background: var(--butter);
+  color: var(--navy);
   text-decoration: none;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s, box-shadow 0.1s;
 }
-.icon-link:hover, .icon-btn:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: var(--line-strong);
-  color: var(--text);
-}
+.icon-link:hover, .icon-btn:hover { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--lav); }
+.icon-link:active, .icon-btn:active { transform: translate(3px, 3px); box-shadow: none; }
 .icon-link svg, .icon-btn svg { width: 15px; height: 15px; display: block; }
 
 /* ---------- Tabs ---------- */
 
 nav.tabs {
   position: sticky;
-  top: 48px;
+  top: 50px;
   z-index: 40;
   display: flex;
-  gap: 2px;
-  padding: 0 16px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-  overflow-x: auto;
-  scrollbar-width: none;
+  background: var(--white);
+  border-bottom: 2px solid var(--navy);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
-nav.tabs::-webkit-scrollbar { display: none; }
-
 nav.tabs button {
-  flex: 0 0 auto;
-  padding: 11px 14px 9px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 11px 4px 10px;
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
+  border-right: 1px solid var(--line);
+  font-family: var(--display);
+  font-size: 11.5px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-2);
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: background 0.12s, color 0.12s;
 }
-nav.tabs button:hover { color: var(--text-2); }
-nav.tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
+nav.tabs button:last-child { border-right: none; }
+nav.tabs button:hover { background: var(--cream); }
+nav.tabs button[aria-selected="true"] { background: var(--verm); color: var(--white); }
 
 /* ---------- Layout ---------- */
 
 main {
   max-width: 940px;
   margin: 0 auto;
-  padding: 18px 16px 72px;
+  padding-top: 16px;
+  padding-left: max(15px, env(safe-area-inset-left));
+  padding-right: max(15px, env(safe-area-inset-right));
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
 }
 
 .view[hidden] { display: none; }
-
 .stack { display: flex; flex-direction: column; gap: 14px; }
 .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .spread { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 
 .section-label {
-  font-size: 10.5px;
-  font-weight: 700;
+  font-family: var(--display);
+  font-size: 11.5px;
+  letter-spacing: 1.3px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--muted);
+  color: var(--navy);
 }
 
 .card {
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: var(--card);
+  border: 2px solid var(--navy);
   border-radius: var(--radius);
-  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  padding: 13px 14px;
 }
 
 .empty {
-  padding: 40px 20px;
+  padding: 34px 20px;
   text-align: center;
-  color: var(--muted);
-  background: var(--surface);
-  border: 1px dashed var(--line-strong);
+  color: var(--ink-2);
+  background: var(--card);
+  border: 2px dashed var(--navy);
   border-radius: var(--radius);
 }
-.empty .hint { margin-top: 8px; font-size: 12.5px; }
+.empty .hint { margin-top: 8px; font-size: 12.5px; color: var(--ink-3); }
 
 /* ---------- Chips ---------- */
 
@@ -191,35 +239,30 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 12px;
+  padding: 6px 13px;
   border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-2);
+  border: 2px solid var(--navy);
+  background: var(--white);
+  color: var(--ink);
   font-size: 12.5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-.chip:hover { background: rgba(255, 255, 255, 0.09); color: var(--text); }
-.chip[aria-pressed="true"] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-ink);
   font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
 }
+.chip:hover { background: var(--cream); }
+.chip[aria-pressed="true"] { background: var(--verm); border-color: var(--navy); color: var(--white); }
+.chip[aria-pressed="true"] .badge { background: var(--white); color: var(--verm); border-color: var(--white); }
 
 .badge {
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
   border-radius: 999px;
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  color: var(--text-2);
+  background: var(--butter);
+  border: 1.5px solid var(--navy);
+  color: var(--navy);
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -230,162 +273,62 @@ main {
   align-items: center;
   justify-content: center;
   gap: 7px;
-  padding: 9px 16px;
+  padding: 11px 17px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
-  background: var(--surface-2);
-  color: var(--text);
+  border: 2px solid var(--navy);
+  background: var(--white);
+  color: var(--navy);
+  font-family: var(--display);
   font-size: 13px;
-  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s, box-shadow 0.1s, opacity 0.12s;
 }
-.btn:hover { background: var(--surface-3); }
-.btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn.primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-ink);
-}
-.btn.primary:hover { filter: brightness(1.07); }
-.btn.danger { color: #f0a3a3; border-color: rgba(208, 59, 59, 0.45); }
-.btn.danger:hover { background: rgba(208, 59, 59, 0.14); }
-.btn.sm { padding: 6px 11px; font-size: 12px; }
+.btn:hover { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--lav); }
+.btn:active { transform: translate(3px, 3px); box-shadow: none; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: var(--shadow-sm); }
+.btn.primary { background: var(--butter); }
+.btn.danger { background: var(--white); color: var(--critical); border-color: var(--critical); box-shadow: 3px 3px 0 rgba(208, 59, 59, 0.25); }
+.btn.sm { padding: 7px 12px; font-size: 11.5px; }
 
-/* ---------- Icons: machines + muscle map ---------- */
-
-.icon-eq {
-  width: 26px;
-  height: 26px;
-  flex: 0 0 auto;
-  color: var(--text-2);
+.btn.add-exercise {
+  width: 100%;
+  padding: 13px;
+  background: var(--butter);
 }
 
-.ex-icons {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 0 0 auto;
-  padding-top: 2px;
-}
+/* ---------- Form fields ---------- */
 
-.icon-eq-box {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
+/* 16px is not a style choice: iOS Safari zooms the page when focusing an input
+   under 16px, and a session means ~19 taps. */
+.field,
+.sets-grid input {
+  width: 100%;
+  padding: 8px 10px;
   border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  overflow: hidden;
-}
-
-/* Real photo, when data/exercises.json supplies `image`. Sized to the source
-   3:2 aspect so there's no crop — a gym photo squeezed into a 38px square is an
-   unrecognisable patch, which defeats the point. */
-.ex-photo {
-  flex: 0 0 auto;
-  width: 78px;
-  height: 52px;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  overflow: hidden;
-  cursor: zoom-in;
-  transition: border-color 0.15s;
-}
-.ex-photo:hover { border-color: var(--accent); }
-.ex-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-/* Lightbox */
-#photo-dialog { width: min(760px, calc(100vw - 24px)); padding: 0; border: none; background: transparent; }
-#photo-dialog img { width: 100%; height: auto; display: block; border-radius: var(--radius); }
-/* Stacked, on its own opaque strip. Side-by-side spans collided at 375px and
-   the transparent dialog let the page behind bleed through the text. */
-#photo-dialog figcaption {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-top: 8px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  font-size: 13px;
+  border: 2px solid var(--navy);
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--body);
   font-weight: 600;
-  color: var(--text);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
 }
-#photo-dialog .src { font-size: 11px; font-weight: 400; color: var(--muted); }
+.field::placeholder, .sets-grid input::placeholder { color: var(--ink-3); font-weight: 500; }
+.sets-grid input { text-align: center; }
 
-.demo-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--accent);
-  text-decoration: none;
-}
-.demo-link:hover { text-decoration: underline; }
-
-/* Body map. Outline recedes; the highlighted region is the whole point. */
-.bodymap { display: block; }
-.bodymap .bm-outline {
-  fill: var(--surface-3);
-  stroke: var(--line-strong);
-  stroke-width: 1;
-}
-.bodymap .r-on { fill: var(--accent); }
-.bodymap .r-sec { fill: var(--accent); opacity: 0.35; }
-
-.bodymap-pair { display: inline-flex; gap: 6px; align-items: flex-start; }
-
-.bodymap-box {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 6px 8px;
+.swap-select {
+  max-width: 130px;
+  padding: 7px 9px;
   border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-}
-
-.map-legend {
-  display: flex;
-  gap: 14px;
-  margin-top: 8px;
-  font-size: 11.5px;
-  color: var(--muted);
-}
-.map-legend span { display: inline-flex; align-items: center; gap: 5px; }
-.map-legend i {
-  width: 10px; height: 10px; border-radius: 2px;
-  background: var(--accent); display: inline-block;
-}
-.map-legend i.sec { opacity: 0.35; }
-
-/* ---------- Safety callouts ---------- */
-
-.limit {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 8px 14px 0;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(250, 178, 25, 0.12);
-  border: 1px solid rgba(250, 178, 25, 0.45);
-  color: #f3d18a;
-  font-size: 11.5px;
+  border: 2px solid var(--navy);
+  background: var(--butter);
+  color: var(--navy);
+  font-family: var(--body);
   font-weight: 600;
-}
-
-.support-tag {
-  font-size: 11px;
-  color: var(--muted);
+  font-size: 16px;
 }
 
 /* ---------- Exercise / prescription rows ---------- */
@@ -393,201 +336,305 @@ main {
 .block + .block { margin-top: 16px; }
 .block-name {
   margin-bottom: 8px;
-  font-size: 10.5px;
-  font-weight: 700;
+  font-family: var(--display);
+  font-size: 11.5px;
+  letter-spacing: 1.3px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--muted);
+  color: var(--navy);
 }
 
 .ex {
-  border: 1px solid var(--line);
+  background: var(--card);
+  border: 2px solid var(--navy);
   border-radius: var(--radius);
-  background: var(--surface);
+  box-shadow: var(--shadow);
   overflow: hidden;
 }
-.ex + .ex { margin-top: 8px; }
+.ex + .ex { margin-top: 13px; }
 
 .ex-head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: 11px;
+  padding: 12px 13px;
 }
-.ex-name { font-size: 14.5px; font-weight: 600; }
-.ex-sub { margin-top: 3px; font-size: 12.5px; color: var(--muted); }
-.ex-pres {
-  flex: 0 0 auto;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
+/* Was an inline style on four call sites, which silently outranked the mobile
+   basis override below. */
+.ex-titles { flex: 1 1 auto; min-width: 0; }
+.ex-name {
+  font-family: var(--display);
+  font-size: 16.5px;
+  line-height: 1.06;
+  text-transform: uppercase;
 }
-.ex-pres .sets { font-size: 15px; font-weight: 700; }
-.ex-pres .rest { font-size: 11.5px; color: var(--muted); }
+.ex-sub { margin-top: 3px; font-size: 11.5px; color: var(--ink-2); font-weight: 500; }
+.ex-pres { flex: 0 0 auto; text-align: right; font-variant-numeric: tabular-nums; }
+.ex-pres .sets { font-family: var(--display); font-size: 14px; color: var(--verm); letter-spacing: 0.3px; }
+.ex-pres .rest { font-size: 11px; color: var(--ink-2); }
 
 .cues {
   margin: 0;
-  padding: 0 14px 12px 30px;
-  color: var(--text-2);
+  padding: 0 13px 12px 30px;
+  color: var(--ink);
   font-size: 12.5px;
 }
-.cues li { margin: 2px 0; }
+.cues li { margin: 3px 0; }
 
-.note {
-  padding: 8px 14px 12px;
-  font-size: 12.5px;
-  color: var(--text-2);
+.note { padding: 8px 13px 12px; font-size: 12.5px; color: var(--ink-2); }
+.note.progression { color: var(--verm); font-weight: 600; }
+
+.support-tag { font-size: 11px; color: var(--ink-3); font-weight: 500; }
+
+/* A hard execution stop, not general advice. Butter + border + icon, never
+   colour alone. */
+.limit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 13px 0;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: var(--butter);
+  border: 1.5px solid var(--navy);
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 700;
 }
-.note.progression { color: var(--accent); }
+
+.demo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--verm);
+  text-decoration: none;
+}
+.demo-link:hover { text-decoration: underline; }
+
+/* ---------- Exercise art ---------- */
+
+.ex-icons { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; }
+
+.icon-eq-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--navy);
+  background: var(--white);
+  overflow: hidden;
+}
+.icon-eq { width: 24px; height: 24px; flex: 0 0 auto; color: var(--navy); }
+
+/* Sized to the source 3:2 so there's no crop — a wide illustration squeezed
+   into a square is an unreadable patch. */
+.ex-photo {
+  flex: 0 0 auto;
+  width: 88px;
+  height: 60px;
+  padding: 0;
+  border: 2px solid var(--navy);
+  border-radius: var(--radius-sm);
+  background: var(--cream);
+  overflow: hidden;
+  cursor: zoom-in;
+  transition: transform 0.1s;
+}
+.ex-photo:hover { transform: translate(-1px, -1px); }
+.ex-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ex-photo.static { display: inline-flex; width: 58px; height: 40px; cursor: default; }
+.ex-photo.static:hover { transform: none; }
 
 /* ---------- Set logger ---------- */
 
 .sets-grid {
   display: grid;
-  grid-template-columns: 26px 1fr 1fr 42px;
-  gap: 6px;
+  grid-template-columns: 18px 1fr 1fr 42px minmax(60px, auto);
+  gap: 7px;
   align-items: center;
-  padding: 0 14px 12px;
+  padding: 0 13px 12px;
 }
 .sets-grid .col-label {
-  font-size: 10px;
-  font-weight: 700;
+  font-family: var(--display);
+  font-size: 9.5px;
+  letter-spacing: 1.1px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--muted);
+  color: var(--ink-2);
 }
+.sets-grid .col-label.prev { text-align: right; }
 .sets-grid .idx {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--muted);
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-}
-.sets-grid input {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
-  background: var(--bg);
-  color: var(--text);
-  font: inherit;
-  font-variant-numeric: tabular-nums;
+  font-family: var(--display);
+  font-size: 12.5px;
+  color: var(--navy);
   text-align: center;
 }
-.sets-grid input:focus {
-  outline: 2px solid var(--series-1);
-  outline-offset: -1px;
-  border-color: transparent;
+.prev-set {
+  font-size: 11px;
+  color: var(--ink-2);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
 }
-.sets-grid input::placeholder { color: var(--muted); }
 
 .set-done {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
-  background: var(--surface-2);
-  color: var(--muted);
+  border: 2px solid var(--navy);
+  background: var(--white);
+  color: var(--ink-3);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  box-shadow: 2px 2px 0 var(--lav);
+  transition: transform 0.1s, box-shadow 0.1s, background 0.12s;
 }
-.set-done:hover { background: var(--surface-3); color: var(--text-2); }
+.set-done:hover { background: var(--cream); }
 .set-done[aria-pressed="true"] {
-  background: rgba(12, 163, 12, 0.16);
-  border-color: var(--good);
-  color: #6ee06e;
+  background: var(--verm);
+  color: var(--white);
+  box-shadow: 2px 2px 0 var(--navy);
+  transform: translate(1px, 1px);
 }
-.set-done svg { width: 15px; height: 15px; }
+.set-done svg { width: 16px; height: 16px; }
 
-/* A logged set recedes — the eye should land on what's still to do. */
-.sets-grid input.logged {
-  opacity: 0.6;
-  border-color: rgba(12, 163, 12, 0.35);
+/* A logged set recedes so the eye lands on what's still to do. */
+.sets-grid input.logged { background: var(--cream); color: var(--ink-2); }
+
+/* ---------- Tappable exercise name ---------- */
+
+/* block, not inline-flex: as a flex container a name that wraps to two lines is
+   a single item, so the dot lands to the right of the whole block instead of
+   after the last word. */
+.ex-name.tappable-name {
+  display: block;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
 }
+.ex-name.tappable-name:hover { color: var(--verm); }
+.name-tail { white-space: nowrap; }
+.info-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  color: var(--ink-3);
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  margin-left: 5px;
+  vertical-align: 2px;
+}
+.ex-name.tappable-name:hover .info-dot { color: var(--verm); }
+
+.ex-tools { display: inline-flex; gap: 6px; flex: 0 0 auto; }
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--navy);
+  background: var(--white);
+  color: var(--navy);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--lav);
+  transition: transform 0.1s, box-shadow 0.1s, background 0.12s;
+}
+.tool-btn:hover { background: var(--butter); }
+.tool-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+.tool-btn.danger { color: var(--critical); border-color: var(--critical); }
 
 /* ---------- Stat tiles ---------- */
 
-.tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px;
-}
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: 11px; }
 .tile {
-  padding: 13px 15px;
-  background: var(--surface);
-  border: 1px solid var(--line);
+  padding: 12px 13px;
+  background: var(--card);
+  border: 2px solid var(--navy);
   border-radius: var(--radius);
+  box-shadow: 4px 4px 0 var(--lav);
 }
 .tile .label {
-  font-size: 10.5px;
-  font-weight: 700;
+  font-family: var(--display);
+  font-size: 9.5px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  letter-spacing: 0.9px;
-  color: var(--muted);
+  color: var(--ink-2);
 }
 .tile .value {
-  margin-top: 5px;
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--text);
+  font-family: var(--display);
+  font-size: 28px;
+  line-height: 1.05;
+  margin-top: 4px;
+  color: var(--verm);
 }
-.tile .unit { font-size: 13px; font-weight: 600; color: var(--text-2); margin-left: 3px; }
-.tile .sub { margin-top: 3px; font-size: 12px; color: var(--muted); }
+.tile .unit { font-size: 14px; color: var(--ink-2); margin-left: 3px; }
+.tile .sub { margin-top: 3px; font-size: 11px; color: var(--ink-2); }
+.tile-more { margin-top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.4px; color: var(--verm); }
 
-/* ---------- Volume bars ---------- */
+.tile.tappable { text-align: left; cursor: pointer; font: inherit; color: inherit; transition: transform 0.1s, box-shadow 0.1s; }
+.tile.tappable:hover { transform: translate(1px, 1px); box-shadow: 3px 3px 0 var(--lav); }
 
+/* ---------- Volume rows ---------- */
+
+/* Bar is what you did; the marker is what the plan prescribes. One hue, two
+   steps — never an accent, so a chart value can't be read as a status. */
 .vol-row {
   display: grid;
-  grid-template-columns: 104px 1fr 96px;
+  grid-template-columns: 96px 1fr 92px;
   align-items: center;
   gap: 10px;
   padding: 5px 0;
 }
-.vol-name { font-size: 12.5px; color: var(--text-2); }
+.vol-name { font-size: 12.5px; font-weight: 600; }
 
 .vol-track {
   position: relative;
   height: 16px;
-  background: var(--surface-2);
-  border-radius: 3px;
+  background: var(--white);
+  border: 2px solid var(--navy);
+  border-radius: 8px;
   overflow: hidden;
 }
-/* A single reference marker at the planned volume. A line is the right mark for
-   one value; the band this replaced implied a range that never existed. */
+.vol-bar { position: relative; height: 100%; background: var(--series); min-width: 2px; }
+.vol-bar.met { background: var(--series-met); }
 .vol-target {
   position: absolute;
   top: -2px;
   bottom: -2px;
-  width: 2px;
-  margin-left: -1px;
-  background: var(--text-2);
-  border-radius: 1px;
+  width: 2.5px;
+  margin-left: -1.25px;
+  background: var(--navy);
 }
-.vol-bar {
-  position: relative;
-  height: 100%;
-  background: var(--series-1);
-  border-radius: 0 4px 4px 0;
-  min-width: 2px;
-}
-/* Met or exceeded: a slightly lighter step of the SAME hue, so it reads as
-   emphasis rather than a second category. Never a different colour — the text
-   label carries the verdict. */
-.vol-bar.met { background: var(--ramp-4); }
 .vol-meta {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 11.5px;
+  color: var(--ink-2);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.vol-meta .sets { font-weight: 700; color: var(--text-2); }
+.vol-meta .sets { font-weight: 700; color: var(--ink); }
 .vol-meta .state { font-size: 11px; }
 
 /* ---------- Weekly trend ---------- */
@@ -598,74 +645,58 @@ main {
   gap: 3px;
   height: 96px;
   padding-top: 6px;
-  border-bottom: 1px solid var(--baseline);
+  border-bottom: 2px solid var(--navy);
 }
-.trend-col {
-  flex: 1 1 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-  cursor: default;
-}
+.trend-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
 .trend-bar {
-  background: var(--series-1);
+  background: var(--series);
+  border: 2px solid var(--navy);
+  border-bottom: none;
   border-radius: 4px 4px 0 0;
-  min-height: 2px;
+  min-height: 3px;
   transition: filter 0.12s;
 }
-.trend-col:hover .trend-bar { filter: brightness(1.25); }
-.trend-bar.zero { background: var(--surface-2); }
-.trend-axis {
-  display: flex;
-  gap: 3px;
-  margin-top: 5px;
-}
+.trend-col:hover .trend-bar { filter: brightness(1.15); }
+.trend-bar.zero { background: var(--cream); }
+.trend-axis { display: flex; gap: 3px; margin-top: 5px; }
 .trend-axis span {
   flex: 1 1 0;
   min-width: 0;
   font-size: 9.5px;
-  color: var(--muted);
+  color: var(--ink-2);
   text-align: center;
   overflow: hidden;
   white-space: nowrap;
 }
 
-/* ---------- Table ---------- */
+/* ---------- Tables ---------- */
 
-table.data {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
+table.data { width: 100%; border-collapse: collapse; font-size: 13px; }
 table.data th {
   text-align: left;
   padding: 7px 8px;
-  font-size: 10.5px;
-  font-weight: 700;
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 1.1px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--muted);
-  border-bottom: 1px solid var(--line-strong);
+  color: var(--navy);
+  border-bottom: 2px solid var(--navy);
 }
 table.data td {
   padding: 8px;
   border-bottom: 1px solid var(--line);
-  color: var(--text-2);
+  color: var(--ink-2);
   font-variant-numeric: tabular-nums;
 }
-table.data td.name { color: var(--text); font-variant-numeric: normal; }
+table.data td.name { color: var(--ink); font-weight: 600; font-variant-numeric: normal; }
 table.data tr:last-child td { border-bottom: none; }
 
-/* ---------- Library cross-reference ---------- */
+/* ---------- Library ---------- */
 
 .lib-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-@media (min-width: 720px) {
-  .lib-grid { grid-template-columns: 1fr 1fr; }
-}
+@media (min-width: 720px) { .lib-grid { grid-template-columns: 1fr 1fr; } }
 
-.lib-list { display: flex; flex-direction: column; gap: 4px; }
+.lib-list { display: flex; flex-direction: column; gap: 6px; }
 .lib-item {
   display: flex;
   align-items: center;
@@ -674,69 +705,157 @@ table.data tr:last-child td { border-bottom: none; }
   width: 100%;
   padding: 8px 11px;
   border-radius: var(--radius-sm);
-  border: 1px solid transparent;
-  background: var(--surface-2);
+  border: 2px solid var(--navy);
+  background: var(--white);
   text-align: left;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 0.12s;
 }
-.lib-item:hover { background: var(--surface-3); }
-.lib-item[aria-pressed="true"] { border-color: var(--accent); background: var(--surface-3); }
-.lib-item .n { font-size: 13px; color: var(--text); }
-.lib-item .m { font-size: 11.5px; color: var(--muted); }
+.lib-item:hover { background: var(--cream); }
+.lib-item[aria-pressed="true"] { background: var(--butter); }
+.lib-item .n { font-size: 13px; font-weight: 600; }
+.lib-item .m { font-size: 11px; color: var(--ink-2); }
 
-/* ---------- Banner ---------- */
+.muscle-figure {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 0;
+  border: 2px solid var(--navy);
+  border-radius: var(--radius);
+  background: var(--cream);
+  overflow: hidden;
+  cursor: zoom-in;
+}
+.muscle-figure img { width: 100%; height: auto; display: block; }
+
+/* SVG body-map fallback, used only when a muscle has no image. */
+.bodymap { display: block; }
+.bodymap .bm-outline { fill: var(--white); stroke: var(--navy); stroke-width: 1.5; }
+.bodymap .r-on { fill: var(--verm); }
+.bodymap .r-sec { fill: var(--verm); opacity: 0.35; }
+.bodymap-pair { display: inline-flex; gap: 6px; align-items: flex-start; }
+.bodymap-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 9px;
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  border: 2px solid var(--navy);
+}
+.map-legend { display: flex; gap: 14px; margin-top: 8px; font-size: 11.5px; color: var(--ink-2); }
+.map-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.map-legend i { width: 10px; height: 10px; border-radius: 2px; background: var(--verm); display: inline-block; }
+.map-legend i.sec { opacity: 0.35; }
+
+/* ---------- Banners ---------- */
 
 .banner {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 11px 14px;
+  padding: 11px 13px;
   border-radius: var(--radius);
+  border: 2px solid var(--navy);
   font-size: 12.5px;
-  border: 1px solid;
 }
-.banner.warn {
-  background: rgba(250, 178, 25, 0.10);
-  border-color: rgba(250, 178, 25, 0.4);
-  color: #f3d18a;
-}
-.banner.info {
-  background: rgba(57, 135, 229, 0.10);
-  border-color: rgba(57, 135, 229, 0.4);
-  color: #b7d3f6;
-}
+.banner.warn { background: var(--butter); color: var(--navy); }
+.banner.info { background: var(--lav); color: var(--navy); }
 .banner .icon { flex: 0 0 auto; font-weight: 700; }
 .banner ul { margin: 6px 0 0; padding-left: 18px; }
+.banner code { background: rgba(255, 255, 255, 0.5); padding: 0 3px; border-radius: 3px; }
 
-/* ---------- Dialog ---------- */
+/* ---------- Dialogs ---------- */
 
+/* Viewport units, not `calc(100% - Npx)`: for an element in the top layer the
+   percentage basis is unreliable and once collapsed a dialog to the width of
+   its close button. */
 dialog {
-  width: min(460px, calc(100vw - 32px));
-  padding: 20px 22px;
-  border: 1px solid var(--line-strong);
+  width: min(460px, calc(100vw - 28px));
+  padding: 17px 18px calc(18px + env(safe-area-inset-bottom));
+  border: 2px solid var(--navy);
   border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--text);
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 6px 6px 0 var(--lav);
 }
-dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px); }
-dialog h3 { margin-bottom: 6px; font-size: 15px; }
-dialog p { margin: 0 0 14px; font-size: 13px; color: var(--text-2); }
+dialog::backdrop { background: rgba(43, 44, 107, 0.35); backdrop-filter: blur(2px); }
+dialog h3 { margin-bottom: 7px; }
+dialog p { margin: 0 0 14px; font-size: 13px; color: var(--ink-2); }
 dialog textarea {
   width: 100%;
   min-height: 120px;
   padding: 10px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
-  background: var(--bg);
-  color: var(--text);
+  border: 2px solid var(--navy);
+  background: var(--white);
+  color: var(--ink);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 12px;
   resize: vertical;
 }
-dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
 
-/* ---------- Sticky session footer ---------- */
+#photo-dialog { width: min(760px, calc(100vw - 24px)); padding: 0; border: none; background: transparent; box-shadow: none; }
+#photo-dialog img { width: 100%; height: auto; display: block; border: 2px solid var(--navy); border-radius: var(--radius); }
+#photo-dialog figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 9px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--navy);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--display);
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+#photo-dialog .src { font-family: var(--body); font-size: 11px; font-weight: 400; text-transform: none; color: var(--ink-2); }
+
+/* The flex layout MUST be scoped to [open]: a closed <dialog> is display:none
+   via the UA stylesheet, and an unconditional display would defeat it — which
+   once left the picker rendered on every page. */
+#picker-dialog { width: min(520px, calc(100vw - 24px)); max-height: 82vh; }
+#picker-dialog[open] { display: flex; flex-direction: column; }
+.picker-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 11px; }
+#picker-dialog [data-role="body"] { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.picker-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.picker-list { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0; }
+.picker-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--navy);
+  background: var(--white);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.picker-item:hover { background: var(--butter); }
+.pi-text { display: flex; flex-direction: column; min-width: 0; }
+.pi-name { font-size: 14px; font-weight: 600; }
+.pi-meta { font-size: 11px; color: var(--ink-2); }
+
+#exercise-dialog { width: min(520px, calc(100vw - 24px)); max-height: 86vh; overflow-y: auto; }
+.detail-photo {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 12px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--navy);
+  background: var(--cream);
+}
+
+/* ---------- Session footer ---------- */
 
 .session-footer {
   position: fixed;
@@ -748,300 +867,36 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 10px 16px;
-  background: var(--surface);
-  border-top: 1px solid var(--line-strong);
+  padding: 10px 15px calc(10px + env(safe-area-inset-bottom));
+  background: var(--white);
+  border-top: 2px solid var(--navy);
 }
-.session-footer .progress { font-size: 12.5px; color: var(--text-2); font-variant-numeric: tabular-nums; }
-
-@media (max-width: 520px) {
-  .vol-row { grid-template-columns: 84px 1fr 78px; }
-  .tile .value { font-size: 22px; }
-  main { padding: 14px 12px 76px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
-}
-
-/* Non-interactive variant, for use inside a <button> (Library list rows). */
-.ex-photo.static { display: inline-flex; width: 56px; height: 38px; cursor: default; }
-.ex-photo.static:hover { border-color: var(--line); }
-
-/* ---------- Form fields ---------- */
-
-/* 16px is not a style choice: iOS Safari auto-zooms the whole page when you
-   focus an input under 16px. In a session you tap ~19 of these, so a 14px field
-   means 19 involuntary zooms. Applies to every text-entry field in the app. */
-.field,
-.sets-grid input {
-  width: 100%;
-  padding: 9px 11px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
-  background: var(--bg);
-  color: var(--text);
-  font-family: inherit;
-  font-size: 16px;
-}
-.field::placeholder { color: var(--muted); }
-
-.swap-select {
-  max-width: 130px;
-  padding: 6px 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
-  background: var(--surface-2);
-  color: var(--text-2);
-  font-family: inherit;
-  font-size: 16px;               /* same iOS zoom rule applies to <select> */
-}
-
-/* ---------- Safe area (viewport-fit=cover is set, so we must opt in) ---------- */
-
-header.appbar,
-nav.tabs {
-  padding-left: max(16px, env(safe-area-inset-left));
-  padding-right: max(16px, env(safe-area-inset-right));
-}
-main {
-  padding-left: max(16px, env(safe-area-inset-left));
-  padding-right: max(16px, env(safe-area-inset-right));
-  padding-bottom: calc(72px + env(safe-area-inset-bottom));
-}
-.session-footer {
-  padding-bottom: calc(10px + env(safe-area-inset-bottom));
-}
+.session-footer .progress { font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* ---------- Phones ---------- */
 
 @media (max-width: 560px) {
-  /* The exercise header is a 3-column row (icons | name | prescription). Below
-     ~560px there isn't room, and the name column gets squeezed so hard it wraps
-     mid-word and interleaves with the prescription — "Incline3 x 6-8 tempo".
-     Stack instead: icons + name on one row, prescription on its own. */
+  h2 { font-size: 24px; }
+
+  /* The exercise header is icons | name | prescription. Below ~560px the name
+     column gets squeezed enough to wrap mid-word and interleave with the
+     prescription, so stack instead. */
   .ex-head { flex-wrap: wrap; }
-  .ex-head > div:not(.ex-icons):not(.ex-pres) { flex: 1 1 140px; min-width: 0; }
-  .ex-pres {
-    flex: 1 1 100%;
-    order: 3;
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-top: 2px;
-    text-align: left;
-  }
+  /* Basis 0, not auto: on auto the name column's hypothetical size plus the photo
+     and the swap button overflow the row on longer names, so the button wrapped
+     onto row 2 on some cards and not others. Basis 0 keeps row 1 fixed. */
+  .ex-titles { flex-basis: 0; }
+  .ex-pres { flex: 1 1 100%; order: 3; display: flex; align-items: baseline; gap: 10px; margin-top: 2px; text-align: left; }
   .ex-pres .rest { order: 2; }
   .swap-select { order: 3; flex: 1 1 100%; max-width: none; margin-top: 8px; }
 
-  /* The inline figure is ~17px wide at row height — it conveys nothing on a
-     phone. The exercise already names its muscles in text, and the Library
-     shows the map full size. */
-  .ex-icons .bodymap { display: none; }
+  .sets-grid { grid-template-columns: 16px 1fr 1fr 38px minmax(52px, auto); gap: 6px; }
+  .vol-row { grid-template-columns: 84px 1fr 84px; }
 
-  /* Long day names ("Push & Anti-Rotation Core") shouldn't squash the button. */
   .card > .spread { flex-wrap: wrap; }
   .card > .spread > .btn { flex: 1 1 100%; }
-
-  main { padding-top: 14px; }
-  .cues { padding-left: 28px; }
 }
 
-/* ---------- Exercise tools (swap / remove) ---------- */
-
-.ex-tools { display: inline-flex; gap: 6px; flex: 0 0 auto; }
-
-.tool-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
-  background: var(--surface-2);
-  color: var(--text-2);
-  font-size: 17px;
-  line-height: 1;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-.tool-btn:hover { background: var(--surface-3); color: var(--text); border-color: var(--accent); }
-.tool-btn.danger { color: #f0a3a3; border-color: rgba(208, 59, 59, 0.4); }
-.tool-btn.danger:hover { background: rgba(208, 59, 59, 0.14); border-color: var(--critical); }
-
-.btn.add-exercise {
-  width: 100%;
-  padding: 13px;
-  border-style: dashed;
-  color: var(--accent);
-  border-color: rgba(211, 242, 106, 0.4);
-  background: transparent;
-}
-.btn.add-exercise:hover { background: rgba(211, 242, 106, 0.08); border-color: var(--accent); }
-
-/* ---------- Exercise picker ---------- */
-
-#picker-dialog {
-  width: min(520px, calc(100vw - 24px));
-  max-height: 82vh;
-  padding: 16px 18px calc(18px + env(safe-area-inset-bottom));
-}
-/* The flex layout MUST be scoped to [open]. A closed <dialog> is display:none
-   via the UA stylesheet, and an unconditional `display: flex` overrides that —
-   which left the picker permanently rendered at the foot of every view. */
-#picker-dialog[open] {
-  display: flex;
-  flex-direction: column;
-}
-.picker-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-.picker-head h3 { font-size: 15px; }
-
-.picker-filters { display: flex; flex-wrap: wrap; gap: 6px; }
-
-#picker-dialog [data-role="body"] {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
-
-.picker-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  min-height: 0;
-}
-
-.picker-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line);
-  background: var(--surface-2);
-  text-align: left;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-}
-.picker-item:hover { background: var(--surface-3); border-color: var(--accent); }
-.pi-text { display: flex; flex-direction: column; min-width: 0; }
-.pi-name { font-size: 14px; color: var(--text); }
-.pi-meta { font-size: 11.5px; color: var(--muted); }
-
-/* Generated muscle art in the Library detail, replacing the schematic SVG map. */
-.muscle-figure {
-  display: block;
-  width: 100%;
-  margin-top: 12px;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-2);
-  overflow: hidden;
-  cursor: zoom-in;
-  transition: border-color 0.15s;
-}
-.muscle-figure:hover { border-color: var(--accent); }
-.muscle-figure img { width: 100%; height: auto; display: block; }
-
-/* ---------- Tappable stat tile ---------- */
-
-.tile.tappable {
-  text-align: left;
-  cursor: pointer;
-  font: inherit;
-  color: inherit;
-  transition: border-color 0.15s, background 0.15s;
-}
-.tile.tappable:hover { border-color: var(--accent); background: var(--surface-2); }
-.tile .tile-more {
-  margin-top: 6px;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  color: var(--accent);
-}
-
-/* ---------- Per-set previous performance ---------- */
-
-/* A 5th column: what this set was last time. The old single summary line above
-   the grid was too easy to miss when you're looking at one row mid-set. */
-.sets-grid { grid-template-columns: 26px 1fr 1fr 42px minmax(64px, auto); }
-.sets-grid .col-label.prev { text-align: right; }
-.prev-set {
-  font-size: 11.5px;
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-  white-space: nowrap;
-}
-
-/* ---------- Tappable exercise name in the Log view ---------- */
-
-.ex-name.tappable-name {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0;
-  border: none;
-  background: none;
-  font-size: 14.5px;
-  font-weight: 600;
-  text-align: left;
-  cursor: pointer;
-}
-.ex-name.tappable-name:hover { color: var(--accent); }
-.info-dot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  border: 1.5px solid currentColor;
-  color: var(--muted);
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 1;
-}
-.ex-name.tappable-name:hover .info-dot { color: var(--accent); }
-
-/* ---------- Exercise detail sheet ---------- */
-
-#exercise-dialog {
-  /* Viewport units, not `calc(100% - 24px)`: for an element in the top layer the
-     percentage basis is unreliable, and it resolved to a few px here — the
-     dialog shrank to the width of its close button. `min()` against vw has no
-     such dependency. */
-  width: min(520px, calc(100vw - 24px));
-  max-height: 86vh;
-  overflow-y: auto;
-  padding: 16px 18px calc(18px + env(safe-area-inset-bottom));
-}
-.detail-photo {
-  width: 100%;
-  height: auto;
-  display: block;
-  margin-top: 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line);
-}
-
-@media (max-width: 560px) {
-  /* Keep the last-time column, but let the inputs stay usable. */
-  .sets-grid { grid-template-columns: 22px 1fr 1fr 38px minmax(56px, auto); }
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
 }

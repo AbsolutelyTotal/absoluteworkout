@@ -71,6 +71,9 @@ Then open <http://localhost:8080>.
 - **Vanilla HTML / CSS / JS**, native ES modules, no dependencies and no CDN.
 - **localStorage** for logged sessions. No backend, no account, no network calls.
 - **Hand-curated JSON** as the data store.
+- **Self-hosted fonts** — Anton for display, Inter for body, latin subsets in
+  `assets/fonts/` at 59KB total. Not Google-hosted: the page makes zero
+  third-party requests, so it also works with no network at all.
 
 ### Why modules, when terroir is a single file
 
@@ -97,8 +100,8 @@ data/               the data store (below)
 
 | File | Count | What it is |
 | --- | --- | --- |
-| `muscles.json` | 20 | Muscles, their roll-up group, and weekly set targets |
-| `exercises.json` | 27 | The exercise library — what each movement is |
+| `muscles.json` | 21 | Muscles, their roll-up group, and weekly set targets |
+| `exercises.json` | 31 | The exercise library — what each movement is |
 | `splits.json` | 2 | The 3-day and 4-day rotations |
 | `profiles.json` | 1 | Constraint profiles. Each split runs under one. |
 | `exercises-extended.json` | 0 | Movements only unrestricted profiles may load (empty today) |
@@ -189,15 +192,16 @@ the page.
 
 ## 🎨 Charts
 
-The data layer uses **one hue** (`--series-1`) plus a target band. Under / on /
-over target is carried by an **icon and a text label, never by colour** — the
-status-good and status-critical steps sit at ΔE 4.1 under deuteranopia, so a
-red/green under-vs-over indicator would be unreadable for a red-green colourblind
-reader. The ordinal ramp (`--ramp-1` … `--ramp-4`) is validated on the app
-surface for monotone lightness, step separation and single hue.
+The data layer uses **one hue in two steps** — `--series` and `--series-met` —
+and nothing else. Under / on / over target is carried by a **text label, never by
+colour**: a red/green under-vs-over indicator sits at ΔE 4.1 under deuteranopia,
+so it would be unreadable for a red-green colourblind reader. The bar tells you
+how much; the words tell you whether it was enough.
 
-The brand accent (`--accent`) is deliberately **never** used as a data colour, so
-it can't be mistaken for a series or a status.
+The accents (`--verm`, `--butter`, `--navy`, `--lav`) are chrome only and
+deliberately **never** data colours, so they can't be mistaken for a series or a
+status. There is no spare `--good` or `--warning` token — one existed, went
+unused, and was removed precisely so it couldn't be reached for here.
 
 If you change these, re-validate rather than eyeballing it.
 
@@ -243,7 +247,7 @@ imagery is the open item.
 python3 -m http.server 8080
 ```
 
-Then open <http://localhost:8080/tests.html> — 52 cases, no framework and no
+Then open <http://localhost:8080/tests.html> — 54 cases, no framework and no
 dependencies. It drives the real modules against the real DOM: it starts
 sessions, clicks checkmarks, taps `+ set`, sweeps every picker filter, and
 asserts on what actually landed in the store.

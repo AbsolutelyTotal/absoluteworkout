@@ -133,7 +133,7 @@ function exerciseRow(db, p) {
       <div class="ex-icons">
         ${equipmentIcon(ex)}
       </div>
-      <div style="flex:1 1 auto;min-width:0">
+      <div class="ex-titles">
         <div class="ex-name">${ex.name}</div>
         <div class="ex-sub">${muscles}${ex.unilateral ? ' · per side' : ''}</div>
         ${ex.support ? html`<div class="support-tag">${`support: ${ex.support.replace(/-/g, ' ')}`}</div>` : ''}

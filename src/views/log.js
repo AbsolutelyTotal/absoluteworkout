@@ -147,6 +147,17 @@ function startedAt(session) {
   return new Date(session.startedAt).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
 }
 
+// The info dot is bound to the final word so it can't be widowed onto a line of
+// its own when the name wraps.
+function nameHead(name) {
+  const i = name.lastIndexOf(' ');
+  return i === -1 ? '' : name.slice(0, i + 1);
+}
+function nameTail(name) {
+  const i = name.lastIndexOf(' ');
+  return i === -1 ? name : name.slice(i + 1);
+}
+
 function entryCard(db, session, entry, prescription, settings) {
   const ex = db.exerciseById[entry.exerciseId];
   const name = ex?.name ?? entry.exerciseId;
@@ -159,7 +170,7 @@ function entryCard(db, session, entry, prescription, settings) {
   if (!ex) {
     return html`<div class="ex" data-exercise="${entry.exerciseId}">
       <div class="ex-head">
-        <div style="flex:1 1 auto;min-width:0">
+        <div class="ex-titles">
           <div class="ex-name">${entry.exerciseId}</div>
           <div class="ex-sub">No longer in the exercise library.</div>
         </div>
@@ -179,9 +190,9 @@ function entryCard(db, session, entry, prescription, settings) {
       <div class="ex-icons">
         ${equipmentIcon(ex)}
       </div>
-      <div style="flex:1 1 auto;min-width:0">
+      <div class="ex-titles">
         <button class="ex-name tappable-name" type="button" data-action="detail">
-          ${name} <span class="info-dot">i</span>
+          ${nameHead(name)}${html`<span class="name-tail">${nameTail(name)}<span class="info-dot">i</span></span>`}
         </button>
         <div class="ex-sub">
           ${prescription ? `${prescription.sets} x ${prescription.reps}` : 'added'}
