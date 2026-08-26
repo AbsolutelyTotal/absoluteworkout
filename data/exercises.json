@@ -15,7 +15,7 @@
       "Press smoothly, no bounce"
     ],
     "setupNotes": "Glutes stay on the bench. Don't arch the lower back to move more weight.",
-    "alternatives": ["machine-chest-press", "incline-smith-press", "flat-bench-press"],
+    "alternatives": ["machine-chest-press", "incline-smith-press", "flat-bench-press", "high-low-cable-fly"],
     "image": "assets/exercises/incline-db-press.jpg"
   },
   {
@@ -29,7 +29,7 @@
     "primaryMuscles": ["mid-chest"],
     "secondaryMuscles": ["front-delts", "triceps"],
     "cues": ["Bring your elbows together at the top", "Back flat against the pad throughout"],
-    "alternatives": ["incline-db-press", "flat-bench-press", "pec-deck-fly"],
+    "alternatives": ["incline-db-press", "flat-bench-press", "pec-deck-fly", "high-low-cable-fly"],
     "image": "assets/exercises/machine-chest-press.jpg"
   },
   {
@@ -62,7 +62,7 @@
       "Controlled descent to the chest"
     ],
     "setupNotes": "Permitted alternative to the machine press, but only with a flat lower back. If you feel the need to arch, switch back to the machine.",
-    "alternatives": ["machine-chest-press", "incline-db-press"],
+    "alternatives": ["machine-chest-press", "incline-db-press", "high-low-cable-fly"],
     "image": "assets/exercises/flat-bench-press.jpg"
   },
   {
@@ -76,8 +76,27 @@
     "primaryMuscles": ["mid-chest"],
     "secondaryMuscles": ["front-delts"],
     "cues": ["Keep a slight bend in the elbows", "Squeeze the chest at the middle", "Control the return"],
-    "alternatives": ["machine-chest-press"],
+    "alternatives": ["machine-chest-press", "high-low-cable-fly"],
     "image": "assets/exercises/pec-deck-fly.jpg"
+  },
+  {
+    "id": "high-low-cable-fly",
+    "name": "High-to-Low Cable Fly",
+    "aliases": ["cable crossover", "decline cable fly", "high to low fly"],
+    "pattern": "isolation",
+    "equipment": ["cable"],
+    "icon": "cable-stack",
+    "image": "assets/exercises/high-low-cable-fly.jpg",
+    "support": "standing-braced",
+    "primaryMuscles": ["lower-chest"],
+    "secondaryMuscles": ["mid-chest"],
+    "cues": [
+      "Sweep down and together, hands finishing in front of the hips",
+      "Slight bend in the elbows, held constant",
+      "Squeeze at the bottom, control the return"
+    ],
+    "setupNotes": "Both pulleys set high. Torso stays upright and braced — no forward lean or hinge, which is what keeps this spine-neutral. The downward angle is what biases the lower chest.",
+    "alternatives": ["pec-deck-fly", "machine-chest-press", "flat-bench-press"]
   },
   {
     "id": "machine-shoulder-press",

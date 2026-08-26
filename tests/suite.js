@@ -94,9 +94,23 @@ export async function run(scratch) {
       return eq(bad, [], 'dangling: ');
     });
     check('loader reports no issues', () => eq(db.issues, [], 'issues: '));
-    check('every exercise has an image that exists as a path', () => {
+    check('every exercise declares an image', () => {
       const missing = db.exercises.filter(e => !e.image).map(e => e.id);
       return eq(missing, [], 'without image: ');
+    });
+    await checkAsync('every declared image actually resolves', async () => {
+      // The previous version of this case only checked the field was present,
+      // so a path pointing at a file that had never been generated passed.
+      const results = await Promise.all(db.exercises.map(async e => {
+        const r = await fetch(e.image, { method: 'HEAD' }).catch(() => ({ ok: false }));
+        return r.ok ? null : e.image;
+      }));
+      const missingMuscles = await Promise.all(db.muscles.map(async m => {
+        if (!m.image) return null;
+        const r = await fetch(m.image, { method: 'HEAD' }).catch(() => ({ ok: false }));
+        return r.ok ? null : m.image;
+      }));
+      return eq([...results, ...missingMuscles].filter(Boolean), [], '404: ');
     });
 
     group('Constraint profile');

@@ -219,7 +219,7 @@
             ]
           },
           {
-            "name": "Hips",
+            "name": "Hips & Calves",
             "items": [
               {
                 "exerciseId": "hip-abduction-machine",
@@ -232,6 +232,13 @@
                 "exerciseId": "hip-adduction-machine",
                 "sets": 3,
                 "reps": "12-15",
+                "tempo": "3:1:2:1",
+                "restSeconds": 60
+              },
+              {
+                "exerciseId": "seated-calf-raise",
+                "sets": 3,
+                "reps": "10-15",
                 "tempo": "3:1:2:1",
                 "restSeconds": 60
               }
@@ -468,7 +475,7 @@
             ]
           },
           {
-            "name": "Hips",
+            "name": "Hips & Calves",
             "items": [
               {
                 "exerciseId": "hip-abduction-machine",
@@ -481,6 +488,13 @@
                 "exerciseId": "hip-adduction-machine",
                 "sets": 3,
                 "reps": "12-15",
+                "tempo": "3:1:2:1",
+                "restSeconds": 60
+              },
+              {
+                "exerciseId": "seated-calf-raise",
+                "sets": 3,
+                "reps": "10-15",
                 "tempo": "3:1:2:1",
                 "restSeconds": 60
               }
@@ -529,6 +543,13 @@
                 "reps": "10-15",
                 "tempo": "3:1:2:1",
                 "restSeconds": 90
+              },
+              {
+                "exerciseId": "high-low-cable-fly",
+                "sets": 2,
+                "reps": "12-15",
+                "tempo": "3:1:2:1",
+                "restSeconds": 75
               }
             ]
           },
