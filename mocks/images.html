@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>absoluteworkout — three ways to handle the exercise art</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#15171c;color:#e8e6e0;font-family:Inter,system-ui,sans-serif;padding:24px 18px 60px}
+.page-h{max-width:1300px;margin:0 auto 22px}
+.page-h h1{margin:0 0 6px;font-size:19px;font-weight:600}
+.page-h p{margin:0;color:#8b8a84;font-size:13px;max-width:70ch;line-height:1.6}
+.rack{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;max-width:1300px;margin:0 auto}
+.col{width:394px}
+.col figcaption{margin:0 0 11px;padding-bottom:9px;border-bottom:1px solid #26282e}
+.col .nm{font-size:14px;font-weight:700}
+.col .nm em{font-style:normal;color:#fbd96b}
+.col .ds{font-size:12px;color:#8b8a84;margin-top:3px;line-height:1.55}
+.col .cost{font-size:11px;color:#c7c9ce;margin-top:6px}
+.phone{height:790px;overflow-y:auto;border-radius:20px}
+
+/* ---------- shared koi system ---------- */
+.k{--cream:#fdf2ea;--cream2:#fff9f4;--verm:#ef4a1f;--butter:#fbd96b;--butter2:#f2c63f;
+   --navy:#2b2c6b;--lav:#ccd0f2;--ink:#1f2124;--ink2:#6b6d72;
+   position:relative;background:var(--cream);color:var(--ink)}
+.k .dots{position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle,#e9b493 1.15px,transparent 1.15px);
+  background-size:21px 21px;background-position:6px 6px;opacity:.85}
+.k .in{position:relative;z-index:1}
+.k .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 15px;
+        background:#fff;border-bottom:2px solid var(--navy)}
+.k .wm{font-family:Anton,sans-serif;font-size:19px;color:var(--verm);text-transform:uppercase}
+.k .wm b{color:var(--navy)}
+.k .pill{font-family:Anton,sans-serif;font-size:9.5px;letter-spacing:1.3px;background:var(--butter);
+   border:2px solid var(--navy);border-radius:6px;padding:3px 7px;color:var(--navy);box-shadow:3px 3px 0 var(--lav)}
+.k .tabs{display:flex;background:#fff;border-bottom:2px solid var(--navy)}
+.k .tabs b{flex:1;text-align:center;font-family:Anton,sans-serif;font-size:11px;letter-spacing:1px;
+   padding:9px 0;color:var(--ink2);text-transform:uppercase}
+.k .tabs b.on{color:#fff;background:var(--verm)}
+.k .body{padding:15px 14px 24px}
+.k h2{font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:.96;margin:0 0 6px;
+      text-transform:uppercase;color:var(--ink)}
+.k h2 em{font-style:normal;color:var(--verm)}
+.k .meta{font-size:11.5px;color:var(--ink2);font-weight:500}
+.k .meta b{color:var(--verm);font-weight:700}
+.k .card{background:var(--cream2);border:2px solid var(--navy);border-radius:12px;
+   box-shadow:5px 5px 0 var(--lav);padding:12px 13px;margin-top:13px;position:relative}
+.k .num{position:absolute;top:11px;right:13px;font-family:Anton,sans-serif;font-size:13px;color:var(--verm)}
+.k .exhead{display:flex;gap:11px;align-items:flex-start;padding-right:44px}
+.k .exhead > span:last-child{min-width:0}
+.k .exn{display:block;font-family:Anton,sans-serif;font-size:16px;line-height:1.06;
+   text-transform:uppercase}
+.k .exm{display:block;font-size:11px;color:var(--ink2);margin-top:3px;font-weight:500}
+.k .grid{display:grid;grid-template-columns:15px 1fr 1fr 38px 48px;gap:6px;align-items:center;margin-top:11px}
+.k .gl{font-family:Anton,sans-serif;font-size:9px;letter-spacing:1px;color:var(--ink2);text-transform:uppercase}
+.k .gl.r{text-align:right}
+.k .i{font-family:Anton,sans-serif;font-size:11.5px;color:var(--navy);text-align:center}
+.k .grid input{background:#fff;border:2px solid var(--navy);border-radius:7px;color:var(--ink);
+   font-family:Inter,sans-serif;font-weight:600;font-size:16px;padding:6px;text-align:center;width:100%}
+.k .grid input::placeholder{color:#bdbfc4;font-weight:500}
+.k .prev{font-size:10.5px;color:var(--ink2);text-align:right;font-weight:500;white-space:nowrap}
+.k .tick{width:32px;height:32px;border:2px solid var(--navy);border-radius:8px;background:#fff;
+   display:grid;place-items:center;box-shadow:2px 2px 0 var(--lav)}
+.k .tick svg{width:16px;height:16px}
+.k .tick.on{background:var(--verm);box-shadow:2px 2px 0 var(--navy)}
+.k .lim{display:inline-block;margin-top:6px;font-size:10px;font-weight:700;background:var(--butter);
+   border:1.5px solid var(--navy);border-radius:5px;padding:2px 6px;color:var(--navy)}
+
+/* the art slot — the only thing that differs between the three routes */
+.slot{width:88px;height:60px;flex:0 0 auto;border:2px solid var(--navy);border-radius:8px;overflow:hidden}
+.slot img{width:100%;height:100%;object-fit:cover;display:block}
+.slot svg{width:100%;height:100%;display:block}
+
+/* ROUTE 2 — the render treated as a deliberate dark viewport */
+.r2 .slot{background:#1c1f27;position:relative;box-shadow:inset 0 0 0 2px rgba(255,255,255,.06)}
+.r2 .slot::after{content:"";position:absolute;inset:0;
+  box-shadow:inset 0 0 14px rgba(43,44,107,.55)}
+
+/* ROUTE 3 — same system, navy ground. Renders keep working. */
+.r3{--cream:#1e1f4a;--cream2:#262759;--ink:#f4efe6;--ink2:#a7a9cf;
+    --navy:#0f1030;--lav:#4a4c96;background:var(--cream);color:var(--ink)}
+.r3 .dots{background-image:radial-gradient(circle,#4a4c96 1.15px,transparent 1.15px);opacity:.7}
+.r3 .bar,.r3 .tabs{background:#171838;border-bottom-color:#0f1030}
+.r3 .wm{color:var(--butter)}
+.r3 .wm b{color:#f4efe6}
+.r3 .tabs b{color:var(--ink2)}
+.r3 .tabs b.on{background:var(--verm);color:#fff}
+.r3 h2{color:var(--ink)}
+.r3 h2 em{color:var(--butter)}
+.r3 .card{background:var(--cream2);border-color:#0f1030;box-shadow:5px 5px 0 #12133a}
+.r3 .grid input{background:#171838;border-color:#0f1030;color:var(--ink)}
+.r3 .grid input::placeholder{color:#6a6c9e}
+.r3 .tick{background:#171838;border-color:#0f1030;box-shadow:2px 2px 0 #12133a}
+.r3 .tick.on{background:var(--verm)}
+.r3 .num{color:var(--butter)}
+.r3 .meta b{color:var(--butter)}
+.r3 .lim{background:var(--butter);color:#1e1f4a;border-color:#0f1030}
+.r3 .pill{background:var(--butter);color:#1e1f4a;border-color:#0f1030;box-shadow:3px 3px 0 #12133a}
+.r3 .slot{border-color:#0f1030}
+</style>
+</head>
+<body>
+
+<div class="page-h">
+  <h1>Three ways to handle the exercise art</h1>
+  <p>Identical screen and content in each — only the art slot changes. Route 1's illustrations are
+     hand-inked SVG stand-ins I drew, so you can judge the <b>style</b>; the real thing would be
+     generated to match, and would be far more detailed.</p>
+</div>
+
+<div class="rack">
+
+  <!-- ================= ROUTE 1 ================= -->
+  <figure class="col" style="margin:0">
+    <figcaption>
+      <div class="nm"><em>1</em> · Redraw as illustration</div>
+      <div class="ds">Regenerate all 52 as navy-ink line art with flat fills on cream. <b>Card 02 is the real generated illustration</b>; 01 and 03 are still my crude SVG stand-ins, for contrast.</div>
+      <div class="cost">~$3 and an evening of prompt iteration · loses photoreal machine detail</div>
+    </figcaption>
+    <div class="phone k r1">
+      <div class="dots"></div>
+      <div class="in">
+        <div class="bar"><div class="wm">absolute<b>workout</b></div><div class="pill">PPL</div></div>
+        <div class="tabs"><b>Plan</b><b class="on">Log</b><b>History</b><b>Library</b></div>
+        <div class="body">
+          <h2>Push &amp;<br><em>Anti-Rotation</em> Core</h2>
+          <div class="meta">3-Day Core Split · <b>5 of 18 sets</b></div>
+
+          <div class="card">
+            <div class="num">/ 01</div>
+            <div class="exhead">
+              <span class="slot" style="background:#fdf2ea">
+                <svg viewBox="0 0 132 90">
+                  <g fill="none" stroke="#2b2c6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 74h84" stroke-width="3.4"/>
+                    <path d="M28 74l8-12M92 74l-6-14" />
+                    <path d="M30 62l58-22" stroke-width="3.6"/>
+                    <path d="M88 40l12-5"/>
+                  </g>
+                  <path d="M46 56c8-6 18-10 26-13l4 9c-9 3-18 7-25 12z" fill="#ef4a1f" opacity=".9"/>
+                  <g fill="none" stroke="#2b2c6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="88" cy="33" r="7.5" fill="#fbd96b"/>
+                    <path d="M74 47c6-2 12-7 12-7"/>
+                    <path d="M70 50l-14 8M56 58l-8 12"/>
+                    <path d="M78 28l-6-12M92 26l4-12"/>
+                    <path d="M62 12h18M64 6v12M78 6v12" stroke-width="3.2"/>
+                    <path d="M96 12h16M98 6v12M110 6v12" stroke-width="3.2"/>
+                  </g>
+                </svg>
+              </span>
+              <span>
+                <span class="exn">Incline Dumbbell Press</span>
+                <span class="exm">Upper chest · 3 × 6–8 · 3:1:2:1</span>
+              </span>
+            </div>
+            <div class="grid">
+              <span></span><span class="gl">kg</span><span class="gl">reps</span><span></span><span class="gl r">last</span>
+              <span class="i">1</span><input value="30"><input value="8">
+                <span class="tick on"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">27.5×8</span>
+              <span class="i">2</span><input value="30"><input value="7">
+                <span class="tick on"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">27.5×7</span>
+              <span class="i">3</span><input placeholder="30"><input placeholder="7">
+                <span class="tick"><svg viewBox="0 0 20 20" fill="none" stroke="#c7c9ce" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">27.5×6</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="num">/ 02</div>
+            <div class="exhead">
+              <span class="slot"><img src="../assets/exercises/machine-chest-press.illus.jpg" alt=""></span>
+              <span>
+                <span class="exn">Machine Chest Press</span>
+                <span class="exm">Mid chest · 3 × 8–10 · 3:1:2:1</span>
+              </span>
+            </div>
+            <div class="grid">
+              <span></span><span class="gl">kg</span><span class="gl">reps</span><span></span><span class="gl r">last</span>
+              <span class="i">1</span><input value="50"><input value="10">
+                <span class="tick on"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">50×10</span>
+              <span class="i">2</span><input placeholder="50"><input placeholder="10">
+                <span class="tick"><svg viewBox="0 0 20 20" fill="none" stroke="#c7c9ce" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">50×9</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="num">/ 03</div>
+            <div class="exhead">
+              <span class="slot" style="background:#fdf2ea">
+                <svg viewBox="0 0 132 90">
+                  <g fill="none" stroke="#2b2c6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M56 76V48M56 48h24" stroke-width="3.4"/>
+                    <path d="M80 76V18" stroke-width="3.6"/>
+                    <path d="M50 76h44"/>
+                    <circle cx="70" cy="28" r="7.5" fill="#fbd96b"/>
+                    <path d="M24 26v44M18 70h14"/>
+                    <path d="M56 48H30" stroke-width="3.4"/>
+                  </g>
+                  <path d="M34 42c8 0 16 2 22 5l-2 9c-6-3-13-5-20-5z" fill="#ef4a1f" opacity=".9"/>
+                  <g fill="none" stroke="#2b2c6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M62 42l-26 4"/>
+                  </g>
+                </svg>
+              </span>
+              <span>
+                <span class="exn">Seated Horizontal Leg Press</span>
+                <span class="exm">Quads, glutes · 3 × 8–10</span>
+                <span class="lim">⚠ Max 90° knee flexion</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </figure>
+
+  <!-- ================= ROUTE 2 ================= -->
+  <figure class="col" style="margin:0">
+    <figcaption>
+      <div class="nm"><em>2</em> · Frame as a viewport</div>
+      <div class="ds">Keep all 52 renders and lean into the contrast: an inner navy glow and a hard
+        border make each one read as a deliberate window rather than a hole.</div>
+      <div class="cost">free, ships today · two visual languages coexisting</div>
+    </figcaption>
+    <div class="phone k r2">
+      <div class="dots"></div>
+      <div class="in">
+        <div class="bar"><div class="wm">absolute<b>workout</b></div><div class="pill">PPL</div></div>
+        <div class="tabs"><b>Plan</b><b class="on">Log</b><b>History</b><b>Library</b></div>
+        <div class="body">
+          <h2>Push &amp;<br><em>Anti-Rotation</em> Core</h2>
+          <div class="meta">3-Day Core Split · <b>5 of 18 sets</b></div>
+
+          <div class="card">
+            <div class="num">/ 01</div>
+            <div class="exhead">
+              <span class="slot"><img src="../assets/exercises/incline-db-press.jpg" alt=""></span>
+              <span><span class="exn">Incline Dumbbell Press</span>
+                <span class="exm">Upper chest · 3 × 6–8 · 3:1:2:1</span></span>
+            </div>
+            <div class="grid">
+              <span></span><span class="gl">kg</span><span class="gl">reps</span><span></span><span class="gl r">last</span>
+              <span class="i">1</span><input value="30"><input value="8">
+                <span class="tick on"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">27.5×8</span>
+              <span class="i">2</span><input value="30"><input value="7">
+                <span class="tick on"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">27.5×7</span>
+              <span class="i">3</span><input placeholder="30"><input placeholder="7">
+                <span class="tick"><svg viewBox="0 0 20 20" fill="none" stroke="#c7c9ce" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">27.5×6</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="num">/ 02</div>
+            <div class="exhead">
+              <span class="slot"><img src="../assets/exercises/machine-chest-press.jpg" alt=""></span>
+              <span><span class="exn">Machine Chest Press</span>
+                <span class="exm">Mid chest · 3 × 8–10 · 3:1:2:1</span></span>
+            </div>
+            <div class="grid">
+              <span></span><span class="gl">kg</span><span class="gl">reps</span><span></span><span class="gl r">last</span>
+              <span class="i">1</span><input value="50"><input value="10">
+                <span class="tick on"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">50×10</span>
+              <span class="i">2</span><input placeholder="50"><input placeholder="10">
+                <span class="tick"><svg viewBox="0 0 20 20" fill="none" stroke="#c7c9ce" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">50×9</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="num">/ 03</div>
+            <div class="exhead">
+              <span class="slot"><img src="../assets/exercises/seated-horizontal-leg-press.jpg" alt=""></span>
+              <span><span class="exn">Seated Horizontal Leg Press</span>
+                <span class="exm">Quads, glutes · 3 × 8–10</span>
+                <span class="lim">⚠ Max 90° knee flexion</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </figure>
+
+  <!-- ================= ROUTE 3 ================= -->
+  <figure class="col" style="margin:0">
+    <figcaption>
+      <div class="nm"><em>3</em> · Same system, navy ground</div>
+      <div class="ds">Keep the koi language — dots, condensed caps, offset shadows, vermilion and
+        butter — but on deep navy. The renders were made for a dark ground, so they sit naturally.</div>
+      <div class="cost">free, ships today · easier to read in a dim gym</div>
+    </figcaption>
+    <div class="phone k r3">
+      <div class="dots"></div>
+      <div class="in">
+        <div class="bar"><div class="wm">absolute<b>workout</b></div><div class="pill">PPL</div></div>
+        <div class="tabs"><b>Plan</b><b class="on">Log</b><b>History</b><b>Library</b></div>
+        <div class="body">
+          <h2>Push &amp;<br><em>Anti-Rotation</em> Core</h2>
+          <div class="meta">3-Day Core Split · <b>5 of 18 sets</b></div>
+
+          <div class="card">
+            <div class="num">/ 01</div>
+            <div class="exhead">
+              <span class="slot"><img src="../assets/exercises/incline-db-press.jpg" alt=""></span>
+              <span><span class="exn">Incline Dumbbell Press</span>
+                <span class="exm">Upper chest · 3 × 6–8 · 3:1:2:1</span></span>
+            </div>
+            <div class="grid">
+              <span></span><span class="gl">kg</span><span class="gl">reps</span><span></span><span class="gl r">last</span>
+              <span class="i">1</span><input value="30"><input value="8">
+                <span class="tick on"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">27.5×8</span>
+              <span class="i">2</span><input value="30"><input value="7">
+                <span class="tick on"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">27.5×7</span>
+              <span class="i">3</span><input placeholder="30"><input placeholder="7">
+                <span class="tick"><svg viewBox="0 0 20 20" fill="none" stroke="#6a6c9e" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">27.5×6</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="num">/ 02</div>
+            <div class="exhead">
+              <span class="slot"><img src="../assets/exercises/machine-chest-press.jpg" alt=""></span>
+              <span><span class="exn">Machine Chest Press</span>
+                <span class="exm">Mid chest · 3 × 8–10 · 3:1:2:1</span></span>
+            </div>
+            <div class="grid">
+              <span></span><span class="gl">kg</span><span class="gl">reps</span><span></span><span class="gl r">last</span>
+              <span class="i">1</span><input value="50"><input value="10">
+                <span class="tick on"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">50×10</span>
+              <span class="i">2</span><input placeholder="50"><input placeholder="10">
+                <span class="tick"><svg viewBox="0 0 20 20" fill="none" stroke="#6a6c9e" stroke-width="3.4" stroke-linecap="round"><path d="M4 11l4.5 4.5L16.5 5"/></svg></span>
+                <span class="prev">50×9</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="num">/ 03</div>
+            <div class="exhead">
+              <span class="slot"><img src="../assets/exercises/seated-horizontal-leg-press.jpg" alt=""></span>
+              <span><span class="exn">Seated Horizontal Leg Press</span>
+                <span class="exm">Quads, glutes · 3 × 8–10</span>
+                <span class="lim">⚠ Max 90° knee flexion</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </figure>
+
+</div>
+</body>
+</html>

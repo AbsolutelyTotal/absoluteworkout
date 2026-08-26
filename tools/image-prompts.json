@@ -2,7 +2,9 @@
   "model": "gemini-3.1-flash-image",
   "style": {
     "exercise": "Clean semi-realistic 3D character render, matte finish, smooth studio look. A single athletic adult man, mid-30s, short dark hair, SHIRTLESS with a bare torso, wearing charcoal athletic shorts and grey training shoes. No shirt, no vest, no tank top. Gym equipment in desaturated mid-grey brushed steel with matte black padding. BACKGROUND: a completely plain, very dark near-black charcoal backdrop, hex #1C1F27, much darker than the figure. No floor line, no horizon, no wall, no room, no windows, no other people, no clutter. EXACTLY ONE piece of equipment in the frame — the single machine being used. No second machine, no duplicate cable tower, no extra frame or rack, and nothing at all behind the figure. The background must be dark, not mid-grey. Soft broad key light from the upper left, gentle rim light along the far edge of the body, no harsh shadows. FRAMING: tight crop. The man and the equipment together fill almost the whole frame, touching or nearly touching the top and bottom edges. Very little empty background. MUSCLE HIGHLIGHT: the target muscle is lit from within with a soft lime-green (#D3F26A) luminescence beneath the skin. It must trace the muscle's TRUE ANATOMICAL FORM at full size — covering the entire muscle belly, both left and right sides symmetrically where the muscle is paired, spanning the muscle's whole real extent across the body. It is NOT a small patch, blob, dot or spot in the middle of the body. The glow fades softly into the surrounding skin with no hard outline or border. It must read as illuminated muscle tissue under translucent skin, and must NOT look like a garment, bra, crop top, vest, sticker, painted patch or hard-edged shape. Absolutely no text, numbers, logos, watermarks, arrows or labels anywhere in the image. 3:2 landscape.",
-    "muscle": "Clean semi-realistic 3D anatomical render, matte finish. Two views of the same standing male figure side by side in one square image: anterior (front) view on the left, posterior (back) view on the right. Athletic adult man, mid-30s, shirtless, plain charcoal shorts, barefoot. Neutral standing pose, arms hanging slightly away from the body, feet shoulder-width. Both figures the same size, aligned, evenly lit, both filling most of the frame vertically. BACKGROUND: completely plain, very dark near-black charcoal, hex #1C1F27, no floor line, no room. The background must be dark, not mid-grey. Soft broad key light from the upper left. The whole body in matte neutral grey-tan. ONLY the named muscle is tinted bright lime green (#D3F26A), following its true anatomical outline and natural striations, with softly feathered edges. Every other muscle stays neutral grey-tan. The tint must read as muscle tissue beneath translucent skin, never as clothing or a painted patch. Absolutely no text, labels, leader lines, logos or watermarks. 1:1 square."
+    "muscle": "Clean semi-realistic 3D anatomical render, matte finish. Two views of the same standing male figure side by side in one square image: anterior (front) view on the left, posterior (back) view on the right. Athletic adult man, mid-30s, shirtless, plain charcoal shorts, barefoot. Neutral standing pose, arms hanging slightly away from the body, feet shoulder-width. Both figures the same size, aligned, evenly lit, both filling most of the frame vertically. BACKGROUND: completely plain, very dark near-black charcoal, hex #1C1F27, no floor line, no room. The background must be dark, not mid-grey. Soft broad key light from the upper left. The whole body in matte neutral grey-tan. ONLY the named muscle is tinted bright lime green (#D3F26A), following its true anatomical outline and natural striations, with softly feathered edges. Every other muscle stays neutral grey-tan. The tint must read as muscle tissue beneath translucent skin, never as clothing or a painted patch. Absolutely no text, labels, leader lines, logos or watermarks. 1:1 square.",
+    "illustrated": "Bold flat vector illustration with a hand-drawn ink line quality — inked with a thick marker, then filled with flat colour. Slightly uneven organic line weight. LINE WEIGHT IS CRITICAL: use THICK, HEAVY outlines throughout, like a silkscreen poster or a children's picture book. No hairlines, no fine detail, no thin interior lines. The image must stay readable when shrunk to the size of a postage stamp. Draw few, large, simple shapes rather than many small ones. NO gradients, NO soft shading, NO photorealism, NO 3D render look. STRICT PALETTE, four colours only: outlines and all line work in deep navy #2B2C6B; flat fills in butter yellow #FBD96B and vermilion orange #EF4A1F; background a plain warm blush cream #FDF2EA. No other colours, no black, no grey. A single figure performing the movement, drawn simply and boldly. The gym equipment drawn in the same heavy navy outline with butter-yellow fills. The target muscle is filled FLAT VERMILION so it is the one hot colour on the figure; everything else on the body stays cream with navy outline only.  MUSCLE HIGHLIGHT COLOUR — ABSOLUTE RULE: the highlighted muscle is VERMILION ORANGE #EF4A1F. Never green, never lime, never yellow-green, never any shade of green at all. There must be NO GREEN ANYWHERE in the image. Green is the conventional colour for muscle diagrams and it is wrong here — if you are inclined to use green for the highlighted muscle, use vermilion orange instead. Exactly one muscle group must be filled vermilion; an image with no vermilion-filled muscle is invalid. FRAMING: a medium shot. The WHOLE figure and the WHOLE machine — including the seat, the backrest and the frame — must be fully visible inside the picture, and together they should fill it with only a thin margin of background. Do NOT crop off the head, the seat, or any part of the machine: the viewer has to be able to identify the machine at a glance. Equally, do not leave large empty areas at the sides. Absolutely no text, numbers, logos, watermarks or labels. 3:2 landscape.",
+    "muscle-illustrated": "Bold flat vector anatomical illustration with a hand-drawn ink quality, inked with a thick marker then filled with flat colour. LINE WEIGHT IS CRITICAL: THICK heavy outlines, like a silkscreen poster. No hairlines and no fine interior detail — do NOT draw individual muscle striations, six-pack divisions, veins or small anatomical lines. Few, large, simple shapes only. It must read when shrunk to a postage stamp. Two views of the same standing male figure side by side in one square image: anterior (front) view on the left, posterior (back) view on the right. Neutral standing pose, arms hanging slightly away from the body. Both figures the same size, aligned, and FILLING THE FRAME vertically — head near the top edge, feet near the bottom edge, almost no empty background. STRICT PALETTE, three colours only: all outlines in deep navy #2B2C6B; the body filled plain warm blush cream #FDF2EA; the named target muscle filled FLAT VERMILION #EF4A1F. Shorts filled butter yellow #FBD96B. No other colours, no black, no grey, no skin tones. The vermilion fill must be ONE large solid region with a HARD CLEAN EDGE exactly at the named muscle's boundary. It is a flat filled shape, not a glow, and must not spill into any neighbouring muscle. NO gradients, NO shading, NO photorealism.  MUSCLE HIGHLIGHT COLOUR — ABSOLUTE RULE: the highlighted muscle is VERMILION ORANGE #EF4A1F. Never green, never lime, never yellow-green, never any shade of green at all. There must be NO GREEN ANYWHERE in the image. Green is the conventional colour for muscle diagrams and it is wrong here — if you are inclined to use green for the highlighted muscle, use vermilion orange instead. Exactly one muscle group must be filled vermilion; an image with no vermilion-filled muscle is invalid. Absolutely no text, labels, leader lines, logos or watermarks. 1:1 square."
   },
   "aspect": {
     "exercise": "3:2",
@@ -24,137 +26,137 @@
     {
       "id": "machine-chest-press",
       "kind": "exercise",
-      "prompt": "Direct side view from his left. He is seated in a chest press machine, back flat against a tall vertical backrest, feet flat on the floor. Both hands grip handles at chest height and press them FORWARD, horizontally away from his chest, to almost-straight arms. The elbows stay tucked in toward the ribcage, not flared wide to the sides. The two weights stay parallel, level and about shoulder-width apart, and do NOT touch or converge. This is a straight-line PRESS, not a fly or a butterfly — the arms never open outwards in a wide sweeping arc. BOTH pectoral muscles glow lime across their full width, from the breastbone out to each shoulder."
+      "prompt": "Side view, medium shot, the whole machine visible and identifiable. He is seated in a seated chest press machine: a low seat, a tall vertical backrest behind him, and a rigid frame standing on the floor. THE HANDLE GEOMETRY IS THE KEY DETAIL: the two lever arms PIVOT FROM A LOW POINT near the BASE of the machine, down beside the seat close to floor level. From that low pivot they rise UPWARD and curve FORWARD, ending in two short handles at chest height, level with his sternum. So the lever arms come from BELOW the handles and travel up to them. There is nothing at all above shoulder height. He grips the handles and pushes them straight forward, horizontally, arms almost straight, elbows low and tucked beside his ribs. CRITICAL — do NOT draw a pec deck or butterfly machine. Nothing descends from above. There are NO arms, pads, bars or cables coming down from over his head or over his shoulders, and NO tall vertical pads beside him. Every moving part starts low and comes up. BOTH pectoral muscles filled flat vermilion across their full width."
     },
     {
       "id": "incline-db-press",
       "kind": "exercise",
-      "prompt": "Side view. He lies on an adjustable bench whose backrest is only slightly raised from flat — about one third of the way up from horizontal to vertical, clearly much closer to flat than to upright. He presses two dumbbells straight up above his upper chest. Glutes and lower back flat on the pad with no arch. The elbows stay tucked in toward the ribcage, not flared wide to the sides. The two weights stay parallel, level and about shoulder-width apart, and do NOT touch or converge. This is a straight-line PRESS, not a fly or a butterfly — the arms never open outwards in a wide sweeping arc. BOTH pectoral muscles glow lime — two symmetrical fan-shaped slabs spanning from the breastbone out to each shoulder, with the upper portion nearest the collarbones brightest."
+      "prompt": "Side view. He lies on an adjustable bench whose backrest is only slightly raised from flat — about one third of the way up from horizontal to vertical, clearly much closer to flat than to upright. He presses two dumbbells straight up above his upper chest. Glutes and lower back flat on the pad with no arch. The elbows stay tucked in toward the ribcage, not flared wide to the sides. The two weights stay parallel, level and about shoulder-width apart, and do NOT touch or converge. This is a straight-line PRESS, not a fly or a butterfly — the arms never open outwards in a wide sweeping arc. BOTH pectoral muscles filled flat vermilion — two symmetrical fan-shaped slabs spanning from the breastbone out to each shoulder."
     },
     {
       "id": "incline-smith-press",
       "kind": "exercise",
-      "prompt": "Side view. He is LYING BACK on a bench inside a Smith machine — a fixed barbell running on two vertical steel rails, one either side. CRITICAL, the torso angle: he is reclined so his torso is much closer to HORIZONTAL than to vertical, only slightly raised from a flat bench press. His head is barely higher than his hips, his shoulders are well behind his hips, and his upper body is clearly lying down rather than sitting up. This is NOT a seated upright position and NOT a shoulder or military press. The bar travels vertically over his CHEST, not over his head or face, and is lowered to upper-chest level just below the collarbones. His elbows stay tucked toward the ribs, not flared straight out. Back and glutes flat on the pad. ONLY both pectoral muscles glow lime, across their full width from the breastbone out to each shoulder, brightest in the upper portion near the collarbones. Every other muscle stays completely un-highlighted in normal matte skin tone, with no green tint or spill."
+      "prompt": "Side view. He is LYING BACK on a bench inside a Smith machine — a fixed barbell running on two vertical steel rails, one either side. CRITICAL, the torso angle: he is reclined so his torso is much closer to HORIZONTAL than to vertical, only slightly raised from a flat bench press. His head is barely higher than his hips, his shoulders are well behind his hips, and his upper body is clearly lying down rather than sitting up. This is NOT a seated upright position and NOT a shoulder or military press. The bar travels vertically over his CHEST, not over his head or face, and is lowered to upper-chest level just below the collarbones. His elbows stay tucked toward the ribs, not flared straight out. Back and glutes flat on the pad. ONLY both pectoral muscles filled flat vermilion, across their full width from the breastbone out to each shoulder. Every other muscle stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint or spill."
     },
     {
       "id": "flat-bench-press",
       "kind": "exercise",
-      "prompt": "Side view. He lies on a flat bench pressing a barbell straight up above his mid-chest, glutes firmly on the bench, lower back completely flat with no arch, feet planted. Elbows tucked toward the ribs, not flared wide. BOTH pectoral muscles glow lime across their full width."
+      "prompt": "Side view. He lies on a flat bench pressing a barbell straight up above his mid-chest, glutes firmly on the bench, lower back completely flat with no arch, feet planted. Elbows tucked toward the ribs, not flared wide. BOTH pectoral muscles filled flat vermilion across their full width."
     },
     {
       "id": "pec-deck-fly",
       "kind": "exercise",
-      "prompt": "Front three-quarter view. He is seated in a pec deck machine, back against the vertical pad, forearms flat against two tall vertical pads, bringing them together in front of his chest. This is a FLY: the arms sweep in a wide arc out to the sides with a fixed slight bend at the elbow. It is not a press. BOTH pectoral muscles glow lime across their full width."
+      "prompt": "Front three-quarter view. He is seated in a pec deck machine, back against the vertical pad, forearms flat against two tall vertical pads, bringing them together in front of his chest. This is a FLY: the arms sweep in a wide arc out to the sides with a fixed slight bend at the elbow. It is not a press. BOTH pectoral muscles filled flat vermilion across their full width."
     },
     {
       "id": "machine-shoulder-press",
       "kind": "exercise",
-      "prompt": "Side view. He is seated in a shoulder press machine with a tall backrest supporting his whole spine, pressing two handles straight up overhead. Torso upright and still, not leaning back. The elbows stay in the plane of the body, not flared far back. ONLY the anterior deltoids — the front cap of each shoulder glow lime. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in normal matte skin tone, with no green tint, wash or spill anywhere else on the body."
+      "prompt": "Side view. He is seated in a shoulder press machine with a tall backrest supporting his whole spine, pressing two handles straight up overhead. Torso upright and still, not leaning back. The elbows stay in the plane of the body, not flared far back. ONLY the anterior deltoids — the front cap of each shoulder filled flat vermilion. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint, wash or spill anywhere else on the body."
     },
     {
       "id": "seated-db-lateral-raise",
       "kind": "exercise",
-      "prompt": "Front view. He sits upright on the end of a bench, torso perfectly vertical and motionless, raising two dumbbells out sideways to exactly shoulder height, leading with the elbows, arms slightly bent, shoulders down not shrugged. BOTH side deltoids glow lime — the full outer cap of each shoulder, not a small dot."
+      "prompt": "Front view. He sits upright on the end of a bench, torso perfectly vertical and motionless, raising two dumbbells out sideways to exactly shoulder height, leading with the elbows, arms slightly bent, shoulders down not shrugged. BOTH side deltoids filled flat vermilion — the full outer cap of each shoulder, not a small dot."
     },
     {
       "id": "cable-lateral-raise",
       "kind": "exercise",
-      "prompt": "Front three-quarter view. He sits upright on a bench beside a SINGLE cable tower — one column only, nothing behind him. The cable runs from a LOW pulley near floor level, across in front of his body, up to a single D-handle in his far hand. He raises that arm out sideways to shoulder height. Torso vertical and still. ONLY the lateral deltoid — the outer cap of the working shoulder glow lime. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in normal matte skin tone, with no green tint, wash or spill anywhere else on the body."
+      "prompt": "Front three-quarter view. He sits upright on a bench beside a SINGLE cable tower — one column only, nothing behind him. The cable runs from a LOW pulley near floor level, across in front of his body, up to a single D-handle in his far hand. He raises that arm out sideways to shoulder height. Torso vertical and still. ONLY the lateral deltoid — the outer cap of the working shoulder filled flat vermilion. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint, wash or spill anywhere else on the body."
     },
     {
       "id": "chest-supported-rear-delt-fly",
       "kind": "exercise",
-      "prompt": "Side three-quarter view. He lies face-down with his chest pressed flat against a bench pad raised roughly halfway between flat and vertical, clearly supported by it, head above the top edge. He raises two dumbbells out sideways and slightly upward. This is a FLY: the arms sweep in a wide arc out to the sides with a fixed slight bend at the elbow. It is not a press. His chest stays in contact with the pad throughout. BOTH rear deltoids glow lime — the full rounded rear cap of each shoulder."
+      "prompt": "Side three-quarter view. He lies face-down with his chest pressed flat against a bench pad raised roughly halfway between flat and vertical, clearly supported by it, head above the top edge. He raises two dumbbells out sideways and slightly upward. This is a FLY: the arms sweep in a wide arc out to the sides with a fixed slight bend at the elbow. It is not a press. His chest stays in contact with the pad throughout. BOTH rear deltoids filled flat vermilion — the full rounded rear cap of each shoulder."
     },
     {
       "id": "reverse-pec-deck",
       "kind": "exercise",
-      "prompt": "Side three-quarter view. He sits facing into a reverse pec deck machine with his chest against the front pad, sweeping two handles backwards and outwards. Rear deltoids glowing lime."
+      "prompt": "Side three-quarter view. He sits facing into a reverse pec deck machine with his chest against the front pad, sweeping two handles backwards and outwards. Rear deltoids filled flat vermilion."
     },
     {
       "id": "overhead-rope-extension",
       "kind": "exercise",
-      "prompt": "Side view, close on the upper body. He is SEATED on a bench with a tall high backrest, his back flat against it. Both hands hold the two ends of a rope attachment BEHIND HIS HEAD, at the base of his skull, with the elbows bent and pointing UP toward the ceiling either side of his ears. From there he extends his forearms upward and slightly forward, straightening the arms overhead. The rope comes from a cable behind the bench, below shoulder level, running up past his shoulder. He is NOT pulling anything down and NOT reaching forward — the hands start low behind the head and finish high above it. ONLY the triceps on the back of both upper arms glow lime. Every other muscle stays completely un-highlighted in normal matte skin tone, with no green tint or spill."
+      "prompt": "Side view, close on the upper body. He is SEATED on a bench with a tall high backrest, his back flat against it. Both hands hold the two ends of a rope attachment BEHIND HIS HEAD, at the base of his skull, with the elbows bent and pointing UP toward the ceiling either side of his ears. From there he extends his forearms upward and slightly forward, straightening the arms overhead. The rope comes from a cable behind the bench, below shoulder level, running up past his shoulder. He is NOT pulling anything down and NOT reaching forward — the hands start low behind the head and finish high above it. ONLY the triceps on the back of both upper arms filled flat vermilion. Every other muscle stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint or spill."
     },
     {
       "id": "tricep-pushdown",
       "kind": "exercise",
-      "prompt": "Side view. He stands upright and braced facing a SINGLE cable tower to one side of him — one column only, nothing behind him. The cable runs from a HIGH pulley at the very TOP of that tower, well ABOVE his head, and comes DOWNWARD to his hands. He grips a straight metal bar attachment with both hands, elbows pinned tight to his sides, and pushes the bar straight down to full arm extension at hip height. Torso vertical, no forward lean. ONLY the triceps on the back of both upper arms glow lime. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in normal matte skin tone, with no green tint, wash or spill anywhere else on the body."
+      "prompt": "Side view. He stands upright and braced facing a SINGLE cable tower to one side of him — one column only, nothing behind him. The cable runs from a HIGH pulley at the very TOP of that tower, well ABOVE his head, and comes DOWNWARD to his hands. He grips a straight metal bar attachment with both hands, elbows pinned tight to his sides, and pushes the bar straight down to full arm extension at hip height. Torso vertical, no forward lean. ONLY the triceps on the back of both upper arms filled flat vermilion. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint, wash or spill anywhere else on the body."
     },
     {
       "id": "lat-pulldown",
       "kind": "exercise",
-      "prompt": "Rear three-quarter view from behind and slightly to his left, so his back is visible. He is seated at a lat pulldown machine with his thighs secured under a padded restraint, pulling a wide bar down toward his upper chest, elbows driving down toward his ribs. Chest tall, minimal lean. ONLY the latissimus dorsi — the broad wings down the sides of the back glow lime. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in normal matte skin tone, with no green tint, wash or spill anywhere else on the body."
+      "prompt": "Rear three-quarter view from behind and slightly to his left, so his back is visible. He is seated at a lat pulldown machine with his thighs secured under a padded restraint, pulling a wide bar down toward his upper chest, elbows driving down toward his ribs. Chest tall, minimal lean. ONLY the latissimus dorsi — the broad wings down the sides of the back filled flat vermilion. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint, wash or spill anywhere else on the body."
     },
     {
       "id": "assisted-pullup",
       "kind": "exercise",
-      "prompt": "Front view. He hangs from a pull-up bar on an assisted pull-up machine, knees resting on a padded platform that counterbalances him, pulling his chest up toward the bar. Lats glowing lime."
+      "prompt": "Front view. He hangs from a pull-up bar on an assisted pull-up machine, knees resting on a padded platform that counterbalances him, pulling his chest up toward the bar. Lats filled flat vermilion."
     },
     {
       "id": "chest-supported-row",
       "kind": "exercise",
-      "prompt": "Side three-quarter view. He lies face-down on a bench whose pad is raised roughly halfway between flat and vertical, his chest and stomach pressed flat against that pad and clearly supported by it, head and shoulders above the top edge. He rows two dumbbells up and back, elbows driving past his ribs, shoulder blades squeezing together. His torso never leaves the pad. Upper back and lats glowing lime."
+      "prompt": "Side three-quarter view. He lies face-down on a bench whose pad is raised roughly halfway between flat and vertical, his chest and stomach pressed flat against that pad and clearly supported by it, head and shoulders above the top edge. He rows two dumbbells up and back, elbows driving past his ribs, shoulder blades squeezing together. His torso never leaves the pad. Upper back and lats filled flat vermilion."
     },
     {
       "id": "straight-arm-cable-pushdown",
       "kind": "exercise",
-      "prompt": "Side view. He stands upright and braced facing a SINGLE cable tower — one column only, nothing behind him. The cable runs from a HIGH pulley at the top of the tower, above head height, down to a straight bar he holds with both hands. Arms almost straight, he sweeps the bar down in a wide arc from head height to his thighs, hinging only at the shoulders. Ribs down, torso rigid. ONLY the latissimus dorsi down the sides of the back glow lime. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in normal matte skin tone, with no green tint, wash or spill anywhere else on the body."
+      "prompt": "Side view. He stands upright and braced facing a SINGLE cable tower — one column only, nothing behind him. The cable runs from a HIGH pulley at the top of the tower, above head height, down to a straight bar he holds with both hands. Arms almost straight, he sweeps the bar down in a wide arc from head height to his thighs, hinging only at the shoulders. Ribs down, torso rigid. ONLY the latissimus dorsi down the sides of the back filled flat vermilion. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint, wash or spill anywhere else on the body."
     },
     {
       "id": "incline-db-curl",
       "kind": "exercise",
-      "prompt": "Side view. He sits back against a bench backrest raised roughly halfway between flat and vertical, arms hanging straight down and slightly behind the line of his torso, curling two dumbbells up. Biceps glowing lime."
+      "prompt": "Side view. He sits back against a bench backrest raised roughly halfway between flat and vertical, arms hanging straight down and slightly behind the line of his torso, curling two dumbbells up. Biceps filled flat vermilion."
     },
     {
       "id": "cable-curl",
       "kind": "exercise",
-      "prompt": "Side view. He stands upright facing a SINGLE cable tower — one column only, nothing behind him. The cable runs from a LOW pulley at the very BOTTOM of the tower, near floor level, up to a straight bar he holds with both hands. Elbows tucked at his sides, curling the bar up toward his chest. Torso vertical and still. ONLY the biceps on the front of both upper arms glow lime. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in normal matte skin tone, with no green tint, wash or spill anywhere else on the body."
+      "prompt": "Side view. He stands upright facing a SINGLE cable tower — one column only, nothing behind him. The cable runs from a LOW pulley at the very BOTTOM of the tower, near floor level, up to a straight bar he holds with both hands. Elbows tucked at his sides, curling the bar up toward his chest. Torso vertical and still. ONLY the biceps on the front of both upper arms filled flat vermilion. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint, wash or spill anywhere else on the body."
     },
     {
       "id": "seated-horizontal-leg-press",
       "kind": "exercise",
-      "prompt": "Side view. He is seated in a horizontal seated leg press: upright seat, tall backrest, and a large flat vertical foot platform directly in front of him at hip height. Not a 45-degree sled. BOTH of his feet are pressed FLAT AGAINST THE FACE OF THE VERTICAL FOOT PLATFORM, side by side, soles in full contact with it and clearly bearing load — neither foot is on the floor and no foot is hanging in the air. His legs are extended forwards toward the platform with the knees bent at a comfortable mid-range angle, thighs roughly horizontal. Back flat against the backrest, hips square. ONLY the quadriceps on the front of both thighs glow lime. Every other muscle stays completely un-highlighted in normal matte skin tone, with no green tint or spill."
+      "prompt": "Side view. He is seated in a horizontal seated leg press: upright seat, tall backrest, and a large flat vertical foot platform directly in front of him at hip height. Not a 45-degree sled. BOTH of his feet are pressed FLAT AGAINST THE FACE OF THE VERTICAL FOOT PLATFORM, side by side, soles in full contact with it and clearly bearing load — neither foot is on the floor and no foot is hanging in the air. His legs are extended forwards toward the platform with the knees bent at a comfortable mid-range angle, thighs roughly horizontal. Back flat against the backrest, hips square. ONLY the quadriceps on the front of both thighs filled flat vermilion. Every other muscle stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint or spill."
     },
     {
       "id": "leg-extension",
       "kind": "exercise",
-      "prompt": "Side view. He is seated in a leg extension machine, back against a tall backrest, shins behind a padded roller, extending both legs out to straight without locking the knees hard. Quads glowing lime."
+      "prompt": "Side view. He is seated in a leg extension machine, back against a tall backrest, shins behind a padded roller, extending both legs out to straight without locking the knees hard. Quads filled flat vermilion."
     },
     {
       "id": "seated-hamstring-curl",
       "kind": "exercise",
-      "prompt": "Side view. He is seated in a seated hamstring curl machine with a tall backrest and a thigh restraint pad, pulling his heels down and back under the seat against a padded roller. Hamstrings glowing lime."
+      "prompt": "Side view. He is seated in a seated hamstring curl machine with a tall backrest and a thigh restraint pad, pulling his heels down and back under the seat against a padded roller. Hamstrings filled flat vermilion."
     },
     {
       "id": "single-leg-glute-bridge",
       "kind": "exercise",
-      "prompt": "Side view. He lies face-up on the floor on an exercise mat, one knee bent with that foot flat on the floor, the other leg extended straight out. He drives his hips up so his torso and extended leg form a straight line, ribs down, no lower-back arch. Glutes glowing lime."
+      "prompt": "Side view. He lies face-up on the floor on an exercise mat, one knee bent with that foot flat on the floor, the other leg extended straight out. He drives his hips up so his torso and extended leg form a straight line, ribs down, no lower-back arch. Glutes filled flat vermilion."
     },
     {
       "id": "seated-calf-raise",
       "kind": "exercise",
-      "prompt": "Side view. He is seated upright in a seated calf raise machine, a padded bar across his thighs, the balls of his feet on a small platform, heels pressed up at the top of the movement. Calves glowing lime."
+      "prompt": "Side view. He is seated upright in a seated calf raise machine, a padded bar across his thighs, the balls of his feet on a small platform, heels pressed up at the top of the movement. Calves filled flat vermilion."
     },
     {
       "id": "pallof-press",
       "kind": "exercise",
-      "prompt": "Front three-quarter view. He stands upright and braced side-on to a SINGLE cable tower — one column only, nothing behind him. The cable runs horizontally from a pulley set at CHEST height to a single handle he presses straight out in front of his sternum with both hands, resisting the cable's pull to twist him. Torso square and unrotated, ribs down. ONLY the obliques along the sides of the waist glow lime. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in normal matte skin tone, with no green tint, wash or spill anywhere else on the body."
+      "prompt": "Front three-quarter view. He stands upright and braced side-on to a SINGLE cable tower — one column only, nothing behind him. The cable runs horizontally from a pulley set at CHEST height to a single handle he presses straight out in front of his sternum with both hands, resisting the cable's pull to twist him. Torso square and unrotated, ribs down. ONLY the obliques along the sides of the waist filled flat vermilion. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint, wash or spill anywhere else on the body."
     },
     {
       "id": "half-kneeling-pallof-press",
       "kind": "exercise",
-      "prompt": "Front three-quarter view. He is half-kneeling — one knee down on a mat, the other foot forward and flat, torso tall and vertical — side-on to a SINGLE cable tower, one column only, nothing behind him. The cable runs horizontally from a CHEST-height pulley to a handle he presses straight out in front of his sternum with both hands. Torso square and unrotated. ONLY the obliques along the sides of the waist glow lime. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in normal matte skin tone, with no green tint, wash or spill anywhere else on the body."
+      "prompt": "Front three-quarter view. He is half-kneeling — one knee down on a mat, the other foot forward and flat, torso tall and vertical — side-on to a SINGLE cable tower, one column only, nothing behind him. The cable runs horizontally from a CHEST-height pulley to a handle he presses straight out in front of his sternum with both hands. Torso square and unrotated. ONLY the obliques along the sides of the waist filled flat vermilion. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint, wash or spill anywhere else on the body."
     },
     {
       "id": "side-plank-knee-modified",
       "kind": "exercise",
-      "prompt": "Side view slightly above. He holds a side plank on a mat, supported on one forearm with the elbow under the shoulder and BOTH knees bent and resting on the mat, forming a straight line from knee to shoulder. Hips lifted and stacked, not sagging. Obliques glowing lime."
+      "prompt": "Side view slightly above. He holds a side plank on a mat, supported on one forearm with the elbow under the shoulder and BOTH knees bent and resting on the mat, forming a straight line from knee to shoulder. Hips lifted and stacked, not sagging. Obliques filled flat vermilion."
     },
     {
       "id": "bear-plank",
       "kind": "exercise",
-      "prompt": "Side view slightly above. He is on a mat on hands and toes with knees bent at 90 degrees hovering roughly an inch off the floor, back completely flat and level, ribs down. Abdominals glowing lime."
+      "prompt": "Side view slightly above. He is on a mat on hands and toes with knees bent at 90 degrees hovering roughly an inch off the floor, back completely flat and level, ribs down. Abdominals filled flat vermilion."
     },
     {
       "id": "lats",
@@ -164,17 +166,17 @@
     {
       "id": "upper-chest",
       "kind": "muscle",
-      "prompt": "Highlight: Clavicular pectoralis, the upper chest just below the collarbones. Visible on the anterior view; leave the posterior view entirely neutral."
+      "prompt": "Highlight: the CLAVICULAR head of the pectoralis major — the upper third of the CHEST only, a band on the front of the ribcage running from just under the collarbone down to about armpit level, sitting ABOVE the nipple line. CRITICAL: this is chest, not shoulder. Do NOT fill the deltoids or the rounded caps of the shoulders, and do NOT extend onto the collarbone itself or the neck — those stay cream. The filled shape sits inboard, between the two shoulders. Do NOT fill the middle or lower chest or the abdomen. Visible on the anterior view; leave the posterior view entirely cream."
     },
     {
       "id": "mid-chest",
       "kind": "muscle",
-      "prompt": "Highlight: The main body of the pectoralis major, mid chest. Visible on the anterior view; leave the posterior view entirely neutral."
+      "prompt": "Highlight: the STERNAL head of the pectoralis major — the main central mass of the chest at nipple level, spanning from the breastbone out to the armpit. Do NOT fill the narrow band immediately under the collarbone, and do NOT touch the abdomen. Visible on the anterior view; leave the posterior view entirely cream."
     },
     {
       "id": "lower-chest",
       "kind": "muscle",
-      "prompt": "Highlight: The lower border of the pectoralis major, just above the ribs. Visible on the anterior view; leave the posterior view entirely neutral."
+      "prompt": "Highlight: the LOWER BORDER of the pectoralis major only — the thin bottom edge of the chest muscle where it meets the ribcage, immediately BELOW the nipple line and ABOVE the top of the abdominal muscles. CRITICAL: this is chest, not abdomen. Do NOT fill the six-pack, the stomach or anything below the bottom of the ribcage — that region must stay cream. The filled band is narrow and sits high, tucked under the chest. Visible on the anterior view; leave the posterior view entirely cream."
     },
     {
       "id": "upper-back",
@@ -259,12 +261,12 @@
     {
       "id": "hip-abduction-machine",
       "kind": "exercise",
-      "prompt": "Front three-quarter view. He is seated in a hip abduction machine — an upright seat with a backrest and two large vertical pads on the OUTER sides of his knees. His back is flat against the backrest, torso upright and not leaning forward. He pushes both knees OUTWARD away from each other against the pads, legs spread wide at the end of the movement. ONLY the gluteus medius and minimus on the outer upper hip of each side glow lime. Every other muscle stays completely un-highlighted in normal matte skin tone, with no green tint or spill."
+      "prompt": "Front three-quarter view. He is seated in a hip abduction machine — an upright seat with a backrest and two large vertical pads on the OUTER sides of his knees. His back is flat against the backrest, torso upright and not leaning forward. He pushes both knees OUTWARD away from each other against the pads, legs spread wide at the end of the movement. ONLY the gluteus medius and minimus on the outer upper hip of each side filled flat vermilion. Every other muscle stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint or spill."
     },
     {
       "id": "hip-adduction-machine",
       "kind": "exercise",
-      "prompt": "Front three-quarter view. He is seated in a hip adduction machine — an upright seat with a backrest and two large vertical pads on the INNER sides of his knees, legs starting apart. His back is flat against the backrest, torso upright. He squeezes both knees INWARD toward each other against the pads. ONLY the adductors on the inner thigh of each leg glow lime. Every other muscle stays completely un-highlighted in normal matte skin tone, with no green tint or spill."
+      "prompt": "Front three-quarter view. He is seated in a hip adduction machine — an upright seat with a backrest and two large vertical pads on the INNER sides of his knees, legs starting apart. His back is flat against the backrest, torso upright. He squeezes both knees INWARD toward each other against the pads. ONLY the adductors on the inner thigh of each leg filled flat vermilion. Every other muscle stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint or spill."
     },
     {
       "id": "abductors",
@@ -274,12 +276,12 @@
     {
       "id": "machine-lateral-raise",
       "kind": "exercise",
-      "prompt": "Front three-quarter view. He is seated in a lateral raise machine — an upright seat with a backrest, and two padded arms that his upper arms press against from underneath, one either side of his torso. Back flat against the pad, torso completely still. He drives both pads upward and outward with the outside of his upper arms until they reach shoulder height, elbows leading. Shoulders down, not shrugged. ONLY the lateral deltoids — the outer cap of each shoulder — glow lime. Every other muscle stays completely un-highlighted in normal matte skin tone, with no green tint or spill."
+      "prompt": "Front three-quarter view. He is seated in a lateral raise machine — an upright seat with a backrest, and two padded arms that his upper arms press against from underneath, one either side of his torso. Back flat against the pad, torso completely still. He drives both pads upward and outward with the outside of his upper arms until they reach shoulder height, elbows leading. Shoulders down, not shrugged. ONLY the lateral deltoids — the outer cap of each shoulder — filled flat vermilion. Every other muscle stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint or spill."
     },
     {
       "id": "high-low-cable-fly",
       "kind": "exercise",
-      "prompt": "Front three-quarter view. He stands upright and braced between the two columns of a cable crossover frame, one handle in each hand. BOTH cables run from HIGH pulleys at the very top of each column, well above his head, angling DOWN to his hands. Arms are wide with a fixed slight bend at the elbow, and he sweeps both hands down and inward in a wide arc so they finish together in front of his hips, below waist height. Torso completely upright — no forward lean, no hinge at the hips. This is a downward fly, not a press and not a pulldown. ONLY the lower portion of both pectoral muscles glows lime — the bottom border of the chest just above the ribs. Every other muscle stays completely un-highlighted in normal matte skin tone, with no green tint or spill."
+      "prompt": "Front three-quarter view. He stands upright and braced between the two columns of a cable crossover frame, one handle in each hand. BOTH cables run from HIGH pulleys at the very top of each column, well above his head, angling DOWN to his hands. Arms are wide with a fixed slight bend at the elbow, and he sweeps both hands down and inward in a wide arc so they finish together in front of his hips, below waist height. Torso completely upright — no forward lean, no hinge at the hips. This is a downward fly, not a press and not a pulldown. ONLY the lower portion of both pectoral muscles filled flat vermilion — the bottom border of the chest just above the ribs. Every other muscle stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint or spill."
     }
   ],
   "quality": 84,

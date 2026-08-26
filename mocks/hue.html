@@ -1,0 +1,57 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>hue audit</title></head><body>
+<pre id="out" style="font:12px ui-monospace;background:#111;color:#ddd;padding:12px">auditing…</pre>
+<script type="module">
+const ex = await fetch('../data/exercises.json').then(r=>r.json());
+const mu = await fetch('../data/muscles.json').then(r=>r.json());
+const cv = document.createElement('canvas'), cx = cv.getContext('2d', {willReadFrequently:true});
+
+function rgb2hsv(r,g,b){
+  r/=255;g/=255;b/=255;
+  const mx=Math.max(r,g,b), mn=Math.min(r,g,b), d=mx-mn;
+  let h=0;
+  if(d){ if(mx===r) h=((g-b)/d)%6; else if(mx===g) h=(b-r)/d+2; else h=(r-g)/d+4; h*=60; if(h<0)h+=360; }
+  return [h, mx?d/mx:0, mx];
+}
+
+async function audit(src){
+  const img = new Image();
+  await new Promise((res,rej)=>{ img.onload=res; img.onerror=rej; img.src=src; });
+  const W=200, H=Math.round(img.height/img.width*200);
+  cv.width=W; cv.height=H; cx.drawImage(img,0,0,W,H);
+  const d = cx.getImageData(0,0,W,H).data;
+  let green=0, verm=0, total=0;
+  for(let i=0;i<d.length;i+=4){
+    const [h,s,v]=rgb2hsv(d[i],d[i+1],d[i+2]);
+    if(s<0.35 || v<0.35) continue;          // ignore cream, navy, near-neutral
+    total++;
+    if(h>=60 && h<=175) green++;            // any green/lime
+    else if(h<=25 || h>=345) verm++;        // vermilion / red-orange
+  }
+  const px=W*H;
+  return { greenPct:+(green/px*100).toFixed(2), vermPct:+(verm/px*100).toFixed(2) };
+}
+
+const lines=[];
+lines.push('EXERCISES');
+let bad=[];
+for(const e of ex){
+  const r = await audit('../'+e.image);
+  const flag = r.greenPct > 0.15 ? '  <<< GREEN' : '';
+  if(flag) bad.push(e.id);
+  lines.push(`  ${e.id.padEnd(32)} green ${String(r.greenPct).padStart(5)}%   vermilion ${String(r.vermPct).padStart(5)}%${flag}`);
+}
+lines.push('');
+lines.push('MUSCLES');
+let badM=[];
+for(const m of mu){
+  const r = await audit('../'+m.image);
+  const flag = r.greenPct > 0.15 ? '  <<< GREEN' : '';
+  if(flag) badM.push(m.id);
+  lines.push(`  ${m.id.padEnd(32)} green ${String(r.greenPct).padStart(5)}%   vermilion ${String(r.vermPct).padStart(5)}%${flag}`);
+}
+lines.push('');
+lines.push(`GREEN EXERCISES (${bad.length}): ${bad.join(' ') || 'none'}`);
+lines.push(`GREEN MUSCLES  (${badM.length}): ${badM.join(' ') || 'none'}`);
+document.getElementById('out').textContent = lines.join('\n');
+window.__AUDIT__ = { exercises: bad, muscles: badM };
+</script></body></html>

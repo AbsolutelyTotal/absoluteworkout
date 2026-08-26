@@ -44,6 +44,9 @@ const KIND = value('kind');
 const DELAY_MS = Number(value('delay') ?? 4000);
 const REF_OVERRIDE = value('reference');
 const MODEL_OVERRIDE = value('model');
+const NO_REFERENCE = flag('no-reference');   // starting a NEW style, don't inherit the old one
+const STYLE_KEY = value('style');            // pick an alternate style block from the config
+const SUFFIX = value('suffix');              // write to <id>.<suffix>.jpg, leaving the original alone
 
 const exists = (p) => access(p).then(() => true, () => false);
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -63,7 +66,7 @@ function apiKey() {
 
 /** Build the full prompt: style block + the item's specifics. */
 function fullPrompt(cfg, item, withReference) {
-  const style = cfg.style[item.kind];
+  const style = cfg.style[STYLE_KEY ?? item.kind];
   const lead = withReference
     ? 'Use the attached image as the exact style reference. Same figure, same body, ' +
       'same lighting, same background, same equipment finish and the same framing. ' +
@@ -239,6 +242,10 @@ async function main() {
   const refIds = new Set(Object.values(cfg.reference).map(p => path.basename(p, '.jpg')));
   items = [...items].sort((a, b) => (refIds.has(b.id) ? 1 : 0) - (refIds.has(a.id) ? 1 : 0));
 
+  if (STYLE_KEY && !cfg.style[STYLE_KEY]) {
+    console.error(`Unknown style "${STYLE_KEY}". Available: ${Object.keys(cfg.style).join(', ')}`);
+    process.exit(1);
+  }
   const key = DRY ? null : apiKey();
   const refCache = {};
   let made = 0, skipped = 0, failed = 0;
@@ -257,7 +264,8 @@ async function main() {
   );
 
   for (const item of items) {
-    const outPath = path.join(ROOT, cfg.outDir[item.kind], `${item.id}.jpg`);
+    const outPath = path.join(ROOT, cfg.outDir[item.kind],
+      SUFFIX ? `${item.id}.${SUFFIX}.jpg` : `${item.id}.jpg`);
     const rel = path.relative(ROOT, outPath);
 
     if (!FORCE && await exists(outPath)) {
@@ -269,7 +277,7 @@ async function main() {
     }
 
     const isRef = refIds.has(item.id);
-    if (isRef && !flag('regen-reference')) {
+    if (isRef && !NO_REFERENCE && !SUFFIX && !flag('regen-reference')) {
       // Two very different situations, and the earlier version conflated them:
       // an existing reference should just be left alone (skip, keep going),
       // while a MISSING one genuinely blocks everything downstream.
@@ -288,7 +296,9 @@ async function main() {
       failed++;
       break;
     }
-    const reference = isRef ? null : refCache[item.kind] ?? await loadReference(cfg, item.kind);
+    const reference = (isRef || NO_REFERENCE)
+      ? null
+      : refCache[item.kind] ?? await loadReference(cfg, item.kind);
 
     if (DRY) {
       console.log(`would  ${rel}${reference ? '  (+reference)' : '  (REFERENCE IMAGE)'}`);

@@ -1,69 +1,62 @@
 # Exercise and muscle image sources
 
-All 50 images (29 exercises, 21 muscles) are **generated**, not photographed:
-`gemini-3-pro-image` for the two style references, `gemini-3.1-flash-image` for
-the rest. Prompts and the generator live in `tools/`.
+All 52 images (31 exercises, 21 muscles) are **generated illustrations**, produced
+with `gemini-3.1-flash-image`. Prompts and the generator live in `tools/`.
 
-Regenerate any single one:
+Regenerate one:
 
 ```bash
 export NODE_EXTRA_CA_CERTS="$HOME/.certs/checkpoint-harmony-sase.pem"   # Harmony SASE TLS interception
 read -rs GEMINI_API_KEY && export GEMINI_API_KEY                        # session only, never a file
-node tools/gen-images.mjs --only <id> --force
+node tools/gen-images.mjs --only <id> --style illustrated --no-reference --force \
+  --model gemini-3.1-flash-image
 ```
 
-## Why generated rather than stock
+Muscles use `--style muscle-illustrated`. `--suffix <s>` writes to `<id>.<s>.jpg`
+so a trial never overwrites a good image.
 
-An earlier pass used [Free Exercise DB](https://github.com/yuhonas/free-exercise-db)
-(public domain). It was dropped because a generic library cannot respect the
-L5-S1 constraints in `data/constraints.json`:
+## Style
 
-- Its leg press showed a 45-degree sled with the knees well past 90 degrees —
-  the exact position `formLimit` forbids. An authoritative-looking photo of a
-  banned position is worse than no photo.
-- Its overhead extension was standing and hinged forward, where the plan
-  requires a seated high backrest.
-- Its rows had unsupported torsos where the plan requires chest support.
-- It had nothing for the constraint-driven substitutions (single-leg glute
-  bridge, knee-modified side plank, bear plank, half-kneeling Pallof).
+Four colours, no more: navy `#2B2C6B` outlines, butter `#FBD96B` equipment,
+vermilion `#EF4A1F` for the target muscle, blush cream `#FDF2EA` ground. Heavy
+poster-weight line work. Matches the koi-derived UI direction.
 
-Generated art fixes this: the prompt states the safe position.
+There is **no style reference image**. The style block is prescriptive enough on
+its own, which avoids the failure mode where regenerating a reference silently
+restyles everything downstream.
 
-## Style consistency
+## Verifying a batch
 
-These models edit as much as they generate, so consistency comes from a
-reference image, not from repeated adjectives. `machine-chest-press.jpg` and
-`muscles/lats.jpg` are the references; every other prompt attaches one as
-input. `tools/gen-images.mjs` refuses to regenerate a reference without
-`--regen-reference`, because replacing one silently restyles the other 45.
+`mocks/hue.html` samples pixel hues across all 52 and reports any image
+containing green, or any exercise with no highlighted muscle at all. Run it after
+every batch — a thumbnail scan will not catch either.
 
-## Known imperfections
+## What went wrong, kept as notes
 
-Reviewed and accepted rather than re-rolled further. Fix these if you regenerate.
+Every one of these cost a re-run. The pattern throughout: **naming the failure
+mode explicitly beats describing the desired outcome.**
 
-| Image | Issue |
-| --- | --- |
-| `pallof-press`, `half-kneeling-pallof-press` | The glow covers the whole midsection instead of just the flanks. Three phrasings were tried; the obliques sit directly beside the abs and the model does not reliably separate adjacent muscles in the same region. Position and machine are correct, which is what matters mid-workout. |
-| `muscles/obliques.jpg` | Same adjacency problem — also tints the lower back. |
-| `high-low-cable-fly` | The glow covers both pectorals in full rather than just the lower border. Same adjacency limit as the obliques: upper and lower chest are one muscle, and the model will not split it. Machine and position are correct. |
-| `muscles/abductors.jpg` | Highlights the gluteus maximus instead of the medius/minimus, so it is currently indistinguishable from `glutes.jpg`. The prompt has been sharpened; regenerate with `--only abductors --force`. |
-| `seated-horizontal-leg-press` | Shows a mid-to-extended knee angle, not the 90-degree stop. This is deliberate: asking for "the bottom of the press" made the model put both feet on the floor instead of the platform. The `formLimit` warning pill in the UI carries the 90-degree rule far more reliably than a rendered joint angle ever could. The image's job is machine recognition. |
+- **Say where a mechanism pivots from.** "Chest press, not a pec deck" failed
+  three times. "The lever arms pivot from a low point near the base and rise up
+  and forward to the handles" worked first time. Expect the same for any machine
+  with a distinctive arm path.
+- **Ban the wrong colour, don't just name the right one.** Five exercises came
+  out green even after every prompt said vermilion — green is the conventional
+  colour for muscle diagrams. Only "there must be NO GREEN ANYWHERE, green is
+  wrong here" fixed it.
+- **Colour and treatment belong to the style block, never the item prompt.**
+  Thirty item prompts still said "glow lime" from the 3D era, directly
+  contradicting the style block. The item prompt wins. Item prompts name the
+  muscle; the style block owns how it is rendered.
+- **State that an unhighlighted image is invalid.** One exercise came back with
+  no highlight at all — visually clean, silently useless.
+- **Specify line weight.** Hairlines vanish at the 88px row size. "Thick, heavy
+  outlines, like a silkscreen poster; must read at postage-stamp size."
+- **Degrees are ignored.** "30-degree incline" gave 45. Describe the body instead:
+  "torso much closer to horizontal than vertical, head barely above the hips".
+- **Don't over-correct framing.** "Better to crop the machine off than leave empty
+  space" cropped the machine out entirely. A medium shot with the whole subject
+  visible is the target.
+- **Say "exactly one piece of equipment"** or a second cable tower appears behind
+  the figure. Exception: a cable crossover legitimately has two columns.
 
-## What went wrong along the way
-
-Kept as notes for whoever regenerates these:
-
-- **Degrees are ignored.** "30-degree incline" produced 45. Describing geometry
-  against landmarks works — "about one third of the way up from flat to vertical".
-- **Say what must NOT glow.** Naming only the target muscle produced a green wash
-  over the whole torso. Adding "every other muscle stays in normal matte skin
-  tone, no green spill" fixed it in one pass.
-- **Say where the cable comes from.** Unspecified pulley height gave a tricep
-  pushdown wired to a low pulley, which is not the exercise. Every cable
-  movement now states pulley height and attachment.
-- **Say "exactly one piece of equipment".** Renders kept adding a second cable
-  tower behind the figure.
-- **Lead with the body, not the rig.** The overhead extension resolved to a
-  pulldown until the prompt described hand and elbow position first.
-- **Never regenerate a style reference casually.** Doing so restyles all 45
-  downstream images. `gen-images.mjs` now requires `--regen-reference`.
