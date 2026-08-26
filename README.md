@@ -227,6 +227,33 @@ region — use it when adding an exercise, or after editing a region path.
 Working end to end on the real 3-day and 4-day plans. Body maps done; machine
 imagery is the open item.
 
+## 🧪 QA suite
+
+```bash
+python3 -m http.server 8080
+```
+
+Then open <http://localhost:8080/tests.html> — 52 cases, no framework and no
+dependencies. It drives the real modules against the real DOM: it starts
+sessions, clicks checkmarks, taps `+ set`, sweeps every picker filter, and
+asserts on what actually landed in the store.
+
+Almost every case corresponds to a bug that shipped. In particular:
+
+- **`+ set` adds exactly one set, and still does after five re-renders.** The
+  Log view bound listeners to `#view`, which survives `mount()`, so every
+  re-render added another copy — one tap appended 3-4 sets, and the done
+  checkmark toggled twice and silently discarded the set. Both cases now assert
+  after repeated renders, which is the condition that triggered it.
+- **A Sunday and a Tuesday count as one week.** `weekKey` used ISO (Monday-based)
+  week numbers, so a Sunday session bucketed into the previous week. One case
+  also documents the old Monday behaviour, so the regression is legible.
+- **No banned movement is reachable through any picker filter** — swept across
+  every muscle group, not just the default.
+
+The suite snapshots `localStorage` before running and restores it in a `finally`
+block, so a failing case can't cost you your training log.
+
 ## ⚖️ License
 
 [MIT](LICENSE).

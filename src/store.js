@@ -81,6 +81,14 @@ export function subscribe(fn) {
   return () => listeners.delete(fn);
 }
 
+/** Re-read from localStorage. Exists for the QA suite, which seeds state
+ *  directly and needs the module to pick it up without a page reload. */
+export function reload() {
+  state = load();
+  notify('reload');
+  return state;
+}
+
 export const getState = () => state;
 export const getSettings = () => state.settings;
 export const getSessions = () => state.sessions;
@@ -139,9 +147,11 @@ export function addSet(sessionId, exerciseId) {
   const session = state.sessions.find(s => s.id === sessionId);
   const entry = session?.entries.find(e => e.exerciseId === exerciseId);
   if (!entry) return;
-  const last = entry.sets[entry.sets.length - 1];
-  // Carry the last weight forward — the common case is another set at the same load.
-  entry.sets.push({ weight: last?.weight ?? null, reps: null, done: false });
+  // Carry the last KNOWN weight forward, not the last array slot's — adding a
+  // set before every prescribed row is filled would otherwise give a blank
+  // field even though you've been lifting the same load all session.
+  const carried = [...entry.sets].reverse().find(s => s.weight != null)?.weight ?? null;
+  entry.sets.push({ weight: carried, reps: null, done: false });
   persist();
   notify('set');
 }

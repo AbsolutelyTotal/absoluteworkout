@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>absoluteworkout — QA suite</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="app.css">
+<style>
+  main { max-width: 900px; }
+  .tally { display: flex; gap: 10px; align-items: baseline; margin-bottom: 14px; }
+  .tally .n { font-size: 30px; font-weight: 700; }
+  .tally .pass { color: #6ee06e; }
+  .tally .fail { color: #f0a3a3; }
+  .grp { margin-top: 18px; }
+  .case { display: flex; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .case:last-child { border-bottom: none; }
+  .case .mark { flex: 0 0 16px; font-weight: 700; }
+  .case.p .mark { color: #6ee06e; }
+  .case.f .mark { color: #f0a3a3; }
+  .case .nm { flex: 1 1 auto; }
+  .case .dt { color: var(--muted); font-size: 11.5px; text-align: right; max-width: 45%; }
+  .case.f .dt { color: #f0a3a3; }
+  #scratch { position: absolute; left: -99999px; width: 380px; }
+</style>
+</head>
+<body>
+<header class="appbar">
+  <div class="wordmark"><span class="mark">absoluteworkout</span><span class="sep">·</span><span class="tag">QA</span></div>
+  <div class="appbar-actions"><a class="icon-link" href="index.html" title="Back to the app">←</a></div>
+</header>
+<main>
+  <div class="banner info" style="margin-bottom:16px">
+    <span class="icon">i</span>
+    <div>Drives the real modules against the real DOM. Your training log is
+      snapshotted before the run and restored afterwards, including if a case throws.</div>
+  </div>
+  <div id="out">Running…</div>
+</main>
+
+<!-- The app's dialogs, so the suite can exercise them for real. -->
+<dialog id="backup-dialog"><textarea aria-label="Log JSON"></textarea>
+  <div class="dialog-actions"><button class="btn" data-action="close" type="button">Close</button>
+  <button class="btn" data-action="import" type="button">Import</button>
+  <button class="btn primary" data-action="download" type="button">Download</button></div></dialog>
+<dialog id="photo-dialog"><figure style="margin:0"><img alt="">
+  <figcaption><span data-role="name"></span><span class="src">tap outside to close</span></figcaption>
+</figure></dialog>
+<dialog id="picker-dialog">
+  <div class="picker-head"><h3 data-role="title">Pick an exercise</h3>
+  <button class="tool-btn" type="button" data-action="picker-close" aria-label="Close">×</button></div>
+  <div data-role="body"></div></dialog>
+<dialog id="exercise-dialog"><div data-role="body"></div></dialog>
+
+<div id="scratch"></div>
+
+<script type="module">
+import { run } from './tests/suite.js';
+
+const out = document.getElementById('out');
+const esc = (s) => String(s).replace(/[&<>]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;' }[c]));
+
+try {
+  const results = await run(document.getElementById('scratch'));
+  const pass = results.filter(r => r.pass).length;
+  const fail = results.length - pass;
+
+  const groups = [...new Set(results.map(r => r.group))];
+  out.innerHTML =
+    `<div class="tally">
+       <span class="n ${fail ? 'fail' : 'pass'}">${pass}/${results.length}</span>
+       <span style="color:var(--muted)">${fail ? `${fail} failing` : 'all passing'}</span>
+     </div>` +
+    groups.map(g => `<div class="grp card">
+      <div class="section-label">${esc(g)}</div>
+      ${results.filter(r => r.group === g).map(r =>
+        `<div class="case ${r.pass ? 'p' : 'f'}">
+           <span class="mark">${r.pass ? '✓' : '✕'}</span>
+           <span class="nm">${esc(r.name)}</span>
+           <span class="dt">${esc(r.detail)}</span>
+         </div>`).join('')}
+    </div>`).join('');
+
+  // Machine-readable, for driving from a script.
+  window.__QA__ = { pass, fail, total: results.length,
+    failures: results.filter(r => !r.pass).map(r => `${r.group} / ${r.name}: ${r.detail}`) };
+  document.title = `QA ${pass}/${results.length}${fail ? ' — FAILING' : ''}`;
+} catch (err) {
+  out.innerHTML = `<div class="banner warn"><span class="icon">!</span><div>
+    <strong>The suite itself threw.</strong><br>${esc(err.message)}<br>
+    <pre style="white-space:pre-wrap;font-size:11px">${esc(err.stack ?? '')}</pre></div></div>`;
+  window.__QA__ = { pass: 0, fail: 1, total: 1, failures: [`suite crashed: ${err.message}`] };
+}
+</script>
+</body>
+</html>
