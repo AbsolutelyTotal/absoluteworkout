@@ -65,13 +65,26 @@ function apiKey() {
 }
 
 /** Build the full prompt: style block + the item's specifics. */
-function fullPrompt(cfg, item, withReference) {
+function fullPrompt(cfg, item, refs) {
   const style = cfg.style[STYLE_KEY ?? item.kind];
-  const lead = withReference
-    ? 'Use the attached image as the exact style reference. Same figure, same body, ' +
+  const roles = (refs ?? []).map(r => r.role);
+  let lead = '';
+  if (roles.includes('form') && roles.includes('style')) {
+    lead =
+      'TWO images are attached and they serve DIFFERENT purposes. Do not blend them.\n' +
+      'The FORM reference shows only WHAT THE MACHINE IS and HOW THE BODY SITS ON IT — ' +
+      'the geometry, the pads, the contact points, the joint angles. Copy that arrangement.\n' +
+      'The STYLE reference shows only HOW TO DRAW — palette, line weight, framing, background. ' +
+      'Copy that rendering.\n' +
+      'Take NOTHING else from the form reference: not its colours, not its shading, not its ' +
+      'realism, not its background, and no text or watermark. The output must look exactly like ' +
+      'the style reference and be posed exactly like the form reference.\n\n';
+  } else if (roles.length) {
+    lead =
+      'Use the attached image as the exact style reference. Same figure, same body, ' +
       'same lighting, same background, same equipment finish and the same framing. ' +
-      'Change only the exercise being performed.\n\n'
-    : '';
+      'Change only the exercise being performed.\n\n';
+  }
   return `${lead}${style}\n\n${item.prompt}`;
 }
 
@@ -124,10 +137,15 @@ function describeNetworkError(err) {
   return hint ? `${detail}\n       → ${hint}` : `${detail || 'unknown network failure'}`;
 }
 
-async function generate(cfg, item, referenceBytes, key, model) {
-  const parts = [{ text: fullPrompt(cfg, item, Boolean(referenceBytes)) }];
-  if (referenceBytes) {
-    parts.push({ inline_data: { mime_type: 'image/jpeg', data: referenceBytes.toString('base64') } });
+async function generate(cfg, item, references, key, model) {
+  const refs = references ?? [];
+  const parts = [{ text: fullPrompt(cfg, item, refs) }];
+  // Each image is preceded by a text part naming its role. Without the label the
+  // model has no way to tell a form reference from a style reference, and it
+  // averages them — which is how a chest-press style ref pulled the pose wrong.
+  for (const r of refs) {
+    if (r.label) parts.push({ text: r.label });
+    parts.push({ inline_data: { mime_type: 'image/jpeg', data: r.bytes.toString('base64') } });
   }
 
   const aspectRatio = cfg.aspect[item.kind];
@@ -298,11 +316,11 @@ async function main() {
     }
     const reference = (isRef || NO_REFERENCE)
       ? null
-      : refCache[item.kind] ?? await loadReference(cfg, item.kind);
+      : refCache[item.kind] ?? await loadReferences(cfg, item.kind);
 
     if (DRY) {
       console.log(`would  ${rel}${reference ? '  (+reference)' : '  (REFERENCE IMAGE)'}`);
-      console.log(`       ${fullPrompt(cfg, item, Boolean(reference)).replace(/\s+/g, ' ').slice(0, 150)}…\n`);
+      console.log(`       ${fullPrompt(cfg, item, reference).replace(/\s+/g, ' ').slice(0, 150)}…\n`);
       continue;
     }
 
@@ -340,18 +358,35 @@ async function main() {
   }
 }
 
-async function loadReference(cfg, kind) {
-  const relPath = REF_OVERRIDE ?? cfg.reference[kind];
-  const p = path.join(ROOT, relPath);
-  if (await exists(p)) {
-    if (!announced.has(kind)) {
-      console.log(`  style reference for ${kind}s: ${relPath}`);
-      announced.add(kind);
+const LABELS = {
+  form: 'FORM REFERENCE — copy the machine, the body position and the joint angles from this image ' +
+        'ONLY. Ignore its colours, shading, realism, background and any text or watermark:',
+  style: 'STYLE REFERENCE — copy the palette, line weight, framing and background from this image ' +
+         'ONLY. Ignore what exercise it shows:'
+};
+
+/** --reference accepts "a.jpg" or a role-tagged list: "form=a.jpg,style=b.jpg". */
+async function loadReferences(cfg, kind) {
+  const spec = REF_OVERRIDE ?? cfg.reference[kind];
+  const entries = spec.split(',').map(chunk => {
+    const [a, b] = chunk.split('=');
+    return b ? { role: a.trim(), relPath: b.trim() } : { role: 'style', relPath: a.trim() };
+  });
+
+  const out = [];
+  for (const { role, relPath } of entries) {
+    const p = path.join(ROOT, relPath);
+    if (!await exists(p)) {
+      console.log(`  note: no reference at ${relPath} yet — skipping it.`);
+      continue;
     }
-    return readFile(p);
+    if (!announced.has(relPath)) {
+      console.log(`  ${role} reference for ${kind}s: ${relPath}`);
+      announced.add(relPath);
+    }
+    out.push({ role, label: LABELS[role] ?? null, bytes: await readFile(p) });
   }
-  console.log(`  note: no reference at ${relPath} yet — generating this one unreferenced.`);
-  return null;
+  return out.length ? out : null;
 }
 
 const announced = new Set();
