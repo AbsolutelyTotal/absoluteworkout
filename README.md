@@ -10,7 +10,7 @@
 ![Storage](https://img.shields.io/badge/storage-localStorage-d3f26a)
 ![Pages](https://img.shields.io/badge/hosting-GitHub_Pages-222?logo=github)
 
-[🌐 Live](https://absolutelytotal.github.io/absoluteworkout/) · [🖼️ Icon sheet](https://absolutelytotal.github.io/absoluteworkout/icons.html)
+[🌐 Live](https://absoluteworkout.win/) · [🖼️ Icon sheet](https://absoluteworkout.win/icons.html)
 
 </div>
 
@@ -37,8 +37,15 @@ committing to it.
 
 ## 🌐 Hosting
 
-Live at **<https://absolutelytotal.github.io/absoluteworkout/>** (GitHub Pages,
-served from `main` at the repo root — no build step, no workflow).
+Live at **<https://absoluteworkout.win/>** (GitHub Pages, served from `main`
+at the repo root — no build step, no workflow — behind a custom domain; the old
+`absolutelytotal.github.io/absoluteworkout` URL redirects). Auth email is sent
+from the same domain via Resend.
+
+Note the custom domain is an **origin change**: localStorage and the Supabase
+session are per-origin, so a device that used the old URL starts blank on the
+new one until it signs in and cloud sync pulls its history down. Sync any
+device on the old origin BEFORE pointing it at the new.
 
 The repo is public only because Pages won't serve a private repo on a free
 plan. This isn't meant to be found: the page sends `noindex, nofollow`, and
