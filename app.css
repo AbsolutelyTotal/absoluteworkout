@@ -336,17 +336,6 @@ main {
 .field::placeholder, .sets-grid input::placeholder { color: var(--ink-3); font-weight: 500; }
 .sets-grid input { text-align: center; }
 
-.swap-select {
-  max-width: 130px;
-  padding: 7px 9px;
-  border-radius: var(--radius-sm);
-  border: 2px solid var(--navy);
-  background: var(--butter);
-  color: var(--navy);
-  font-family: var(--body);
-  font-weight: 600;
-  font-size: 16px;
-}
 
 /* ---------- Exercise / prescription rows ---------- */
 
@@ -399,7 +388,6 @@ main {
 .cues li { margin: 3px 0; }
 
 .note { padding: 8px 13px 12px; font-size: 12.5px; color: var(--ink-2); }
-.note.progression { color: var(--verm); font-weight: 600; }
 
 .support-tag { font-size: 11px; color: var(--ink-3); font-weight: 500; }
 
@@ -762,10 +750,6 @@ table.data tr:last-child td { border-bottom: none; }
   background: var(--white);
   border: 2px solid var(--navy);
 }
-.map-legend { display: flex; gap: 14px; margin-top: 8px; font-size: 11.5px; color: var(--ink-2); }
-.map-legend span { display: inline-flex; align-items: center; gap: 5px; }
-.map-legend i { width: 10px; height: 10px; border-radius: 2px; background: var(--verm); display: inline-block; }
-.map-legend i.sec { opacity: 0.35; }
 
 /* ---------- Banners ---------- */
 
@@ -879,21 +863,6 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
 
 /* ---------- Session footer ---------- */
 
-.session-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 45;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 15px calc(10px + env(safe-area-inset-bottom));
-  background: var(--white);
-  border-top: 2px solid var(--navy);
-}
-.session-footer .progress { font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* ---------- Phones ---------- */
 
@@ -910,7 +879,6 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
   .ex-titles { flex-basis: 0; }
   .ex-pres { flex: 1 1 100%; order: 3; display: flex; align-items: baseline; gap: 10px; margin-top: 2px; text-align: left; }
   .ex-pres .rest { order: 2; }
-  .swap-select { order: 3; flex: 1 1 100%; max-width: none; margin-top: 8px; }
 
   .sets-grid { grid-template-columns: 16px 1fr 1fr 38px minmax(52px, auto); gap: 6px; }
   .vol-row { grid-template-columns: 84px 1fr 84px; }

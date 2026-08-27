@@ -95,7 +95,6 @@ export const fmt = {
   /** Half-sets are real (secondary muscles count 0.5) but more than one decimal
    *  reads as false precision. */
   sets: (n) => (Number.isInteger(n) ? String(n) : n.toFixed(1)),
-  weight: (n, unit) => (n == null ? '—' : `${n}${unit}`),
   tonnage: (n, unit) => (n >= 1000 ? `${(n / 1000).toFixed(1)}t` : `${Math.round(n)}${unit}`),
   rest: (s) => (s == null ? '' : s >= 60 ? `${Math.round(s / 60)}m rest` : `${s}s rest`),
   date: (d) => new Date(`${d}T00:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })

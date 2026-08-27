@@ -89,11 +89,6 @@
       "prompt": "Rear three-quarter view from behind and slightly to his left, so his back is visible. He is seated at a lat pulldown machine with his thighs secured under a padded restraint, pulling a wide bar down toward his upper chest, elbows driving down toward his ribs. Chest tall, minimal lean. ONLY the latissimus dorsi — the broad wings down the sides of the back filled flat vermilion. Every other muscle — chest, shoulders, torso, arms, legs — stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint, wash or spill anywhere else on the body."
     },
     {
-      "id": "assisted-pullup",
-      "kind": "exercise",
-      "prompt": "Front view. He hangs from a pull-up bar on an assisted pull-up machine, knees resting on a padded platform that counterbalances him, pulling his chest up toward the bar. Lats filled flat vermilion."
-    },
-    {
       "id": "chest-supported-row",
       "kind": "exercise",
       "prompt": "Side three-quarter view. He lies face-down on a bench whose pad is raised roughly halfway between flat and vertical, his chest and stomach pressed flat against that pad and clearly supported by it, head and shoulders above the top edge. He rows two dumbbells up and back, elbows driving past his ribs, shoulder blades squeezing together. His torso never leaves the pad. Upper back and lats filled flat vermilion."
