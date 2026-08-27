@@ -327,6 +327,50 @@ export async function run(scratch) {
       return ok(quarantined, 'a copy should be quarantined, not discarded');
     });
 
+    // ---- ingest hardening: a malformed session must never reach a render ----
+    check('mergeSessions drops malformed rows and does not throw', () => {
+      seed(emptyState());
+      // startedAt missing -> the old localeCompare sort threw here; splitId as a
+      // prototype key -> a truthy Object.prototype that crashed the Plan view.
+      const r = store.mergeSessions([
+        { id: 'ok', startedAt: '2026-01-02T10:00:00Z', date: '2026-01-02', splitId: 'core-3', dayId: 'push', entries: [], completedAt: '2026-01-02T11:00:00Z' },
+        { id: 'no-start', date: '2026-01-01', entries: [] },
+        { id: 'no-entries', startedAt: '2026-01-01T00:00:00Z' },
+        { id: 'proto', startedAt: '2026-01-01T00:00:00Z', splitId: '__proto__', entries: [] },
+        { startedAt: '2026-01-01T00:00:00Z', entries: [] }
+      ]);
+      eq(store.getSessions().length, 1, 'only the valid row admitted: ');
+      return eq(r.added, 1, 'added: ');
+    });
+    check('a malformed active session cannot be imported (no boot brick)', () => {
+      seed(emptyState());
+      // An in-progress session (no completedAt) with no entries is exactly what
+      // threw in the Log view during boot, before export was wired.
+      const bad = JSON.stringify({ version: 1, settings: { ...baseSettings },
+        sessions: [{ id: 'x', startedAt: '2026-01-01T00:00:00Z', date: '2026-01-01', splitId: 'core-3', dayId: 'push' }] });
+      store.importJSON(bad, { merge: false });
+      eq(store.getSessions().length, 0, 'malformed session rejected: ');
+      return ok(store.activeSession() === null, 'no active session to brick on');
+    });
+    check('newer stored version boots fresh instead of blanking', () => {
+      localStorage.setItem(KEY, JSON.stringify({ version: 999, sessions: [{ id: 'a' }] }));
+      const st = store.reload();
+      eq(st.sessions.length, 0, 'boots on defaults: ');
+      const kept = Object.keys(localStorage).some(k => k.startsWith(`${KEY}.future.`));
+      return ok(kept, 'newer data quarantined, not lost');
+    });
+    check('bodyweight and notes persist immediately', () => {
+      seed(emptyState());
+      const db2 = null; // not needed; use store directly
+      const s0 = { id: 's', startedAt: '2026-01-01T00:00:00Z', date: '2026-01-01', splitId: 'core-3', dayId: 'push', entries: [] };
+      store.mergeSessions([s0]);
+      store.updateSessionMeta('s', { bodyweight: 78, notes: 'felt strong' });
+      const st = store.reload();               // round-trip through localStorage
+      const got = st.sessions.find(x => x.id === 's');
+      eq(got.bodyweight, 78, 'bodyweight persisted: ');
+      return eq(got.notes, 'felt strong', 'notes persisted: ');
+    });
+
     // ------------------------------------------------------------- log view
     group('Log view interactions (the shipped bugs)');
 
