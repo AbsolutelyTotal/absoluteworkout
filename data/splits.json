@@ -609,15 +609,16 @@
     ]
   },
   {
-    "id": "noa-3",
+    "id": "noa-4",
     "profileId": "noa",
-    "name": "Noa's 3-Day",
-    "daysPerWeek": 3,
-    "description": "Upper / upper / legs, as Noa sent it.",
+    "name": "Noa's 4-Day",
+    "daysPerWeek": 4,
+    "description": "Upper / upper / lower / lower, as Noa sent it.",
     "cycle": [
       "upper-1",
       "upper-2",
-      "legs"
+      "lower-1",
+      "lower-2"
     ],
     "days": [
       {
@@ -717,38 +718,79 @@
         ]
       },
       {
-        "id": "legs",
-        "name": "Legs (placeholder)",
-        "shortName": "Legs",
+        "id": "lower-1",
+        "name": "Lower Body 1",
+        "shortName": "Lower 1",
         "focus": [
-          "quads",
           "hamstrings",
           "glutes",
-          "calves"
+          "quads"
         ],
-        "notes": "PLACEHOLDER — Noa hasn't sent her legs day yet. Standard machine work until she does.",
+        "notes": "Sets and reps TBC — Noa sent the exercises without numbers.",
         "blocks": [
           {
             "items": [
               {
-                "exerciseId": "seated-horizontal-leg-press",
+                "exerciseId": "romanian-deadlift",
                 "sets": 3,
-                "reps": "10"
+                "reps": "TBC"
               },
               {
-                "exerciseId": "leg-extension",
+                "exerciseId": "bulgarian-split-squat",
                 "sets": 3,
-                "reps": "10-12"
+                "reps": "TBC"
+              },
+              {
+                "exerciseId": "hip-abduction-machine",
+                "sets": 3,
+                "reps": "TBC"
               },
               {
                 "exerciseId": "seated-hamstring-curl",
                 "sets": 3,
-                "reps": "10-12"
+                "reps": "TBC"
               },
               {
-                "exerciseId": "seated-calf-raise",
+                "exerciseId": "hip-thrust",
                 "sets": 3,
-                "reps": "12-15"
+                "reps": "TBC"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "lower-2",
+        "name": "Lower Body 2",
+        "shortName": "Lower 2",
+        "focus": [
+          "quads",
+          "glutes",
+          "hamstrings"
+        ],
+        "notes": "Sets and reps TBC — Noa sent the exercises without numbers.",
+        "blocks": [
+          {
+            "items": [
+              {
+                "exerciseId": "back-squat",
+                "sets": 3,
+                "reps": "TBC"
+              },
+              {
+                "exerciseId": "step-up",
+                "sets": 3,
+                "reps": "TBC"
+              },
+              {
+                "exerciseId": "leg-extension",
+                "sets": 3,
+                "reps": "TBC"
+              },
+              {
+                "exerciseId": "good-morning",
+                "sets": 3,
+                "reps": "TBC"
               }
             ]
           }

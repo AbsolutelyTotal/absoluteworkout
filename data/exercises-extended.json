@@ -99,5 +99,141 @@
       "Elbows pinned to your sides",
       "Control the way down"
     ]
+  },
+  {
+    "id": "romanian-deadlift",
+    "name": "Romanian Deadlift",
+    "aliases": [
+      "RDL",
+      "דדליפט רומני"
+    ],
+    "pattern": "hinge",
+    "equipment": [
+      "barbell",
+      "dumbbell"
+    ],
+    "primaryMuscles": [
+      "hamstrings"
+    ],
+    "secondaryMuscles": [
+      "glutes",
+      "lower-back"
+    ],
+    "cues": [
+      "Hips back, bar close to the legs",
+      "Flat back — stop where the hamstrings stop you"
+    ]
+  },
+  {
+    "id": "bulgarian-split-squat",
+    "name": "Bulgarian Split Squat",
+    "aliases": [
+      "בולגרי",
+      "rear foot elevated split squat"
+    ],
+    "pattern": "lunge",
+    "equipment": [
+      "dumbbell",
+      "bodyweight"
+    ],
+    "unilateral": true,
+    "primaryMuscles": [
+      "quads"
+    ],
+    "secondaryMuscles": [
+      "glutes"
+    ],
+    "cues": [
+      "Rear foot on the bench, weight through the front heel",
+      "Torso tall"
+    ]
+  },
+  {
+    "id": "hip-thrust",
+    "name": "Hip Thrust",
+    "aliases": [
+      "היפ טרסט"
+    ],
+    "pattern": "hinge",
+    "equipment": [
+      "barbell",
+      "machine"
+    ],
+    "primaryMuscles": [
+      "glutes"
+    ],
+    "secondaryMuscles": [
+      "hamstrings"
+    ],
+    "cues": [
+      "Chin tucked, ribs down",
+      "Full lockout, squeeze at the top"
+    ]
+  },
+  {
+    "id": "back-squat",
+    "name": "Squat",
+    "aliases": [
+      "סקוואט",
+      "back squat"
+    ],
+    "pattern": "squat",
+    "equipment": [
+      "barbell"
+    ],
+    "primaryMuscles": [
+      "quads",
+      "glutes"
+    ],
+    "secondaryMuscles": [
+      "hamstrings",
+      "abs"
+    ],
+    "cues": [
+      "Brace before you descend",
+      "Knees track over the toes"
+    ]
+  },
+  {
+    "id": "step-up",
+    "name": "Step-Up",
+    "aliases": [
+      "סט אפ"
+    ],
+    "pattern": "lunge",
+    "equipment": [
+      "dumbbell",
+      "bodyweight"
+    ],
+    "unilateral": true,
+    "primaryMuscles": [
+      "quads",
+      "glutes"
+    ],
+    "cues": [
+      "Drive through the top foot — don't push off the floor leg"
+    ]
+  },
+  {
+    "id": "good-morning",
+    "name": "Good Morning",
+    "aliases": [
+      "גוד מורנינגס"
+    ],
+    "pattern": "hinge",
+    "equipment": [
+      "barbell"
+    ],
+    "primaryMuscles": [
+      "hamstrings"
+    ],
+    "secondaryMuscles": [
+      "glutes",
+      "lower-back"
+    ],
+    "cues": [
+      "Soft knees, hips back",
+      "Only as deep as the back stays flat"
+    ]
   }
 ]

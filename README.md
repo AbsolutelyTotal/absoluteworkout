@@ -121,7 +121,7 @@ data/               the data store (below)
 | `exercises.json` | 30 | The exercise library — what each movement is |
 | `splits.json` | 3 | The 3-day and 4-day rotations |
 | `profiles.json` | 2 | Constraint profiles. Each split runs under one. |
-| `exercises-extended.json` | 5 | Movements only unrestricted profiles may load |
+| `exercises-extended.json` | 11 | Movements only unrestricted profiles may load |
 | `constraints.json` | — | The L5-S1 safety rules, replacement ledger, and execution parameters |
 | `types.ts` | — | Schema documentation |
 
