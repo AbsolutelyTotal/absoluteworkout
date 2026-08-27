@@ -1,7 +1,7 @@
 // Bootstrap: load data, wire the tabs, own the backup dialog.
 
 import { loadData } from './data.js';
-import { html, mount, issuesBanner } from './ui.js';
+import { html, mount, issuesBanner, safeImagePath } from './ui.js';
 import * as store from './store.js';
 import * as plan from './views/plan.js';
 import * as log from './views/log.js';
@@ -165,7 +165,9 @@ function wirePhotoLightbox() {
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-photo]');
     if (btn) {
-      img.src = btn.dataset.photo;
+      const path = safeImagePath(btn.dataset.photo);
+      if (!path) return;                 // never fetch an off-origin/rejected path
+      img.src = path;
       name.textContent = btn.dataset.photoName ?? '';
       dialog.showModal();
       return;

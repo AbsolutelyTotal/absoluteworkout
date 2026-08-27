@@ -13,7 +13,7 @@ import * as store from '../src/store.js';
 import { loadData, weekKey, addDays, groupByWeek, weekStreak, actualSets,
          plannedWeeklySets, tonnage, e1rm, personalRecords, prescriptionsOf,
          dayOf } from '../src/data.js';
-import { html, mount } from '../src/ui.js';
+import { html, mount, safeImagePath } from '../src/ui.js';
 import * as log from '../src/views/log.js';
 import * as history from '../src/views/history.js';
 import { initPicker } from '../src/views/picker.js';
@@ -243,6 +243,33 @@ export async function run(scratch) {
     check('mount strips script tags', () => {
       const el = mount(document.createElement('div'), html`<div><script>window.x=1</script>hi</div>`);
       return eq(el.querySelectorAll('script').length, 0, 'scripts: ');
+    });
+    check('scrub blocks javascript: even with an embedded tab/newline', () => {
+      // The URL parser ignores whitespace/C0 chars in the scheme, so
+      // "java\tscript:" runs — the filter must collapse them before testing.
+      const bad = [];
+      for (const url of ['javascript:alert(1)', 'java\tscript:alert(1)', 'jav\nascript:alert(1)', '\u0001javascript:alert(1)', 'vbscript:x']) {
+        const el = mount(document.createElement('div'), html`<a href="${url}">x</a>`);
+        if (el.querySelector('a')?.getAttribute('href') != null) bad.push(url);
+      }
+      // a legitimate URL must survive
+      const okEl = mount(document.createElement('div'), html`<a href="${'https://example.com/'}">x</a>`);
+      ok(okEl.querySelector('a')?.getAttribute('href') === 'https://example.com/', 'real URL kept');
+      return eq(bad, [], 'dangerous schemes that survived: ');
+    });
+    check('safeImagePath accepts relative and rejects off-origin/traversal', () => {
+      const cases = [
+        ['assets/exercises/x.jpg', 'assets/exercises/x.jpg'],
+        ['//evil.com/x.jpg', ''],
+        ['/etc/passwd', ''],
+        ['http://evil/x.jpg', ''],
+        ['../../secret.jpg', ''],
+        ['x" onerror="y', '']
+      ];
+      const bad = cases
+        .filter(([v, want]) => safeImagePath(v) !== want)
+        .map(([v]) => `${v} -> ${JSON.stringify(safeImagePath(v))}`);
+      return eq(bad, [], 'mismatches: ');
     });
 
     // --------------------------------------------------------------- store

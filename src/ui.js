@@ -20,6 +20,20 @@ const escapeText = (s) =>
 /** Mark a string as already-safe markup. Literals only — never data. */
 export const raw = (s) => ({ [RAW]: String(s) });
 
+/**
+ * A same-origin RELATIVE image path, or '' if the value isn't one. The `image`
+ * field comes from JSON (ours today, a synced/imported payload tomorrow), and
+ * four render sites drop it into an <img src>. Rejects anything that could reach
+ * off-origin or up the tree: a leading "/" (root or protocol-relative "//host"),
+ * any ":" (scheme), ".." traversal, or characters outside a safe path set.
+ * README and types.ts promise this is enforced "at render time" — this is it.
+ */
+export function safeImagePath(value) {
+  const v = String(value ?? '');
+  if (!v || v.startsWith('/') || v.includes(':') || v.includes('..')) return '';
+  return /^[\w.\-/]+$/.test(v) ? v : '';
+}
+
 function resolve(v) {
   if (v == null || v === false) return '';
   if (Array.isArray(v)) return v.map(resolve).join('');
@@ -45,9 +59,13 @@ function scrub(root) {
     for (const attr of [...el.attributes]) {
       const name = attr.name.toLowerCase();
       if (name.startsWith('on')) el.removeAttribute(attr.name);
-      // Block javascript: and data: URLs in href/src/xlink:href.
-      if (/^(href|src|xlink:href)$/.test(name) && /^\s*(javascript|data):/i.test(attr.value)) {
-        el.removeAttribute(attr.name);
+      // Block javascript:/data:/vbscript: URLs in href/src/xlink:href. The URL
+      // parser ignores ASCII whitespace and C0 controls ANYWHERE in the scheme,
+      // so "java&Tab;script:" runs — collapse those chars before testing, don't
+      // just anchor on leading \s.
+      if (/^(href|src|xlink:href)$/.test(name)) {
+        const scheme = attr.value.replace(/[\u0000-\u0020]+/g, '');
+        if (/^(javascript|data|vbscript):/i.test(scheme)) el.removeAttribute(attr.name);
       }
     }
   }

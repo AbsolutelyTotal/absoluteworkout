@@ -281,7 +281,17 @@ async function main() {
     `${cfg.reference.exercise} is still a stock photo, every render will inherit that look.\n`
   );
 
+  const SLUG = /^[a-z0-9][a-z0-9-]*$/i;
+  if (SUFFIX != null && !SLUG.test(SUFFIX)) {
+    console.error(`Refusing --suffix "${SUFFIX}": use a plain slug (letters, digits, hyphens).`);
+    process.exit(1);
+  }
+
   for (const item of items) {
+    if (!SLUG.test(item.id)) {
+      console.error(`Refusing item id "${item.id}": ids must be plain slugs — a "/" or ".." would write outside the assets dir.`);
+      process.exit(1);
+    }
     const outPath = path.join(ROOT, cfg.outDir[item.kind],
       SUFFIX ? `${item.id}.${SUFFIX}.jpg` : `${item.id}.jpg`);
     const rel = path.relative(ROOT, outPath);
