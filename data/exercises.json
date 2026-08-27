@@ -156,7 +156,8 @@
       "machine-chest-press",
       "high-low-cable-fly"
     ],
-    "image": "assets/exercises/pec-deck-fly.jpg"
+    "image": "assets/exercises/pec-deck-fly.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/reel/DaRICG9KzRd/"
   },
   {
     "id": "high-low-cable-fly",
@@ -219,7 +220,8 @@
     "alternatives": [
       "seated-db-lateral-raise"
     ],
-    "image": "assets/exercises/machine-shoulder-press.jpg"
+    "image": "assets/exercises/machine-shoulder-press.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/reel/Da6nlgNqOoI/"
   },
   {
     "id": "seated-db-lateral-raise",
@@ -271,7 +273,8 @@
       "seated-db-lateral-raise",
       "machine-lateral-raise"
     ],
-    "image": "assets/exercises/cable-lateral-raise.jpg"
+    "image": "assets/exercises/cable-lateral-raise.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/reel/Dad8wMVquc9/"
   },
   {
     "id": "machine-lateral-raise",
