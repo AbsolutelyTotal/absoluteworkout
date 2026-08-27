@@ -60,6 +60,11 @@
     <button class="btn" data-action="import" type="button">Import (merge)</button>
     <button class="btn primary" data-action="download" type="button">Download</button>
   </div>
+
+  <div data-role="account" style="margin-top:18px">
+    <h3>Cloud sync</h3>
+    <div data-role="account-body"><!-- rendered by main.js --></div>
+  </div>
 </dialog>
 
 <dialog id="photo-dialog">
@@ -84,6 +89,10 @@
   <div data-role="body"></div>
 </dialog>
 
+<!-- Vendored @supabase/supabase-js (MIT) — self-hosted like the fonts, so the
+     page still loads no third-party script. Classic script on purpose: if it
+     fails, main.js still runs and sync simply reports itself unavailable. -->
+<script src="assets/vendor/supabase.js" defer></script>
 <script type="module" src="src/main.js"></script>
 </body>
 </html>

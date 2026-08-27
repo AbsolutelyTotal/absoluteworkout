@@ -235,16 +235,21 @@ export function exportJSON() {
   return JSON.stringify(state, null, 2);
 }
 
-export function importJSON(text, { merge = true } = {}) {
-  const incoming = migrate(JSON.parse(text));
-  if (merge) {
-    const seen = new Set(state.sessions.map(s => s.id));
-    const added = incoming.sessions.filter(s => !seen.has(s.id));
+/** Union by id — the same semantics as importJSON's merge path. Used by sync. */
+export function mergeSessions(sessions) {
+  const seen = new Set(state.sessions.map(s => s.id));
+  const added = (sessions ?? []).filter(s => s?.id && !seen.has(s.id));
+  if (added.length) {
     state.sessions = [...state.sessions, ...added].sort((a, b) => a.startedAt.localeCompare(b.startedAt));
     persist();
     notify('import');
-    return { added: added.length, skipped: incoming.sessions.length - added.length };
   }
+  return { added: added.length, skipped: (sessions?.length ?? 0) - added.length };
+}
+
+export function importJSON(text, { merge = true } = {}) {
+  const incoming = migrate(JSON.parse(text));
+  if (merge) return mergeSessions(incoming.sessions);
   state = incoming;
   persist();
   notify('import');

@@ -9,6 +9,7 @@ import * as history from './views/history.js';
 import * as library from './views/library.js';
 import { initPicker } from './views/picker.js';
 import { initExerciseDetail } from './views/exercise-detail.js';
+import * as sync from './sync.js';
 
 const VIEWS = {
   plan: (root, db) => plan.render(root, db, {
@@ -72,6 +73,7 @@ async function init() {
   wireImageFallback();
   initPicker();
   initExerciseDetail();
+  sync.init();
 }
 
 /**
@@ -203,6 +205,69 @@ function wireBackup() {
   });
 
   dialog.querySelector('[data-action="close"]').addEventListener('click', () => dialog.close());
+
+  // --- Cloud sync section -------------------------------------------------
+  const accountBody = dialog.querySelector('[data-role="account-body"]');
+
+  async function renderAccount() {
+    if (!sync.available()) {
+      mount(accountBody, html`<div class="note">Sync unavailable — the client library didn't load.</div>`);
+      return;
+    }
+    const u = await sync.user();
+    const { syncing, lastSync, lastError } = sync.status();
+
+    mount(accountBody, u
+      ? html`
+        <div class="note">${`Signed in as ${u.email}. Completed sessions back up automatically; the in-progress session stays on this device.`}</div>
+        ${lastError ? html`<div class="limit" style="margin-top:8px">${`⚠ ${lastError}`}</div>` : ''}
+        ${lastSync ? html`<div class="note" style="margin-top:6px">${`Last sync ${new Date(lastSync).toLocaleTimeString()}`}</div>` : ''}
+        <div class="dialog-actions" style="margin-top:10px">
+          <button class="btn" data-action="signout" type="button">Sign out</button>
+          <button class="btn primary" data-action="sync" type="button" ${syncing ? 'disabled' : ''}>
+            ${syncing ? 'Syncing…' : 'Sync now'}
+          </button>
+        </div>`
+      : html`
+        <div class="note">Optional. Sign in to back up completed sessions and share history between devices.</div>
+        ${lastError ? html`<div class="limit" style="margin-top:8px">${`⚠ ${lastError}`}</div>` : ''}
+        <form data-role="signin" style="margin-top:10px">
+          <input class="field" name="email" type="email" required autocomplete="email"
+                 placeholder="you@example.com" aria-label="Email for login link">
+          <div class="dialog-actions" style="margin-top:10px">
+            <button class="btn primary" type="submit">Send login link</button>
+          </div>
+        </form>`);
+
+    accountBody.querySelector('[data-role="signin"]')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = new FormData(e.target).get('email');
+      try {
+        await sync.signIn(email);
+        mount(accountBody, html`<div class="note">${`Login link sent to ${email}. Open it on this device.`}</div>`);
+      } catch (err) {
+        alert(`Could not send the link: ${err.message}`);
+      }
+    });
+    accountBody.querySelector('[data-action="signout"]')?.addEventListener('click', async () => {
+      await sync.signOut();
+      renderAccount();
+    });
+    accountBody.querySelector('[data-action="sync"]')?.addEventListener('click', async () => {
+      try {
+        const r = await sync.syncNow();
+        if (r) alert(`Synced. ${r.added} new session${r.added === 1 ? '' : 's'} pulled down.`);
+        show(current);
+      } catch (err) {
+        alert(`Sync failed: ${err.message}`);
+      } finally {
+        renderAccount();
+      }
+    });
+  }
+
+  sync.onChange(renderAccount);
+  document.getElementById('backup-btn').addEventListener('click', renderAccount);
 }
 
 init();
