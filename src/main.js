@@ -54,10 +54,6 @@ async function init() {
 
   mount(bannerEl, issuesBanner(db.issues));
 
-  // Land on the session if one is open — that's where you'd want to be.
-  if (store.activeSession()) current = 'log';
-  show(current);
-
   store.subscribe((_state, reason) => {
     if (reason === 'save-failed') {
       alert('Could not save to this browser\'s storage. Export your log from the ⋯ menu before continuing.');
@@ -67,6 +63,10 @@ async function init() {
     renderTabs();
   });
 
+  // Wire the chrome — export/import above all — BEFORE the first view render.
+  // If a view ever throws while rendering (e.g. a malformed session that got
+  // past the guards), the export dialog must still be reachable so the log can
+  // be rescued. Wiring after render was how a bad session bricked the app.
   renderTabs();
   wireBackup();
   wireAccount();
@@ -75,6 +75,22 @@ async function init() {
   initPicker();
   initExerciseDetail();
   sync.init();
+
+  // Land on the session if one is open — that's where you'd want to be.
+  if (store.activeSession()) current = 'log';
+  try {
+    show(current);
+  } catch (err) {
+    console.error('View render failed', err);
+    mount(viewEl, html`<div class="banner warn">
+      <span class="icon">!</span>
+      <div>
+        <strong>Something went wrong rendering this view.</strong>
+        Your log is safe — open the ⤓ menu to export a backup, then reload.
+        <div style="margin-top:6px;opacity:0.8">${String(err.message ?? err)}</div>
+      </div>
+    </div>`);
+  }
 }
 
 /**

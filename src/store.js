@@ -40,7 +40,15 @@ function load() {
     try { localStorage.setItem(`${KEY}.corrupt.${Date.now()}`, raw); } catch {}
     return structuredClone(DEFAULTS);
   }
-  return migrate(parsed);
+  try {
+    return migrate(parsed);
+  } catch {
+    // migrate() refuses data from a NEWER build. Don't let that throw at module
+    // scope — it would abort the whole import graph and blank the app with no
+    // way to export. Preserve the newer data under a dated key and boot fresh.
+    try { localStorage.setItem(`${KEY}.future.${Date.now()}`, raw); } catch {}
+    return structuredClone(DEFAULTS);
+  }
 }
 
 // Add a case per version bump. Never reinterpret an old shape in place.
@@ -195,6 +203,19 @@ export function substitute(sessionId, fromExerciseId, toExerciseId) {
   notify('substitute');
 }
 
+/** Persist bodyweight / notes as they're typed. The Log view previously wrote
+ *  these straight onto the session object with no persist(), so they survived
+ *  only if a later set-tick happened to serialise state — losing them if the
+ *  tab dropped first. Looked up by id, not a render-time capture, so it's safe
+ *  after an import replaces state. */
+export function updateSessionMeta(sessionId, patch) {
+  const session = state.sessions.find(s => s.id === sessionId);
+  if (!session) return;
+  if ('bodyweight' in patch) session.bodyweight = patch.bodyweight;
+  if ('notes' in patch) session.notes = patch.notes;
+  persist();
+}
+
 export function finishSession(sessionId, { notes, bodyweight } = {}) {
   const session = state.sessions.find(s => s.id === sessionId);
   if (!session) return;
@@ -235,21 +256,56 @@ export function exportJSON() {
   return JSON.stringify(state, null, 2);
 }
 
+/**
+ * A session is safe to admit only if the render paths can walk it without
+ * throwing. Import files and synced jsonb rows are both attacker-shaped data
+ * (a corrupt paste, or a row written by another/older client), and one bad
+ * object reaching the Log view throws during boot — before the export dialog
+ * is wired — which strands the log with no way out. So we validate at the door.
+ *
+ * `splitId`/`dayId` are checked for prototype-key strings too: `db.splitById`
+ * is a plain object, so "__proto__"/"constructor" would resolve to a truthy
+ * Object.prototype and then throw on `.days`.
+ */
+const BAD_KEY = new Set(['__proto__', 'constructor', 'prototype']);
+export function isValidSession(s) {
+  if (!s || typeof s !== 'object') return false;
+  if (typeof s.id !== 'string' || !s.id) return false;
+  if (typeof s.startedAt !== 'string' || !s.startedAt) return false;
+  if (!Array.isArray(s.entries)) return false;
+  for (const e of s.entries) {
+    if (!e || typeof e !== 'object' || !Array.isArray(e.sets)) return false;
+  }
+  for (const k of ['splitId', 'dayId']) {
+    if (s[k] != null && (typeof s[k] !== 'string' || BAD_KEY.has(s[k]))) return false;
+  }
+  return true;
+}
+
 /** Union by id — the same semantics as importJSON's merge path. Used by sync. */
 export function mergeSessions(sessions) {
+  const incoming = (sessions ?? []).filter(isValidSession);
   const seen = new Set(state.sessions.map(s => s.id));
-  const added = (sessions ?? []).filter(s => s?.id && !seen.has(s.id));
+  const added = incoming.filter(s => !seen.has(s.id));
   if (added.length) {
-    state.sessions = [...state.sessions, ...added].sort((a, b) => a.startedAt.localeCompare(b.startedAt));
+    // Plain `<` on ISO strings, not localeCompare: it sorts identically, is far
+    // faster, and — unlike a method call on a field — can't throw. (Invalid
+    // rows, including any without startedAt, are already filtered out above.)
+    state.sessions = [...state.sessions, ...added].sort((a, b) =>
+      a.startedAt < b.startedAt ? -1 : a.startedAt > b.startedAt ? 1 : 0);
     persist();
     notify('import');
   }
+  // skipped counts everything not added: duplicates AND malformed rows.
   return { added: added.length, skipped: (sessions?.length ?? 0) - added.length };
 }
 
 export function importJSON(text, { merge = true } = {}) {
   const incoming = migrate(JSON.parse(text));
   if (merge) return mergeSessions(incoming.sessions);
+  // Replace mode: keep only sessions the app can render, so a hand-edited file
+  // can't wholesale-replace the log with something that bricks on next boot.
+  incoming.sessions = (incoming.sessions ?? []).filter(isValidSession);
   state = incoming;
   persist();
   notify('import');

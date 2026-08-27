@@ -275,9 +275,14 @@ function wire(root, db, session, onFinish, rerender, signal) {
       return;
     }
     const bw = e.target.closest('input.bw');
-    if (bw) { session.bodyweight = bw.value === '' ? undefined : Number(bw.value); return; }
+    if (bw) {
+      const v = bw.value === '' ? null : Number(bw.value);
+      if (bw.value !== '' && !Number.isFinite(v)) return;
+      store.updateSessionMeta(session.id, { bodyweight: v });
+      return;
+    }
     const notes = e.target.closest('input.notes');
-    if (notes) session.notes = notes.value;
+    if (notes) store.updateSessionMeta(session.id, { notes: notes.value });
   }, { signal });
 
   root.addEventListener('click', (e) => {
