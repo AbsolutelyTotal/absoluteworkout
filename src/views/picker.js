@@ -59,7 +59,7 @@ function matches(db, ex) {
     || (ex.aliases ?? []).some(a => a.toLowerCase().includes(q));
 }
 
-function renderBody() {
+function renderBody(caret = null) {
   const db = state.db;
   const list = db.exercises.filter(ex => matches(db, ex));
   const body = dialog().querySelector('[data-role="body"]');
@@ -95,8 +95,7 @@ function renderBody() {
   `);
 
   const search = body.querySelector('[data-role="search"]');
-  const pos = search.selectionStart;
-  if (state.query) { search.focus(); search.setSelectionRange(pos, pos); }
+  if (caret != null) { search.focus(); search.setSelectionRange(caret, caret); }
 }
 
 // Wired once; the dialog markup lives in index.html.
@@ -123,7 +122,8 @@ export function initPicker() {
   d.addEventListener('input', (e) => {
     const s = e.target.closest('[data-role="search"]');
     if (!s) return;
+    const caret = s.selectionStart;   // from the CURRENT input, before mount replaces it
     state.query = s.value;
-    renderBody();
+    renderBody(caret);
   });
 }
