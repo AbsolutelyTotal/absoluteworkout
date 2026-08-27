@@ -2,360 +2,677 @@
   {
     "id": "incline-db-press",
     "name": "Incline Dumbbell Press",
-    "aliases": ["incline press", "30 degree db press"],
+    "aliases": [
+      "incline press",
+      "30 degree db press"
+    ],
     "pattern": "horizontal-push",
-    "equipment": ["dumbbell"],
+    "equipment": [
+      "dumbbell"
+    ],
     "icon": "incline-bench",
     "support": "incline-bench",
-    "primaryMuscles": ["upper-chest"],
-    "secondaryMuscles": ["front-delts", "triceps"],
+    "primaryMuscles": [
+      "upper-chest"
+    ],
+    "secondaryMuscles": [
+      "front-delts",
+      "triceps"
+    ],
     "cues": [
       "Bench at 30° — steeper turns it into a shoulder press",
       "Lower slowly to chest level, elbows slightly tucked",
       "Press smoothly, no bounce"
     ],
     "setupNotes": "Glutes stay on the bench. Don't arch the lower back to move more weight.",
-    "alternatives": ["machine-chest-press", "incline-smith-press", "flat-bench-press", "high-low-cable-fly"],
-    "image": "assets/exercises/incline-db-press.jpg"
+    "alternatives": [
+      "machine-chest-press",
+      "incline-smith-press",
+      "flat-bench-press",
+      "high-low-cable-fly"
+    ],
+    "image": "assets/exercises/incline-db-press.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/reel/DZ1MQx1KpTB/"
   },
   {
     "id": "machine-chest-press",
     "name": "Machine Chest Press",
-    "aliases": ["chest press machine"],
+    "aliases": [
+      "chest press machine"
+    ],
     "pattern": "horizontal-push",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "chest-press",
     "support": "high-back-seat",
-    "primaryMuscles": ["mid-chest"],
-    "secondaryMuscles": ["front-delts", "triceps"],
-    "cues": ["Bring your elbows together at the top", "Back flat against the pad throughout"],
-    "alternatives": ["incline-db-press", "flat-bench-press", "pec-deck-fly", "high-low-cable-fly"],
+    "primaryMuscles": [
+      "mid-chest"
+    ],
+    "secondaryMuscles": [
+      "front-delts",
+      "triceps"
+    ],
+    "cues": [
+      "Bring your elbows together at the top",
+      "Back flat against the pad throughout"
+    ],
+    "alternatives": [
+      "incline-db-press",
+      "flat-bench-press",
+      "pec-deck-fly",
+      "high-low-cable-fly"
+    ],
     "image": "assets/exercises/machine-chest-press.jpg"
   },
   {
     "id": "incline-smith-press",
     "name": "Incline Smith Machine Press",
-    "aliases": ["smith press"],
+    "aliases": [
+      "smith press"
+    ],
     "pattern": "horizontal-push",
-    "equipment": ["smith"],
+    "equipment": [
+      "smith"
+    ],
     "icon": "smith-machine",
     "support": "incline-bench",
-    "primaryMuscles": ["upper-chest"],
-    "secondaryMuscles": ["front-delts", "triceps"],
-    "cues": ["Bench at 30°", "Lower to upper chest, elbows tucked", "Press up smoothly"],
+    "primaryMuscles": [
+      "upper-chest"
+    ],
+    "secondaryMuscles": [
+      "front-delts",
+      "triceps"
+    ],
+    "cues": [
+      "Bench at 30°",
+      "Lower to upper chest, elbows tucked",
+      "Press up smoothly"
+    ],
     "setupNotes": "The fixed bar path means you can push hard without stabilising — keep the back flat.",
-    "alternatives": ["incline-db-press", "machine-chest-press"],
-    "image": "assets/exercises/incline-smith-press.jpg"
+    "alternatives": [
+      "incline-db-press",
+      "machine-chest-press"
+    ],
+    "image": "assets/exercises/incline-smith-press.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/reel/DZ1MQx1KpTB/"
   },
   {
     "id": "flat-bench-press",
     "name": "Flat Bench Press",
     "pattern": "horizontal-push",
-    "equipment": ["barbell"],
+    "equipment": [
+      "barbell"
+    ],
     "icon": "barbell-bench",
     "support": "supine-bench",
-    "primaryMuscles": ["mid-chest", "lower-chest"],
-    "secondaryMuscles": ["front-delts", "triceps"],
+    "primaryMuscles": [
+      "mid-chest",
+      "lower-chest"
+    ],
+    "secondaryMuscles": [
+      "front-delts",
+      "triceps"
+    ],
     "cues": [
       "Glutes glued to the bench",
       "No hyper-arching the lower back",
       "Controlled descent to the chest"
     ],
     "setupNotes": "Permitted alternative to the machine press, but only with a flat lower back. If you feel the need to arch, switch back to the machine.",
-    "alternatives": ["machine-chest-press", "incline-db-press", "high-low-cable-fly"],
-    "image": "assets/exercises/flat-bench-press.jpg"
+    "alternatives": [
+      "machine-chest-press",
+      "incline-db-press",
+      "high-low-cable-fly"
+    ],
+    "image": "assets/exercises/flat-bench-press.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/reel/DbmUTsFqoCf/"
   },
   {
     "id": "pec-deck-fly",
     "name": "Pec Deck Fly",
-    "aliases": ["butterfly machine", "pec fly"],
+    "aliases": [
+      "butterfly machine",
+      "pec fly"
+    ],
     "pattern": "isolation",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "pec-deck",
     "support": "high-back-seat",
-    "primaryMuscles": ["mid-chest"],
-    "secondaryMuscles": ["front-delts"],
-    "cues": ["Keep a slight bend in the elbows", "Squeeze the chest at the middle", "Control the return"],
-    "alternatives": ["machine-chest-press", "high-low-cable-fly"],
+    "primaryMuscles": [
+      "mid-chest"
+    ],
+    "secondaryMuscles": [
+      "front-delts"
+    ],
+    "cues": [
+      "Keep a slight bend in the elbows",
+      "Squeeze the chest at the middle",
+      "Control the return"
+    ],
+    "alternatives": [
+      "machine-chest-press",
+      "high-low-cable-fly"
+    ],
     "image": "assets/exercises/pec-deck-fly.jpg"
   },
   {
     "id": "high-low-cable-fly",
     "name": "High-to-Low Cable Fly",
-    "aliases": ["cable crossover", "decline cable fly", "high to low fly"],
+    "aliases": [
+      "cable crossover",
+      "decline cable fly",
+      "high to low fly"
+    ],
     "pattern": "isolation",
-    "equipment": ["cable"],
+    "equipment": [
+      "cable"
+    ],
     "icon": "cable-stack",
     "image": "assets/exercises/high-low-cable-fly.jpg",
     "support": "standing-braced",
-    "primaryMuscles": ["lower-chest"],
-    "secondaryMuscles": ["mid-chest"],
+    "primaryMuscles": [
+      "lower-chest"
+    ],
+    "secondaryMuscles": [
+      "mid-chest"
+    ],
     "cues": [
       "Sweep down and together, hands finishing in front of the hips",
       "Slight bend in the elbows, held constant",
       "Squeeze at the bottom, control the return"
     ],
     "setupNotes": "Both pulleys set high. Torso stays upright and braced — no forward lean or hinge, which is what keeps this spine-neutral. The downward angle is what biases the lower chest.",
-    "alternatives": ["pec-deck-fly", "machine-chest-press", "flat-bench-press"]
+    "alternatives": [
+      "pec-deck-fly",
+      "machine-chest-press",
+      "flat-bench-press"
+    ],
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DF2zzd6yaD1/"
   },
   {
     "id": "machine-shoulder-press",
     "name": "Seated Machine Shoulder Press",
-    "aliases": ["shoulder press machine"],
+    "aliases": [
+      "shoulder press machine"
+    ],
     "pattern": "vertical-push",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "shoulder-press",
     "support": "high-back-seat",
-    "primaryMuscles": ["front-delts"],
-    "secondaryMuscles": ["side-delts", "triceps"],
-    "cues": ["Chest tall, back against the pad", "Avoid leaning back to drive the weight"],
+    "primaryMuscles": [
+      "front-delts"
+    ],
+    "secondaryMuscles": [
+      "side-delts",
+      "triceps"
+    ],
+    "cues": [
+      "Chest tall, back against the pad",
+      "Avoid leaning back to drive the weight"
+    ],
     "setupNotes": "Seated with a high backrest — this is the permitted substitute for a standing overhead press.",
-    "alternatives": ["seated-db-lateral-raise"],
+    "alternatives": [
+      "seated-db-lateral-raise"
+    ],
     "image": "assets/exercises/machine-shoulder-press.jpg"
   },
   {
     "id": "seated-db-lateral-raise",
     "name": "Seated Dumbbell Lateral Raise",
-    "aliases": ["seated lateral raise"],
+    "aliases": [
+      "seated lateral raise"
+    ],
     "pattern": "isolation",
-    "equipment": ["dumbbell"],
+    "equipment": [
+      "dumbbell"
+    ],
     "icon": "lateral-raise",
     "support": "seated-upright",
-    "primaryMuscles": ["side-delts"],
-    "cues": ["Lead with your elbows", "Avoid shrugging", "Control the lowering"],
+    "primaryMuscles": [
+      "side-delts"
+    ],
+    "cues": [
+      "Lead with your elbows",
+      "Avoid shrugging",
+      "Control the lowering"
+    ],
     "setupNotes": "Seated removes the torso sway that a standing raise invites.",
-    "alternatives": ["cable-lateral-raise", "machine-lateral-raise"],
-    "image": "assets/exercises/seated-db-lateral-raise.jpg"
+    "alternatives": [
+      "cable-lateral-raise",
+      "machine-lateral-raise"
+    ],
+    "image": "assets/exercises/seated-db-lateral-raise.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DGKzmXOSl_O/"
   },
   {
     "id": "cable-lateral-raise",
     "name": "Seated Cable Lateral Raise",
     "pattern": "isolation",
-    "equipment": ["cable"],
+    "equipment": [
+      "cable"
+    ],
     "icon": "cable-stack",
     "support": "seated-upright",
-    "primaryMuscles": ["side-delts"],
+    "primaryMuscles": [
+      "side-delts"
+    ],
     "unilateral": true,
     "cues": [
       "Lead with the elbow",
       "Stop at shoulder height",
       "Constant tension — don't let the stack rest"
     ],
-    "alternatives": ["seated-db-lateral-raise", "machine-lateral-raise"],
+    "alternatives": [
+      "seated-db-lateral-raise",
+      "machine-lateral-raise"
+    ],
     "image": "assets/exercises/cable-lateral-raise.jpg"
   },
   {
     "id": "machine-lateral-raise",
     "name": "Seated Machine Lateral Raise",
-    "aliases": ["machine lateral raise", "lateral raise machine", "side delt machine"],
+    "aliases": [
+      "machine lateral raise",
+      "lateral raise machine",
+      "side delt machine"
+    ],
     "pattern": "isolation",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "machine",
     "image": "assets/exercises/machine-lateral-raise.jpg",
     "support": "high-back-seat",
-    "primaryMuscles": ["side-delts"],
+    "primaryMuscles": [
+      "side-delts"
+    ],
     "cues": [
       "Drive the pads up with the outside of the upper arms, not the hands",
       "Stop at shoulder height",
       "Shoulders down — don't shrug into it"
     ],
     "setupNotes": "Seat height so the pivot lines up with your shoulder joint. The fixed path means no torso sway at all, which makes this the most spine-neutral lateral raise of the three.",
-    "alternatives": ["seated-db-lateral-raise", "cable-lateral-raise"]
+    "alternatives": [
+      "seated-db-lateral-raise",
+      "cable-lateral-raise"
+    ]
   },
   {
     "id": "overhead-rope-extension",
     "name": "Seated High-Back Overhead Rope Extension",
-    "aliases": ["overhead tricep extension"],
+    "aliases": [
+      "overhead tricep extension"
+    ],
     "pattern": "isolation",
-    "equipment": ["cable"],
+    "equipment": [
+      "cable"
+    ],
     "icon": "cable-stack",
     "support": "high-back-seat",
-    "primaryMuscles": ["triceps"],
+    "primaryMuscles": [
+      "triceps"
+    ],
     "cues": [
       "Elbows tucked and close to the head",
       "Extend the rope out in front of you",
       "Twist the pinkies outwards at the end"
     ],
     "setupNotes": "High backrest is required — this is what keeps the overhead position from arching the lower back.",
-    "alternatives": ["tricep-pushdown"],
-    "image": "assets/exercises/overhead-rope-extension.jpg"
+    "alternatives": [
+      "tricep-pushdown"
+    ],
+    "image": "assets/exercises/overhead-rope-extension.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/reel/DZ6Do-lqDk-/"
   },
   {
     "id": "tricep-pushdown",
     "name": "Tricep Cable Pushdown",
-    "aliases": ["straight bar pushdown", "rope pushdown"],
+    "aliases": [
+      "straight bar pushdown",
+      "rope pushdown"
+    ],
     "pattern": "isolation",
-    "equipment": ["cable"],
+    "equipment": [
+      "cable"
+    ],
     "icon": "cable-stack",
     "support": "standing-braced",
-    "primaryMuscles": ["triceps"],
-    "cues": ["Keep the elbows still", "Push the bar straight down", "Pause at the bottom"],
-    "alternatives": ["overhead-rope-extension"],
-    "image": "assets/exercises/tricep-pushdown.jpg"
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "cues": [
+      "Keep the elbows still",
+      "Push the bar straight down",
+      "Pause at the bottom"
+    ],
+    "alternatives": [
+      "overhead-rope-extension"
+    ],
+    "image": "assets/exercises/tricep-pushdown.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DGNYP00S1b1/"
   },
   {
     "id": "lat-pulldown",
     "name": "Lat Pulldown",
-    "aliases": ["pulldown", "neutral grip pulldown", "wide grip pulldown"],
+    "aliases": [
+      "pulldown",
+      "neutral grip pulldown",
+      "wide grip pulldown"
+    ],
     "pattern": "vertical-pull",
-    "equipment": ["machine", "cable"],
+    "equipment": [
+      "machine",
+      "cable"
+    ],
     "icon": "lat-pulldown",
     "support": "seated-thigh-pad",
-    "primaryMuscles": ["lats"],
-    "secondaryMuscles": ["upper-back", "biceps"],
-    "cues": ["Pull the elbows down toward your ribs", "Chest tall", "Avoid leaning back"],
-    "alternatives": ["assisted-pullup"],
-    "image": "assets/exercises/lat-pulldown.jpg"
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "upper-back",
+      "biceps"
+    ],
+    "cues": [
+      "Pull the elbows down toward your ribs",
+      "Chest tall",
+      "Avoid leaning back"
+    ],
+    "alternatives": [
+      "assisted-pullup"
+    ],
+    "image": "assets/exercises/lat-pulldown.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DFncxYFS3X0/"
   },
   {
     "id": "assisted-pullup",
     "name": "Assisted / Unassisted Pull-Up",
-    "aliases": ["pullup", "chin up"],
+    "aliases": [
+      "pullup",
+      "chin up"
+    ],
     "pattern": "vertical-pull",
-    "equipment": ["bodyweight", "machine"],
+    "equipment": [
+      "bodyweight",
+      "machine"
+    ],
     "icon": "pullup-bar",
     "support": "hanging",
-    "primaryMuscles": ["lats"],
-    "secondaryMuscles": ["upper-back", "biceps", "forearms"],
-    "cues": ["Pull the elbows toward your ribs", "Chest up", "Lower under control"],
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "upper-back",
+      "biceps",
+      "forearms"
+    ],
+    "cues": [
+      "Pull the elbows toward your ribs",
+      "Chest up",
+      "Lower under control"
+    ],
     "setupNotes": "Hanging decompresses rather than compresses the spine. Assist as needed — don't kip or swing.",
-    "alternatives": ["lat-pulldown"],
-    "image": "assets/exercises/assisted-pullup.jpg"
+    "alternatives": [
+      "lat-pulldown"
+    ],
+    "image": "assets/exercises/assisted-pullup.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DF0QvJPy9xX/"
   },
   {
     "id": "chest-supported-row",
     "name": "Chest-Supported Dumbbell / Machine Row",
-    "aliases": ["chest supported row", "incline bench row", "leverage row"],
+    "aliases": [
+      "chest supported row",
+      "incline bench row",
+      "leverage row"
+    ],
     "pattern": "horizontal-pull",
-    "equipment": ["dumbbell", "machine"],
+    "equipment": [
+      "dumbbell",
+      "machine"
+    ],
     "icon": "chest-supported-row",
     "support": "chest-supported",
-    "primaryMuscles": ["upper-back", "lats"],
-    "secondaryMuscles": ["biceps", "rear-delts"],
-    "cues": ["Drive the elbows up and back", "Squeeze the shoulder blades", "Avoid shrugging"],
+    "primaryMuscles": [
+      "upper-back",
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "rear-delts"
+    ],
+    "cues": [
+      "Drive the elbows up and back",
+      "Squeeze the shoulder blades",
+      "Avoid shrugging"
+    ],
     "setupNotes": "Bench at 30-45°. Chest stays on the pad the whole set — that pad is what replaces a standing bent-over row.",
-    "alternatives": ["lat-pulldown"],
-    "image": "assets/exercises/chest-supported-row.jpg"
+    "alternatives": [
+      "lat-pulldown"
+    ],
+    "image": "assets/exercises/chest-supported-row.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DFvHVlyS2sC/"
   },
   {
     "id": "chest-supported-rear-delt-fly",
     "name": "Chest-Supported Rear Delt Fly",
-    "aliases": ["rear delt fly", "incline rear delt raise"],
+    "aliases": [
+      "rear delt fly",
+      "incline rear delt raise"
+    ],
     "pattern": "isolation",
-    "equipment": ["dumbbell"],
+    "equipment": [
+      "dumbbell"
+    ],
     "icon": "chest-supported-row",
     "support": "chest-supported",
-    "primaryMuscles": ["rear-delts"],
-    "secondaryMuscles": ["upper-back", "traps"],
+    "primaryMuscles": [
+      "rear-delts"
+    ],
+    "secondaryMuscles": [
+      "upper-back",
+      "traps"
+    ],
     "cues": [
       "Lead with the elbows outwards, then slightly upwards",
       "Keep the arms slightly bent",
       "Avoid shrugging"
     ],
     "setupNotes": "Chest on the pad. This is the supported replacement for a bent-over fly.",
-    "alternatives": ["reverse-pec-deck"],
-    "image": "assets/exercises/chest-supported-rear-delt-fly.jpg"
+    "alternatives": [
+      "reverse-pec-deck"
+    ],
+    "image": "assets/exercises/chest-supported-rear-delt-fly.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DGGI9fASRpx/"
   },
   {
     "id": "reverse-pec-deck",
     "name": "Reverse Pec Deck",
-    "aliases": ["reverse fly machine"],
+    "aliases": [
+      "reverse fly machine"
+    ],
     "pattern": "isolation",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "pec-deck",
     "support": "chest-supported",
-    "primaryMuscles": ["rear-delts"],
-    "secondaryMuscles": ["upper-back"],
-    "cues": ["Chest against the pad", "Lead with the elbows", "Squeeze and control the return"],
-    "alternatives": ["chest-supported-rear-delt-fly"],
+    "primaryMuscles": [
+      "rear-delts"
+    ],
+    "secondaryMuscles": [
+      "upper-back"
+    ],
+    "cues": [
+      "Chest against the pad",
+      "Lead with the elbows",
+      "Squeeze and control the return"
+    ],
+    "alternatives": [
+      "chest-supported-rear-delt-fly"
+    ],
     "image": "assets/exercises/reverse-pec-deck.jpg"
   },
   {
     "id": "incline-db-curl",
     "name": "Incline Dumbbell Curl",
-    "aliases": ["incline curl"],
+    "aliases": [
+      "incline curl"
+    ],
     "pattern": "isolation",
-    "equipment": ["dumbbell"],
+    "equipment": [
+      "dumbbell"
+    ],
     "icon": "incline-bench",
     "support": "incline-bench",
-    "primaryMuscles": ["biceps"],
-    "secondaryMuscles": ["forearms"],
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "secondaryMuscles": [
+      "forearms"
+    ],
     "cues": [
       "Keep the elbows behind your body",
       "Curl from upper forearm to lower bicep, not dumbbell to shoulder",
       "Lower slowly"
     ],
     "setupNotes": "Bench at 45-60°. The incline puts the long head on stretch.",
-    "alternatives": ["cable-curl"],
-    "image": "assets/exercises/incline-db-curl.jpg"
+    "alternatives": [
+      "cable-curl"
+    ],
+    "image": "assets/exercises/incline-db-curl.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DFqAMsyy2sV/"
   },
   {
     "id": "cable-curl",
     "name": "Cable Curl",
     "pattern": "isolation",
-    "equipment": ["cable"],
+    "equipment": [
+      "cable"
+    ],
     "icon": "cable-stack",
     "support": "standing-braced",
-    "primaryMuscles": ["biceps"],
-    "secondaryMuscles": ["forearms"],
-    "cues": ["Curl slowly, elbows tucked", "Constant tension"],
-    "alternatives": ["incline-db-curl"],
-    "image": "assets/exercises/cable-curl.jpg"
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "secondaryMuscles": [
+      "forearms"
+    ],
+    "cues": [
+      "Curl slowly, elbows tucked",
+      "Constant tension"
+    ],
+    "alternatives": [
+      "incline-db-curl"
+    ],
+    "image": "assets/exercises/cable-curl.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DFlB5gAyr4E/"
   },
   {
     "id": "straight-arm-cable-pushdown",
     "name": "Standing Straight-Arm Cable Pushdown",
-    "aliases": ["straight arm pulldown", "lat pushdown"],
+    "aliases": [
+      "straight arm pulldown",
+      "lat pushdown"
+    ],
     "pattern": "core",
-    "equipment": ["cable"],
+    "equipment": [
+      "cable"
+    ],
     "icon": "cable-stack",
     "support": "standing-braced",
-    "primaryMuscles": ["lats", "abs"],
+    "primaryMuscles": [
+      "lats",
+      "abs"
+    ],
     "cues": [
       "Arms nearly straight, hinge only at the shoulder",
       "Brace hard — resist the cable pulling you into extension",
       "Continuous tension"
     ],
     "setupNotes": "Doubles as the anti-extension core movement and a lat finisher. Chosen over lying pullovers, which arch the spine.",
-    "alternatives": ["bear-plank"],
-    "image": "assets/exercises/straight-arm-cable-pushdown.jpg"
+    "alternatives": [
+      "bear-plank"
+    ],
+    "image": "assets/exercises/straight-arm-cable-pushdown.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DF5YI7-SLS_/"
   },
   {
     "id": "seated-hamstring-curl",
     "name": "Seated Hamstring Curl",
-    "aliases": ["leg curl", "hamstring curl"],
+    "aliases": [
+      "leg curl",
+      "hamstring curl"
+    ],
     "pattern": "isolation",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "hamstring-curl",
     "support": "high-back-seat",
-    "primaryMuscles": ["hamstrings"],
-    "cues": ["Pull the heels back", "Squeeze the hamstrings", "Control the return"],
+    "primaryMuscles": [
+      "hamstrings"
+    ],
+    "cues": [
+      "Pull the heels back",
+      "Squeeze the hamstrings",
+      "Control the return"
+    ],
     "setupNotes": "One half of the RDL replacement — this is the knee-flexion half.",
-    "alternatives": ["single-leg-glute-bridge"],
-    "image": "assets/exercises/seated-hamstring-curl.jpg"
+    "alternatives": [
+      "single-leg-glute-bridge"
+    ],
+    "image": "assets/exercises/seated-hamstring-curl.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DF7-mGiy4yR/"
   },
   {
     "id": "leg-extension",
     "name": "Leg Extension",
     "pattern": "isolation",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "leg-extension",
     "support": "high-back-seat",
-    "primaryMuscles": ["quads"],
-    "cues": ["Extend fully and squeeze the quads", "Lower slowly with control"],
-    "alternatives": ["seated-horizontal-leg-press"],
-    "image": "assets/exercises/leg-extension.jpg"
+    "primaryMuscles": [
+      "quads"
+    ],
+    "cues": [
+      "Extend fully and squeeze the quads",
+      "Lower slowly with control"
+    ],
+    "alternatives": [
+      "seated-horizontal-leg-press"
+    ],
+    "image": "assets/exercises/leg-extension.jpg",
+    "demoUrl": "https://www.instagram.com/deltabolic/p/DFigS-dy4I6/"
   },
   {
     "id": "seated-horizontal-leg-press",
     "name": "Seated Horizontal Leg Press",
-    "aliases": ["leg press", "horizontal leg press"],
+    "aliases": [
+      "leg press",
+      "horizontal leg press"
+    ],
     "pattern": "squat",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "leg-press",
     "support": "high-back-seat",
-    "primaryMuscles": ["quads", "glutes"],
-    "secondaryMuscles": ["hamstrings", "adductors"],
+    "primaryMuscles": [
+      "quads",
+      "glutes"
+    ],
+    "secondaryMuscles": [
+      "hamstrings",
+      "adductors"
+    ],
     "cues": [
       "Stop at 90° knee flexion — no deeper",
       "Drive through the mid-foot",
@@ -364,19 +681,29 @@
     ],
     "setupNotes": "Hard depth limit: 90° at the knee. Going deeper rounds the lumbar spine (butt-wink) and is the single biggest risk in this session. Seated horizontal is preferred over the 45° incline version.",
     "formLimit": "Max 90° knee flexion",
-    "alternatives": ["leg-extension"],
+    "alternatives": [
+      "leg-extension"
+    ],
     "image": "assets/exercises/seated-horizontal-leg-press.jpg"
   },
   {
     "id": "single-leg-glute-bridge",
     "name": "Single-Leg Glute Bridge",
-    "aliases": ["glute bridge"],
+    "aliases": [
+      "glute bridge"
+    ],
     "pattern": "hinge",
-    "equipment": ["bodyweight"],
+    "equipment": [
+      "bodyweight"
+    ],
     "icon": "glute-bridge",
     "support": "supine-floor",
-    "primaryMuscles": ["glutes"],
-    "secondaryMuscles": ["hamstrings"],
+    "primaryMuscles": [
+      "glutes"
+    ],
+    "secondaryMuscles": [
+      "hamstrings"
+    ],
     "unilateral": true,
     "cues": [
       "Drive the hips up through the heel",
@@ -384,55 +711,89 @@
       "Ribs down — don't arch to get higher"
     ],
     "setupNotes": "The hip-extension half of the RDL replacement. Supine, so there's no shear load on the spine.",
-    "alternatives": ["seated-hamstring-curl"],
+    "alternatives": [
+      "seated-hamstring-curl"
+    ],
     "image": "assets/exercises/single-leg-glute-bridge.jpg"
   },
   {
     "id": "hip-abduction-machine",
     "name": "Seated Hip Abduction Machine",
-    "aliases": ["hip abduction", "abductor machine", "outer thigh machine", "legs out"],
+    "aliases": [
+      "hip abduction",
+      "abductor machine",
+      "outer thigh machine",
+      "legs out"
+    ],
     "pattern": "isolation",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "machine",
     "image": "assets/exercises/hip-abduction-machine.jpg",
     "support": "high-back-seat",
-    "primaryMuscles": ["abductors"],
-    "secondaryMuscles": ["glutes"],
+    "primaryMuscles": [
+      "abductors"
+    ],
+    "secondaryMuscles": [
+      "glutes"
+    ],
     "cues": [
       "Push the knees apart against the pads",
       "Sit tall with your back on the pad — don't lean forward to get more range",
       "Pause at the widest point, control the return"
     ],
     "setupNotes": "Legs-out direction. Seated with a backrest, so no spinal load — safe under the L5-S1 constraints. Leaning the torso forward is the only way to make this movement a problem; keep the back against the pad.",
-    "alternatives": ["hip-adduction-machine", "single-leg-glute-bridge"]
+    "alternatives": [
+      "hip-adduction-machine",
+      "single-leg-glute-bridge"
+    ]
   },
   {
     "id": "hip-adduction-machine",
     "name": "Seated Hip Adduction Machine",
-    "aliases": ["hip adduction", "adductor machine", "inner thigh machine", "legs in"],
+    "aliases": [
+      "hip adduction",
+      "adductor machine",
+      "inner thigh machine",
+      "legs in"
+    ],
     "pattern": "isolation",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "machine",
     "image": "assets/exercises/hip-adduction-machine.jpg",
     "support": "high-back-seat",
-    "primaryMuscles": ["adductors"],
+    "primaryMuscles": [
+      "adductors"
+    ],
     "cues": [
       "Squeeze the knees together against the pads",
       "Back stays on the pad, hips square",
       "Control the opening — don't let the stack pull you apart"
     ],
     "setupNotes": "Legs-in direction, the same machine set the other way. Seated and supported, so no spinal load.",
-    "alternatives": ["hip-abduction-machine"]
+    "alternatives": [
+      "hip-abduction-machine"
+    ]
   },
   {
     "id": "seated-calf-raise",
     "name": "Seated Calf Raise",
     "pattern": "isolation",
-    "equipment": ["machine"],
+    "equipment": [
+      "machine"
+    ],
     "icon": "calf-raise",
     "support": "seated-upright",
-    "primaryMuscles": ["calves"],
-    "cues": ["Pause at the top", "Full stretch at the bottom"],
+    "primaryMuscles": [
+      "calves"
+    ],
+    "cues": [
+      "Pause at the top",
+      "Full stretch at the bottom"
+    ],
     "setupNotes": "Seated keeps the load off the spine — a standing calf raise loads the shoulders.",
     "alternatives": [],
     "image": "assets/exercises/seated-calf-raise.jpg"
@@ -440,12 +801,19 @@
   {
     "id": "pallof-press",
     "name": "Pallof Press (Cable Stack)",
-    "aliases": ["pallof"],
+    "aliases": [
+      "pallof"
+    ],
     "pattern": "core",
-    "equipment": ["cable"],
+    "equipment": [
+      "cable"
+    ],
     "icon": "cable-stack",
     "support": "standing-braced",
-    "primaryMuscles": ["obliques", "abs"],
+    "primaryMuscles": [
+      "obliques",
+      "abs"
+    ],
     "unilateral": true,
     "cues": [
       "Resist the rotation — the cable wants to twist you",
@@ -453,51 +821,92 @@
       "Breathe"
     ],
     "setupNotes": "Anti-rotation. The work is in not moving.",
-    "alternatives": ["half-kneeling-pallof-press"],
+    "alternatives": [
+      "half-kneeling-pallof-press"
+    ],
     "image": "assets/exercises/pallof-press.jpg"
   },
   {
     "id": "half-kneeling-pallof-press",
     "name": "Half-Kneeling Pallof Press",
     "pattern": "core",
-    "equipment": ["cable"],
+    "equipment": [
+      "cable"
+    ],
     "icon": "cable-stack",
     "support": "half-kneeling",
-    "primaryMuscles": ["obliques", "abs"],
+    "primaryMuscles": [
+      "obliques",
+      "abs"
+    ],
     "unilateral": true,
-    "cues": ["Tall spine, glute of the down leg squeezed", "Resist rotation", "Press slow"],
+    "cues": [
+      "Tall spine, glute of the down leg squeezed",
+      "Resist rotation",
+      "Press slow"
+    ],
     "setupNotes": "Half-kneeling takes the legs out and makes the core do the anti-rotation work. Replaces suitcase carries.",
-    "alternatives": ["pallof-press", "side-plank-knee-modified"],
+    "alternatives": [
+      "pallof-press",
+      "side-plank-knee-modified"
+    ],
     "image": "assets/exercises/half-kneeling-pallof-press.jpg"
   },
   {
     "id": "side-plank-knee-modified",
     "name": "Knee-Modified Side Plank",
-    "aliases": ["side plank"],
+    "aliases": [
+      "side plank"
+    ],
     "pattern": "core",
-    "equipment": ["bodyweight"],
+    "equipment": [
+      "bodyweight"
+    ],
     "icon": "plank",
     "support": "side-lying",
-    "primaryMuscles": ["obliques"],
-    "secondaryMuscles": ["abs", "glutes"],
+    "primaryMuscles": [
+      "obliques"
+    ],
+    "secondaryMuscles": [
+      "abs",
+      "glutes"
+    ],
     "unilateral": true,
-    "cues": ["Straight line from knee to shoulder", "Hips stacked, don't sag", "Hold — no movement"],
+    "cues": [
+      "Straight line from knee to shoulder",
+      "Hips stacked, don't sag",
+      "Hold — no movement"
+    ],
     "setupNotes": "Anti-lateral-flexion. Knees down keeps the lever short and the spine neutral.",
-    "alternatives": ["half-kneeling-pallof-press"],
+    "alternatives": [
+      "half-kneeling-pallof-press"
+    ],
     "image": "assets/exercises/side-plank-knee-modified.jpg"
   },
   {
     "id": "bear-plank",
     "name": "Bear Plank",
     "pattern": "core",
-    "equipment": ["bodyweight"],
+    "equipment": [
+      "bodyweight"
+    ],
     "icon": "plank",
     "support": "quadruped",
-    "primaryMuscles": ["abs"],
-    "secondaryMuscles": ["obliques"],
-    "cues": ["Knees an inch off the floor", "Flat back, ribs down", "Hold still"],
+    "primaryMuscles": [
+      "abs"
+    ],
+    "secondaryMuscles": [
+      "obliques"
+    ],
+    "cues": [
+      "Knees an inch off the floor",
+      "Flat back, ribs down",
+      "Hold still"
+    ],
     "setupNotes": "Anti-extension without the lower-back arch that deadbugs and captain's chair invite.",
-    "alternatives": ["straight-arm-cable-pushdown"],
+    "alternatives": [
+      "straight-arm-cable-pushdown"
+    ],
     "image": "assets/exercises/bear-plank.jpg"
   }
 ]
