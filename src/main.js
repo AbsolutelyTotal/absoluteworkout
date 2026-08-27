@@ -114,10 +114,28 @@ async function profileIdForSplit(splitId) {
  * to one requires reloading the data — re-rendering alone would leave the old
  * library in memory, which for a restricted profile is the unsafe direction.
  */
+let loadSeq = 0;
 async function ensureProfileFor(splitId) {
   const wanted = db.splitById[splitId]?.profileId;
   if (!wanted || wanted === db.profile?.id) return false;
-  db = await loadData(wanted);
+  // Generation guard: a fast double-switch between splits on different profiles
+  // could interleave two loadData() calls and let the SLOWER one land last,
+  // leaving the wrong library in memory (e.g. the extended set under an L5-S1
+  // plan — the one unsafe direction the whole profile model exists to prevent).
+  // Only the newest request may commit; stale ones are dropped.
+  const seq = ++loadSeq;
+  let next;
+  try {
+    next = await loadData(wanted);
+  } catch (err) {
+    // Reload failed (offline / bad deploy). Don't leave activeSplitId pointing
+    // at a split whose library never loaded — surface it and let the caller
+    // keep the current db rather than half-switching.
+    if (seq === loadSeq) mount(bannerEl, issuesBanner([`couldn't load the library for "${splitId}" — ${err.message ?? err}`]));
+    return false;
+  }
+  if (seq !== loadSeq) return false;   // a newer switch superseded this one
+  db = next;
   mount(bannerEl, issuesBanner(db.issues));
   return true;
 }

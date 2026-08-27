@@ -471,6 +471,27 @@ export async function run(scratch) {
       return `${groups.length} filters, ${seen.size} exercises reachable`;
     });
 
+    await checkAsync('picker search preserves the caret (typing does not reverse)', async () => {
+      await freshSession();
+      scratch.querySelector('[data-action="add-exercise"]').click();
+      await wait(0);
+      const d = document.getElementById('picker-dialog');
+      const type = async (val, caret) => {
+        const inp = d.querySelector('[data-role="search"]');
+        inp.value = val;
+        inp.setSelectionRange(caret, caret);        // caret mid-string, as when typing
+        inp.dispatchEvent(new Event('input', { bubbles: true }));
+        await wait(0);
+      };
+      // Simulate typing "row" then inserting 'w' after "ro": caret should land at 3,
+      // not snap to 0 (which is what made real typing come out reversed).
+      await type('row', 3);
+      const after = d.querySelector('[data-role="search"]');
+      const pos = after.selectionStart;
+      d.close();
+      return eq(pos, 3, 'caret after re-render: ');
+    });
+
     // --------------------------------------------------------------- dialogs
     group('Dialogs');
 
