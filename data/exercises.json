@@ -520,7 +520,8 @@
     "alternatives": [
       "chest-supported-rear-delt-fly"
     ],
-    "image": "assets/exercises/reverse-pec-deck.jpg"
+    "image": "assets/exercises/reverse-pec-deck.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DUGk4gbCTHR/"
   },
   {
     "id": "incline-db-curl",
@@ -688,7 +689,8 @@
     "alternatives": [
       "leg-extension"
     ],
-    "image": "assets/exercises/seated-horizontal-leg-press.jpg"
+    "image": "assets/exercises/seated-horizontal-leg-press.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DKySd0Gxn-Y/"
   },
   {
     "id": "single-leg-glute-bridge",
@@ -751,7 +753,8 @@
     "alternatives": [
       "hip-adduction-machine",
       "single-leg-glute-bridge"
-    ]
+    ],
+    "demoUrl": "https://www.instagram.com/reel/DBPyL-tSN-g/"
   },
   {
     "id": "hip-adduction-machine",
