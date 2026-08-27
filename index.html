@@ -62,7 +62,9 @@
   <div class="dialog-actions">
     <button class="btn" data-action="close" type="button">Close</button>
     <button class="btn" data-action="import" type="button">Import (merge)</button>
-    <button class="btn primary" data-action="download" type="button">Download</button>
+    <!-- autofocus keeps showModal from focusing the textarea, which pops the
+         mobile keyboard and scrolls the dialog the moment it opens. -->
+    <button class="btn primary" data-action="download" type="button" autofocus>Download</button>
   </div>
 
 </dialog>

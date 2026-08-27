@@ -183,6 +183,10 @@ function wireBackup() {
   document.getElementById('backup-btn').addEventListener('click', () => {
     textarea.value = store.exportJSON();
     dialog.showModal();
+    // showModal autofocuses the textarea, and focus puts the caret at the end
+    // of its value — so the dialog opened scrolled to the tail of the JSON.
+    textarea.setSelectionRange(0, 0);
+    textarea.scrollTop = 0;
   });
 
   dialog.querySelector('[data-action="download"]').addEventListener('click', () => {
