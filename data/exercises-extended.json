@@ -1,1 +1,103 @@
-[]
+[
+  {
+    "id": "pullover",
+    "name": "Dumbbell Pullover",
+    "pattern": "isolation",
+    "equipment": [
+      "dumbbell"
+    ],
+    "support": "supine-bench",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "mid-chest",
+      "triceps"
+    ],
+    "cues": [
+      "Slight elbow bend, keep it through the whole arc",
+      "Lower until you feel the lats stretch, no further"
+    ]
+  },
+  {
+    "id": "face-pull",
+    "name": "Face Pull",
+    "pattern": "horizontal-pull",
+    "equipment": [
+      "cable"
+    ],
+    "support": "standing-braced",
+    "primaryMuscles": [
+      "rear-delts"
+    ],
+    "secondaryMuscles": [
+      "upper-back",
+      "traps"
+    ],
+    "cues": [
+      "Rope to the bridge of the nose",
+      "Elbows high and wide",
+      "Pause with thumbs pointing back"
+    ]
+  },
+  {
+    "id": "machine-high-row",
+    "name": "Machine High Row",
+    "aliases": [
+      "upper row",
+      "חתירה עליונה"
+    ],
+    "pattern": "vertical-pull",
+    "equipment": [
+      "machine"
+    ],
+    "support": "chest-supported",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "upper-back",
+      "biceps"
+    ],
+    "cues": [
+      "Pull down and back toward the hips",
+      "Chest stays on the pad"
+    ]
+  },
+  {
+    "id": "front-raise",
+    "name": "Front Raise",
+    "pattern": "isolation",
+    "equipment": [
+      "dumbbell",
+      "cable"
+    ],
+    "support": "standing-braced",
+    "primaryMuscles": [
+      "front-delts"
+    ],
+    "cues": [
+      "To eye height, no higher",
+      "No swing — brace and lift"
+    ]
+  },
+  {
+    "id": "db-curl",
+    "name": "Dumbbell Curl",
+    "pattern": "isolation",
+    "equipment": [
+      "dumbbell"
+    ],
+    "support": "standing-braced",
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "secondaryMuscles": [
+      "forearms"
+    ],
+    "cues": [
+      "Elbows pinned to your sides",
+      "Control the way down"
+    ]
+  }
+]

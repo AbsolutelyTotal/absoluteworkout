@@ -87,10 +87,18 @@ export async function run(scratch) {
         (e.alternatives ?? []).filter(id => !db.exerciseById[id]).map(id => `${e.id}->${id}`));
       return eq(bad, [], 'dangling: ');
     });
-    check('every prescription id exists', () => {
+    await checkAsync('every prescription id exists under its own profile', async () => {
+      // Each split is checked against the library ITS profile loads — a split
+      // under another profile legitimately references exercises that are not
+      // in memory under l5s1 (that absence is the safety model, not a bug).
       const bad = [];
-      for (const s of db.splits) for (const d of s.days) for (const p of prescriptionsOf(d))
-        if (!db.exerciseById[p.exerciseId]) bad.push(`${s.id}/${d.id}->${p.exerciseId}`);
+      const dbFor = { [db.profile.id]: db };
+      for (const s of db.splits) {
+        const pid = s.profileId ?? db.profiles[0].id;
+        dbFor[pid] ??= await loadData(pid);
+        for (const d of s.days) for (const p of prescriptionsOf(d))
+          if (!dbFor[pid].exerciseById[p.exerciseId]) bad.push(`${s.id}/${d.id}->${p.exerciseId}`);
+      }
       return eq(bad, [], 'dangling: ');
     });
     check('loader reports no issues', () => eq(db.issues, [], 'issues: '));
@@ -131,6 +139,18 @@ export async function run(scratch) {
       const hits = db.exercises.filter(e => banned.test(e.id)).map(e => e.id);
       // leg press is a permitted `squat` PATTERN but its id must not match
       return eq(hits, [], 'banned ids present: ');
+    });
+    await checkAsync('the extended library loads for noa and never for l5s1', async () => {
+      // Non-vacuous since Noa's plan landed: exercises-extended.json now has
+      // real entries, so this asserts the fail-closed loading both ways.
+      const extended = await fetch('data/exercises-extended.json', { cache: 'no-store' }).then(r => r.json());
+      ok(extended.length > 0, 'extended library should not be empty');
+      const missing = extended.filter(e => db.exerciseById[e.id]).map(e => e.id);
+      eq(missing, [], 'extended ids loaded under l5s1: ');
+      const noaDb = await loadData('noa');
+      const absent = extended.filter(e => !noaDb.exerciseById[e.id]).map(e => e.id);
+      eq(absent, [], 'extended ids missing under noa: ');
+      return eq(noaDb.issues, [], 'noa profile load issues: ');
     });
     check('every split declares a known profile', () => {
       const bad = db.splits.filter(s => !db.profileById[s.profileId]).map(s => s.id);
