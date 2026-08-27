@@ -48,8 +48,9 @@ new one until it signs in and cloud sync pulls its history down. Sync any
 device on the old origin BEFORE pointing it at the new.
 
 The repo is public only because Pages won't serve a private repo on a free
-plan. This isn't meant to be found: the page sends `noindex, nofollow`, and
-there are no social-preview or canonical tags. `robots.txt` deliberately
+plan. This isn't meant to be found: the page sends `noindex, nofollow`. It does
+carry Open Graph tags — preview cards for a directly-shared link are a
+different thing from search visibility, and the URL is shared with friends. `robots.txt` deliberately
 *allows* crawling — a `Disallow` would stop crawlers reading the `noindex`,
 which can leave the URL indexed anyway from an inbound link.
 
