@@ -1,12 +1,12 @@
 # Exercise and muscle image sources
 
-All 52 images (31 exercises, 21 muscles) are **generated illustrations**, produced
+All 51 images (30 exercises, 21 muscles) are **generated illustrations**, produced
 with `gemini-3.1-flash-image`. Prompts and the generator live in `tools/`.
 
 Regenerate one:
 
 ```bash
-export NODE_EXTRA_CA_CERTS="$HOME/.certs/checkpoint-harmony-sase.pem"   # Harmony SASE TLS interception
+export NODE_EXTRA_CA_CERTS=/path/to/corporate-root.pem                  # only if your network does TLS interception
 read -rs GEMINI_API_KEY && export GEMINI_API_KEY                        # session only, never a file
 node tools/gen-images.mjs --only <id> --style illustrated --no-reference --force \
   --model gemini-3.1-flash-image
