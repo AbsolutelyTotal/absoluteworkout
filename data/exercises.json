@@ -614,7 +614,8 @@
     "alternatives": [
       "single-leg-glute-bridge"
     ],
-    "image": "assets/exercises/seated-hamstring-curl.jpg"
+    "image": "assets/exercises/seated-hamstring-curl.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DCsT5n8SVra/"
   },
   {
     "id": "leg-extension",
@@ -635,7 +636,8 @@
     "alternatives": [
       "seated-horizontal-leg-press"
     ],
-    "image": "assets/exercises/leg-extension.jpg"
+    "image": "assets/exercises/leg-extension.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DKA0x43NoU6/"
   },
   {
     "id": "seated-horizontal-leg-press",
