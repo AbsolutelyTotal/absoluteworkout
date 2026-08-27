@@ -31,7 +31,8 @@
       "flat-bench-press",
       "high-low-cable-fly"
     ],
-    "image": "assets/exercises/incline-db-press.jpg"
+    "image": "assets/exercises/incline-db-press.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DGwtOwSMAJh/"
   },
   {
     "id": "machine-chest-press",
@@ -62,7 +63,8 @@
       "pec-deck-fly",
       "high-low-cable-fly"
     ],
-    "image": "assets/exercises/machine-chest-press.jpg"
+    "image": "assets/exercises/machine-chest-press.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DUW7SXhCXHF/"
   },
   {
     "id": "incline-smith-press",
@@ -153,7 +155,8 @@
       "machine-chest-press",
       "high-low-cable-fly"
     ],
-    "image": "assets/exercises/pec-deck-fly.jpg"
+    "image": "assets/exercises/pec-deck-fly.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DL05ecRtg30/"
   },
   {
     "id": "high-low-cable-fly",
@@ -215,7 +218,8 @@
     "alternatives": [
       "seated-db-lateral-raise"
     ],
-    "image": "assets/exercises/machine-shoulder-press.jpg"
+    "image": "assets/exercises/machine-shoulder-press.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DKDrd1hRt2u/"
   },
   {
     "id": "seated-db-lateral-raise",
@@ -295,7 +299,8 @@
     "alternatives": [
       "seated-db-lateral-raise",
       "cable-lateral-raise"
-    ]
+    ],
+    "demoUrl": "https://www.instagram.com/reel/DX2VkSIKxox/"
   },
   {
     "id": "overhead-rope-extension",
@@ -321,7 +326,8 @@
     "alternatives": [
       "tricep-pushdown"
     ],
-    "image": "assets/exercises/overhead-rope-extension.jpg"
+    "image": "assets/exercises/overhead-rope-extension.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DH9mzcPxlb4/"
   },
   {
     "id": "tricep-pushdown",
@@ -347,7 +353,8 @@
     "alternatives": [
       "overhead-rope-extension"
     ],
-    "image": "assets/exercises/tricep-pushdown.jpg"
+    "image": "assets/exercises/tricep-pushdown.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DLOIzquxEkB/"
   },
   {
     "id": "lat-pulldown",
@@ -379,7 +386,8 @@
     "alternatives": [
       "assisted-pullup"
     ],
-    "image": "assets/exercises/lat-pulldown.jpg"
+    "image": "assets/exercises/lat-pulldown.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DFl0Oksg9EI/"
   },
   {
     "id": "assisted-pullup",
@@ -446,7 +454,8 @@
     "alternatives": [
       "lat-pulldown"
     ],
-    "image": "assets/exercises/chest-supported-row.jpg"
+    "image": "assets/exercises/chest-supported-row.jpg",
+    "demoUrl": "https://www.instagram.com/reel/Db9ZT5mK5wg/"
   },
   {
     "id": "chest-supported-rear-delt-fly",
@@ -477,7 +486,8 @@
     "alternatives": [
       "reverse-pec-deck"
     ],
-    "image": "assets/exercises/chest-supported-rear-delt-fly.jpg"
+    "image": "assets/exercises/chest-supported-rear-delt-fly.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DcPpK-MqFM-/"
   },
   {
     "id": "reverse-pec-deck",
@@ -535,7 +545,8 @@
     "alternatives": [
       "cable-curl"
     ],
-    "image": "assets/exercises/incline-db-curl.jpg"
+    "image": "assets/exercises/incline-db-curl.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DGCNwCCOHKY/"
   },
   {
     "id": "cable-curl",
@@ -559,7 +570,8 @@
     "alternatives": [
       "incline-db-curl"
     ],
-    "image": "assets/exercises/cable-curl.jpg"
+    "image": "assets/exercises/cable-curl.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DGUBy6ZSDnw/"
   },
   {
     "id": "straight-arm-cable-pushdown",
@@ -587,7 +599,8 @@
     "alternatives": [
       "bear-plank"
     ],
-    "image": "assets/exercises/straight-arm-cable-pushdown.jpg"
+    "image": "assets/exercises/straight-arm-cable-pushdown.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DEgp3JTxHKy/"
   },
   {
     "id": "seated-hamstring-curl",
@@ -765,7 +778,8 @@
     "setupNotes": "Legs-in direction, the same machine set the other way. Seated and supported, so no spinal load.",
     "alternatives": [
       "hip-abduction-machine"
-    ]
+    ],
+    "demoUrl": "https://www.instagram.com/reel/DBPyL-tSN-g/"
   },
   {
     "id": "seated-calf-raise",
