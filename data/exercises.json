@@ -125,7 +125,8 @@
       "incline-db-press",
       "high-low-cable-fly"
     ],
-    "image": "assets/exercises/flat-bench-press.jpg"
+    "image": "assets/exercises/flat-bench-press.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DHKtPRJRgow/"
   },
   {
     "id": "pec-deck-fly",
@@ -270,7 +271,8 @@
       "seated-db-lateral-raise",
       "machine-lateral-raise"
     ],
-    "image": "assets/exercises/cable-lateral-raise.jpg"
+    "image": "assets/exercises/cable-lateral-raise.jpg",
+    "demoUrl": "https://www.instagram.com/reel/DWw3MA8Cipp/"
   },
   {
     "id": "machine-lateral-raise",
@@ -383,44 +385,8 @@
       "Chest tall",
       "Avoid leaning back"
     ],
-    "alternatives": [
-      "assisted-pullup"
-    ],
     "image": "assets/exercises/lat-pulldown.jpg",
     "demoUrl": "https://www.instagram.com/reel/DFl0Oksg9EI/"
-  },
-  {
-    "id": "assisted-pullup",
-    "name": "Assisted / Unassisted Pull-Up",
-    "aliases": [
-      "pullup",
-      "chin up"
-    ],
-    "pattern": "vertical-pull",
-    "equipment": [
-      "bodyweight",
-      "machine"
-    ],
-    "icon": "pullup-bar",
-    "support": "hanging",
-    "primaryMuscles": [
-      "lats"
-    ],
-    "secondaryMuscles": [
-      "upper-back",
-      "biceps",
-      "forearms"
-    ],
-    "cues": [
-      "Pull the elbows toward your ribs",
-      "Chest up",
-      "Lower under control"
-    ],
-    "setupNotes": "Hanging decompresses rather than compresses the spine. Assist as needed — don't kip or swing.",
-    "alternatives": [
-      "lat-pulldown"
-    ],
-    "image": "assets/exercises/assisted-pullup.jpg"
   },
   {
     "id": "chest-supported-row",
@@ -778,8 +744,7 @@
     "setupNotes": "Legs-in direction, the same machine set the other way. Seated and supported, so no spinal load.",
     "alternatives": [
       "hip-abduction-machine"
-    ],
-    "demoUrl": "https://www.instagram.com/reel/DBPyL-tSN-g/"
+    ]
   },
   {
     "id": "seated-calf-raise",
@@ -798,7 +763,6 @@
       "Full stretch at the bottom"
     ],
     "setupNotes": "Seated keeps the load off the spine — a standing calf raise loads the shoulders.",
-    "alternatives": [],
     "image": "assets/exercises/seated-calf-raise.jpg"
   },
   {

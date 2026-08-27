@@ -101,7 +101,7 @@ data/               the data store (below)
 | File | Count | What it is |
 | --- | --- | --- |
 | `muscles.json` | 21 | Muscles, their roll-up group, and weekly set targets |
-| `exercises.json` | 31 | The exercise library — what each movement is |
+| `exercises.json` | 30 | The exercise library — what each movement is |
 | `splits.json` | 2 | The 3-day and 4-day rotations |
 | `profiles.json` | 1 | Constraint profiles. Each split runs under one. |
 | `exercises-extended.json` | 0 | Movements only unrestricted profiles may load (empty today) |

@@ -212,6 +212,10 @@ function exerciseDetail(db, ex) {
 
     ${ex.setupNotes ? html`<div class="note" style="padding:10px 0 0">${ex.setupNotes}</div>` : ''}
 
+    ${ex.demoUrl ? html`<div style="padding:10px 0 0">
+      <a class="demo-link" href="${ex.demoUrl}" target="_blank" rel="noopener">▶ form demo</a>
+    </div>` : ''}
+
     ${days.length ? html`
       <div class="section-label" style="margin-top:16px">Programmed on</div>
       <table class="data" style="margin-top:6px">
