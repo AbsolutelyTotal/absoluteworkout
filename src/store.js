@@ -97,7 +97,6 @@ export function reload() {
   return state;
 }
 
-export const getState = () => state;
 export const getSettings = () => state.settings;
 export const getSessions = () => state.sessions;
 

@@ -5,7 +5,6 @@
     "name": "3-Day Core Split",
     "daysPerWeek": 3,
     "description": "Default rotation. Push, pull, legs — each with its own core modality.",
-    "defaultTempo": "3:1:2:1",
     "cycle": [
       "push",
       "pull",
@@ -265,7 +264,6 @@
     "name": "4-Day Split",
     "daysPerWeek": 4,
     "description": "The 3-day rotation plus an upper-body session, so chest, back and delts get hit twice a week.",
-    "defaultTempo": "3:1:2:1",
     "cycle": [
       "push",
       "pull",

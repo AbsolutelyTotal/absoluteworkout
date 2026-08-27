@@ -151,6 +151,5 @@ function exerciseRow(db, p) {
     ${ex.cues?.length ? html`<ul class="cues">${ex.cues.map(c => html`<li>${c}</li>`)}</ul>` : ''}
     ${ex.setupNotes ? html`<div class="note">${ex.setupNotes}</div>` : ''}
     ${p.notes ? html`<div class="note">${p.notes}</div>` : ''}
-    ${p.progression ? html`<div class="note progression">${`↗ ${p.progression}`}</div>` : ''}
   </div>`;
 }

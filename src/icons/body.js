@@ -113,4 +113,3 @@ function escapeAttr(s) {
   }[c]));
 }
 
-export { FRONT as FRONT_MUSCLES, BACK as BACK_MUSCLES };

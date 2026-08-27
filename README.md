@@ -20,13 +20,13 @@ Read the plan, log the sets, see whether the volume actually landed where it was
 supposed to. Built around a set of **L5-S1 lumbar constraints** — every movement
 is chest-supported, seated, or otherwise off the spine.
 
-Switch between the 3-day core split and the 4-day extension; the same exercise
+Switch between the 3-day core split and the 4-day extension (plus a second user's plan under their own profile); the same exercise
 library feeds both, so you can compare what each one gives a muscle before
 committing to it.
 
 ## ✨ Features
 
-- 🗓 **Two splits, one library** — 3-day and 4-day rotations share `exercises.json`; prescriptions live per split.
+- 🗓 **Splits share a library** — the rotations share `exercises.json`; prescriptions live per split, and each split runs under a constraint profile.
 - 🎯 **Next-day suggestion** — the rotation advances from your last completed session.
 - ✅ **In-gym logging** — big tap targets, numeric keypads, last session's numbers as placeholders so repeating a load is one tap. Every keystroke persists; there's no save button.
 - 🔄 **Swap mid-session** — `⇄` opens a picker pre-filtered to the muscle group that exercise trains. Volume stays correctly attributed via `substitutedFor`.
@@ -58,10 +58,10 @@ Public is not private, though: the repo contents, including
 `data/constraints.json`, are readable by anyone who looks.
 
 > [!IMPORTANT]
-> Logged sets live in the browser's localStorage, so they are **per-device** and
-> never leave it — nothing is uploaded and nothing is in this repo. The flip side
-> is that logging on your phone and your laptop gives you two separate histories.
-> Pick one primary device; use the ⤓ export/import to move data between them.
+> Logged sets live in the browser's localStorage. Signed out, they are
+> **per-device** and never leave it. Signing in (optional) syncs completed
+> sessions through Supabase so your devices share one history; the in-progress
+> session still never leaves the device it's logged on.
 
 ## 🚀 Run locally
 
@@ -77,7 +77,7 @@ Then open <http://localhost:8080>.
 ## 🛠️ Stack
 
 - **Vanilla HTML / CSS / JS**, native ES modules, no dependencies and no CDN.
-- **localStorage** for logged sessions. No backend, no account, no network calls.
+- **localStorage** for logged sessions, with optional Supabase cloud sync (email magic-link auth) layered on top — local-first, so the app is fully functional signed-out.
 - **Hand-curated JSON** as the data store.
 - **Self-hosted fonts** — Anton for display, Inter for body, latin subsets in
   `assets/fonts/` at 59KB total. Not Google-hosted: the page loads zero
@@ -226,8 +226,9 @@ If you change these, re-validate rather than eyeballing it.
 ## 💾 Your data
 
 Logged sessions live in this browser's localStorage under
-`absoluteworkout.v1` — they are never uploaded anywhere. That also means
-**clearing site data wipes them**. Use the ⤓ button in the app bar to download a
+`absoluteworkout.v1`. Signed out they're never uploaded; signed in, completed
+sessions sync to Supabase. Either way, **clearing site data wipes the local
+copy**. Use the ⤓ button in the app bar to download a
 backup. Exported files match `absoluteworkout-*.json` and are gitignored, since
 they contain bodyweight and training data.
 
@@ -240,12 +241,12 @@ with a highlightable region per muscle. Small beside each exercise, large in the
 Library. Deliberately geometric: at 30px an anatomically accurate serratus is
 mud, a blocky "outer mid-back" is not.
 
-**Machines — placeholder.** `src/icons/equipment.js` has 17 hand-authored line
+**Machines — placeholder.** `src/icons/equipment.js` has 20 hand-authored line
 icons, and they're honestly not good enough to teach station recognition — chest
 press, shoulder press, leg extension and hamstring curl all reduce to similar
 brackets at 26px. The upgrade path is data, not code:
 
-- Set `image` on an exercise (e.g. `assets/exercises/leg-press.webp`) and it
+- Set `image` on an exercise (e.g. `assets/exercises/leg-press.jpg`) and it
   replaces the line icon. Must be a relative same-origin path; absolute URLs are
   rejected at render time.
 - Set `demoUrl` for a form video. Rendered as a link, never an embed, so no
@@ -256,8 +257,9 @@ region — use it when adding an exercise, or after editing a region path.
 
 ## 🚧 Status
 
-Working end to end on the real 3-day and 4-day plans. Body maps done; machine
-imagery is the open item.
+Working end to end on the real plans. Exercise photos and body maps are in;
+the open items are illustrations for the extended (multi-user) library and an
+offline service worker.
 
 ## 🧪 QA suite
 

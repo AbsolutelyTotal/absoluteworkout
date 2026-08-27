@@ -63,10 +63,6 @@ export function profileOfSplit(db, split) {
   return db.profileById[split?.profileId] ?? db.profiles?.[0] ?? null;
 }
 
-/** Splits visible under a profile — a split belongs to exactly one. */
-export function splitsForProfile(db, profileId) {
-  return db.splits.filter(s => (s.profileId ?? db.profiles?.[0]?.id) === profileId);
-}
 
 /** Dangling ids are the failure mode of hand-curated cross-referenced JSON.
  *  Surfaced in the UI rather than thrown, so a typo doesn't blank the app. */
