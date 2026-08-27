@@ -31,8 +31,7 @@
       "flat-bench-press",
       "high-low-cable-fly"
     ],
-    "image": "assets/exercises/incline-db-press.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/reel/DZ1MQx1KpTB/"
+    "image": "assets/exercises/incline-db-press.jpg"
   },
   {
     "id": "machine-chest-press",
@@ -63,8 +62,7 @@
       "pec-deck-fly",
       "high-low-cable-fly"
     ],
-    "image": "assets/exercises/machine-chest-press.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/reel/DYfauYJq_Wi/"
+    "image": "assets/exercises/machine-chest-press.jpg"
   },
   {
     "id": "incline-smith-press",
@@ -95,8 +93,7 @@
       "incline-db-press",
       "machine-chest-press"
     ],
-    "image": "assets/exercises/incline-smith-press.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/reel/DZ1MQx1KpTB/"
+    "image": "assets/exercises/incline-smith-press.jpg"
   },
   {
     "id": "flat-bench-press",
@@ -126,8 +123,7 @@
       "incline-db-press",
       "high-low-cable-fly"
     ],
-    "image": "assets/exercises/flat-bench-press.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/reel/DbmUTsFqoCf/"
+    "image": "assets/exercises/flat-bench-press.jpg"
   },
   {
     "id": "pec-deck-fly",
@@ -157,8 +153,7 @@
       "machine-chest-press",
       "high-low-cable-fly"
     ],
-    "image": "assets/exercises/pec-deck-fly.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/reel/DaRICG9KzRd/"
+    "image": "assets/exercises/pec-deck-fly.jpg"
   },
   {
     "id": "high-low-cable-fly",
@@ -191,8 +186,7 @@
       "pec-deck-fly",
       "machine-chest-press",
       "flat-bench-press"
-    ],
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DF2zzd6yaD1/"
+    ]
   },
   {
     "id": "machine-shoulder-press",
@@ -221,8 +215,7 @@
     "alternatives": [
       "seated-db-lateral-raise"
     ],
-    "image": "assets/exercises/machine-shoulder-press.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/reel/Da6nlgNqOoI/"
+    "image": "assets/exercises/machine-shoulder-press.jpg"
   },
   {
     "id": "seated-db-lateral-raise",
@@ -249,8 +242,7 @@
       "cable-lateral-raise",
       "machine-lateral-raise"
     ],
-    "image": "assets/exercises/seated-db-lateral-raise.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DGKzmXOSl_O/"
+    "image": "assets/exercises/seated-db-lateral-raise.jpg"
   },
   {
     "id": "cable-lateral-raise",
@@ -274,8 +266,7 @@
       "seated-db-lateral-raise",
       "machine-lateral-raise"
     ],
-    "image": "assets/exercises/cable-lateral-raise.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/reel/Dad8wMVquc9/"
+    "image": "assets/exercises/cable-lateral-raise.jpg"
   },
   {
     "id": "machine-lateral-raise",
@@ -330,8 +321,7 @@
     "alternatives": [
       "tricep-pushdown"
     ],
-    "image": "assets/exercises/overhead-rope-extension.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/reel/DZ6Do-lqDk-/"
+    "image": "assets/exercises/overhead-rope-extension.jpg"
   },
   {
     "id": "tricep-pushdown",
@@ -357,8 +347,7 @@
     "alternatives": [
       "overhead-rope-extension"
     ],
-    "image": "assets/exercises/tricep-pushdown.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DGNYP00S1b1/"
+    "image": "assets/exercises/tricep-pushdown.jpg"
   },
   {
     "id": "lat-pulldown",
@@ -390,8 +379,7 @@
     "alternatives": [
       "assisted-pullup"
     ],
-    "image": "assets/exercises/lat-pulldown.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DFncxYFS3X0/"
+    "image": "assets/exercises/lat-pulldown.jpg"
   },
   {
     "id": "assisted-pullup",
@@ -424,8 +412,7 @@
     "alternatives": [
       "lat-pulldown"
     ],
-    "image": "assets/exercises/assisted-pullup.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DF0QvJPy9xX/"
+    "image": "assets/exercises/assisted-pullup.jpg"
   },
   {
     "id": "chest-supported-row",
@@ -459,8 +446,7 @@
     "alternatives": [
       "lat-pulldown"
     ],
-    "image": "assets/exercises/chest-supported-row.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DFvHVlyS2sC/"
+    "image": "assets/exercises/chest-supported-row.jpg"
   },
   {
     "id": "chest-supported-rear-delt-fly",
@@ -491,8 +477,7 @@
     "alternatives": [
       "reverse-pec-deck"
     ],
-    "image": "assets/exercises/chest-supported-rear-delt-fly.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DGGI9fASRpx/"
+    "image": "assets/exercises/chest-supported-rear-delt-fly.jpg"
   },
   {
     "id": "reverse-pec-deck",
@@ -550,8 +535,7 @@
     "alternatives": [
       "cable-curl"
     ],
-    "image": "assets/exercises/incline-db-curl.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DFqAMsyy2sV/"
+    "image": "assets/exercises/incline-db-curl.jpg"
   },
   {
     "id": "cable-curl",
@@ -575,8 +559,7 @@
     "alternatives": [
       "incline-db-curl"
     ],
-    "image": "assets/exercises/cable-curl.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DFlB5gAyr4E/"
+    "image": "assets/exercises/cable-curl.jpg"
   },
   {
     "id": "straight-arm-cable-pushdown",
@@ -604,8 +587,7 @@
     "alternatives": [
       "bear-plank"
     ],
-    "image": "assets/exercises/straight-arm-cable-pushdown.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DF5YI7-SLS_/"
+    "image": "assets/exercises/straight-arm-cable-pushdown.jpg"
   },
   {
     "id": "seated-hamstring-curl",
@@ -632,8 +614,7 @@
     "alternatives": [
       "single-leg-glute-bridge"
     ],
-    "image": "assets/exercises/seated-hamstring-curl.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DF7-mGiy4yR/"
+    "image": "assets/exercises/seated-hamstring-curl.jpg"
   },
   {
     "id": "leg-extension",
@@ -654,8 +635,7 @@
     "alternatives": [
       "seated-horizontal-leg-press"
     ],
-    "image": "assets/exercises/leg-extension.jpg",
-    "demoUrl": "https://www.instagram.com/deltabolic/p/DFigS-dy4I6/"
+    "image": "assets/exercises/leg-extension.jpg"
   },
   {
     "id": "seated-horizontal-leg-press",
