@@ -119,9 +119,9 @@ data/               the data store (below)
 | --- | --- | --- |
 | `muscles.json` | 21 | Muscles, their roll-up group, and weekly set targets |
 | `exercises.json` | 30 | The exercise library — what each movement is |
-| `splits.json` | 2 | The 3-day and 4-day rotations |
-| `profiles.json` | 1 | Constraint profiles. Each split runs under one. |
-| `exercises-extended.json` | 0 | Movements only unrestricted profiles may load (empty today) |
+| `splits.json` | 3 | The 3-day and 4-day rotations |
+| `profiles.json` | 2 | Constraint profiles. Each split runs under one. |
+| `exercises-extended.json` | 11 | Movements only unrestricted profiles may load |
 | `constraints.json` | — | The L5-S1 safety rules, replacement ledger, and execution parameters |
 | `types.ts` | — | Schema documentation |
 
@@ -264,7 +264,7 @@ imagery is the open item.
 python3 -m http.server 8080
 ```
 
-Then open <http://localhost:8080/tests.html> — 54 cases, no framework and no
+Then open <http://localhost:8080/tests.html> — 55 cases, no framework and no
 dependencies. It drives the real modules against the real DOM: it starts
 sessions, clicks checkmarks, taps `+ set`, sweeps every picker filter, and
 asserts on what actually landed in the store.

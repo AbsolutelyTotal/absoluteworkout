@@ -283,6 +283,61 @@
       "id": "high-low-cable-fly",
       "kind": "exercise",
       "prompt": "Front three-quarter view. He stands upright and braced between the two columns of a cable crossover frame, one handle in each hand. BOTH cables run from HIGH pulleys at the very top of each column, well above his head, angling DOWN to his hands. Arms are wide with a fixed slight bend at the elbow, and he sweeps both hands down and inward in a wide arc so they finish together in front of his hips, below waist height. Torso completely upright — no forward lean, no hinge at the hips. This is a downward fly, not a press and not a pulldown. ONLY the lower portion of both pectoral muscles filled flat vermilion — the bottom border of the chest just above the ribs. Every other muscle stays completely un-highlighted in plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "pullover",
+      "kind": "exercise",
+      "prompt": "Side view. He lies on his back along a flat bench, feet on the floor, holding ONE dumbbell with both hands straight above his chest, lowering it in an arc behind his head with slightly bent elbows. ONLY the lats — the broad muscles down the sides of the back filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "face-pull",
+      "kind": "exercise",
+      "prompt": "Front three-quarter view. He stands braced facing a SINGLE cable tower, pulling a rope attachment toward the bridge of his nose with both hands, elbows high and wide, thumbs pointing back. One column only, nothing behind him. ONLY the rear deltoids — the back caps of both shoulders filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "db-curl",
+      "kind": "exercise",
+      "prompt": "Front view. He stands holding a dumbbell in each hand at his sides, curling both up toward the shoulders, elbows pinned to his ribs, torso still. ONLY the biceps of both upper arms filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "machine-high-row",
+      "kind": "exercise",
+      "prompt": "Front three-quarter view. He sits at a high-row machine, chest against a vertical pad, arms reaching UP and FORWARD to grip two handles above head height, pulling them DOWN and BACK toward his hips with elbows sweeping down past his ribs. Weight stack behind the machine. ONLY the lats — the broad muscles down the sides of the back filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "front-raise",
+      "kind": "exercise",
+      "prompt": "Side three-quarter view. He stands holding a dumbbell in each hand in front of his thighs, raising both arms straight FORWARD to eye height, palms down, torso still. Nothing is raised out to the sides and nothing overhead. ONLY the front deltoids — the front caps of both shoulders filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "romanian-deadlift",
+      "kind": "exercise",
+      "prompt": "Side view. He stands holding a barbell with straight arms against his thighs, hips pushed BACK, torso hinged forward to about 45 degrees with a FLAT back, knees only slightly bent, the bar sliding down along his legs to just below the knees. ONLY the hamstrings — the backs of both thighs filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "bulgarian-split-squat",
+      "kind": "exercise",
+      "prompt": "Side view. He stands on one leg with the OTHER foot resting behind him on a flat bench, a dumbbell in each hand, front knee bent deep in a lunge, torso tall. ONLY the quadriceps of the FRONT thigh only — this is a single-leg exercise filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "hip-thrust",
+      "kind": "exercise",
+      "prompt": "Side view. His upper back rests on a flat bench, feet planted on the floor, a barbell with a pad lying across his hips, hips driven UP so the body forms a straight bridge from shoulders to knees. ONLY the glutes filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "back-squat",
+      "kind": "exercise",
+      "prompt": "Side three-quarter view. He stands with a barbell resting across his upper back and shoulders, gripping it either side, squatting down to thighs parallel with the floor, chest up, flat back, heels down. ONLY the quadriceps of both thighs filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "step-up",
+      "kind": "exercise",
+      "prompt": "Side three-quarter view. He steps UP onto a knee-high box with one foot flat on top of it, driving his body up from that leg, the other foot still trailing near the floor, a dumbbell in each hand at his sides. ONLY the quadriceps of the stepping leg — the one on the box filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
+    },
+    {
+      "id": "good-morning",
+      "kind": "exercise",
+      "prompt": "Side view. He stands with a barbell across his upper back like a squat, knees soft, hips pushed back and torso hinged forward to about 45 degrees with a FLAT back — the bar stays on his back throughout, arms holding it in place, nothing lifted from the floor. ONLY the hamstrings — the backs of both thighs filled flat vermilion. Every other muscle stays plain cream with navy outline only, with no vermilion tint or spill."
     }
   ],
   "quality": 84,

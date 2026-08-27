@@ -93,6 +93,12 @@ function validate(db) {
     for (const id of split.cycle) {
       if (!dayIds.has(id)) issues.push(`split "${split.id}" cycle → unknown day "${id}"`);
     }
+    // A split under a DIFFERENT profile references exercises that are
+    // deliberately not loaded right now (see the safety note in profiles.json),
+    // so its prescriptions can't be checked from here. Structural checks above
+    // still apply; the exercise refs get validated whenever that profile loads.
+    const splitProfile = split.profileId ?? db.profiles?.[0]?.id;
+    if (db.profile && splitProfile !== db.profile.id) continue;
     for (const day of split.days) {
       for (const p of prescriptionsOf(day)) {
         if (!db.exerciseById[p.exerciseId]) {
