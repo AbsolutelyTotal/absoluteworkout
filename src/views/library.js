@@ -2,7 +2,7 @@
 // what trains it and how many sets each split gives it; pick an exercise to see
 // what it works and which days it appears on.
 
-import { html, mount, chip, fmt, prescriptionLine } from '../ui.js';
+import { html, mount, chip, fmt, prescriptionLine, safeImagePath } from '../ui.js';
 import { exercisesForMuscle, daysTraining, plannedWeeklySets } from '../data.js';
 import { equipmentIcon } from '../icons/equipment.js';
 import { bodyMap } from '../icons/body.js';
@@ -149,10 +149,10 @@ function muscleDetail(db, muscle) {
       ${target ? html`<span class="badge">${`target ${target[0]}–${target[1]}/wk`}</span>` : ''}
     </div>
 
-    ${muscle.image
-      ? html`<button type="button" class="muscle-figure" data-photo="${muscle.image}"
+    ${safeImagePath(muscle.image)
+      ? html`<button type="button" class="muscle-figure" data-photo="${safeImagePath(muscle.image)}"
                      data-photo-name="${muscle.name}" title="Tap to enlarge">
-          <img src="${muscle.image}" alt="${`Front and back view highlighting ${muscle.name}`}" loading="lazy">
+          <img src="${safeImagePath(muscle.image)}" alt="${`Front and back view highlighting ${muscle.name}`}" loading="lazy">
         </button>`
       : html`<div class="bodymap-box" style="margin-top:12px">
           ${bodyMap({ primary: [muscle.id], view: 'both', height: 120 })}

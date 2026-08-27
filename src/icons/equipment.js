@@ -7,7 +7,7 @@
 // Adding an exercise with an unknown icon key falls back to its equipment type,
 // then to a generic dot, so a missing icon never breaks a render.
 
-import { raw } from '../ui.js';
+import { raw, safeImagePath } from '../ui.js';
 
 const svg = (body) =>
   `<svg class="icon-eq" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" ` +
@@ -153,7 +153,7 @@ const GENERIC = svg('<circle cx="12" cy="12" r="7"/>');
  */
 export function equipmentIcon(exercise, { interactive = true } = {}) {
   if (!exercise) return raw(iconBox(GENERIC));
-  const src = exercise.image ? escapeAttr(exercise.image) : '';
+  const src = safeImagePath(exercise.image);   // '' if not a same-origin relative path
   if (src) {
     // Own wrapper rather than an inner <img>: a 3:2 gym photo shoved into the
     // square icon box is an unrecognisable crop.
@@ -172,17 +172,6 @@ const iconBox = (inner) => `<span class="icon-eq-box">${inner}</span>`;
 
 function escapeAttr2(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[c]));
-}
-
-// `image` comes from our own JSON, but this is markup built outside the `html`
-// tag, so escape rather than trust. Also refuse anything that isn't a same-origin
-// relative path — no absolute URLs, no protocol-relative, no javascript:.
-function escapeAttr(s) {
-  const v = String(s);
-  if (!/^[\w./-]+$/.test(v) || v.includes('..')) return '';
-  return v.replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[c]));
 }

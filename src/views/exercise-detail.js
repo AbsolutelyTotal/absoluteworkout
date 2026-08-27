@@ -5,7 +5,7 @@
 // and the Log view is deliberately stripped down to sets and numbers. Rather
 // than crowd every card with cues, they live one tap away.
 
-import { html, mount, prescriptionLine } from '../ui.js';
+import { html, mount, prescriptionLine, safeImagePath } from '../ui.js';
 import { daysTraining } from '../data.js';
 
 export function initExerciseDetail() {
@@ -33,8 +33,8 @@ export function openExerciseDetail(ex, db) {
       <button class="tool-btn" type="button" data-action="close-detail" aria-label="Close">×</button>
     </div>
 
-    ${ex.image
-      ? html`<img class="detail-photo" src="${ex.image}" alt="${ex.name}" loading="lazy">`
+    ${safeImagePath(ex.image)
+      ? html`<img class="detail-photo" src="${safeImagePath(ex.image)}" alt="${ex.name}" loading="lazy">`
       : ''}
 
     ${ex.formLimit ? html`<div class="limit" style="margin:10px 0 0">${`⚠ ${ex.formLimit}`}</div>` : ''}
