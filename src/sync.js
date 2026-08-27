@@ -35,7 +35,12 @@ export function init() {
 
   client.auth.onAuthStateChange((event, session) => {
     emit();
-    if (event === 'SIGNED_IN' && session) syncNow().catch(() => {});
+    // SIGNED_IN fires when the magic link lands; INITIAL_SESSION on every later
+    // page load of an already-signed-in device. Both should sync — otherwise a
+    // device only picks up other devices' sessions after finishing a workout.
+    if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session) {
+      syncNow().catch(() => {});
+    }
   });
 
   // Push when a session completes. Fire-and-forget: a failure leaves the data
