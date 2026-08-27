@@ -6,6 +6,7 @@ import { html, mount, chip, fmt, prescriptionLine } from '../ui.js';
 import { exercisesForMuscle, daysTraining, plannedWeeklySets } from '../data.js';
 import { equipmentIcon } from '../icons/equipment.js';
 import { bodyMap } from '../icons/body.js';
+import { openExerciseDetail } from './exercise-detail.js';
 
 let mode = 'muscle';        // 'muscle' | 'exercise'
 let selectedId = null;
@@ -35,7 +36,7 @@ export function render(root, db) {
             ${list.map(item => listItem(db, item))}
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-role="detail">
           ${selected
             ? (mode === 'muscle' ? muscleDetail(db, selected) : exerciseDetail(db, selected))
             : html`<div class="empty" style="border:none;background:none;padding:28px 8px">
@@ -62,8 +63,20 @@ export function render(root, db) {
   root.querySelector('[data-role="list"]')?.addEventListener('click', (e) => {
     const btn = e.target.closest('.lib-item');
     if (!btn) return;
+    // Below 720px the detail card stacks under the whole list, so filling it is
+    // invisible — a tap appeared to do nothing. Phones get the dialog (for
+    // exercises) or a scroll to the detail card (for muscles); desktop keeps
+    // the side-by-side pane.
+    const stacked = !matchMedia('(min-width: 720px)').matches;
+    if (stacked && mode === 'exercise') {
+      openExerciseDetail(db.exerciseById[btn.dataset.id], db);
+      return;
+    }
     selectedId = btn.dataset.id;
     render(root, db);
+    if (stacked) {
+      root.querySelector('[data-role="detail"]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   });
 
   const search = root.querySelector('[data-role="search"]');

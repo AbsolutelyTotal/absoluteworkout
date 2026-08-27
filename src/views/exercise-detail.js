@@ -5,7 +5,8 @@
 // and the Log view is deliberately stripped down to sets and numbers. Rather
 // than crowd every card with cues, they live one tap away.
 
-import { html, mount } from '../ui.js';
+import { html, mount, prescriptionLine } from '../ui.js';
+import { daysTraining } from '../data.js';
 
 export function initExerciseDetail() {
   const d = document.getElementById('exercise-dialog');
@@ -18,6 +19,7 @@ export function openExerciseDetail(ex, db) {
   if (!ex) return;
   const d = document.getElementById('exercise-dialog');
   const muscleName = (id) => db.muscleById[id]?.name ?? id;
+  const days = daysTraining(db, ex.id);
 
   mount(d.querySelector('[data-role="body"]'), html`
     <div class="spread" style="align-items:flex-start">
@@ -56,6 +58,17 @@ export function openExerciseDetail(ex, db) {
           <a class="demo-link" href="${ex.demoUrl}" target="_blank" rel="noopener">▶ form demo</a>
         </div>`
       : ''}
+
+    ${days.length ? html`
+      <div class="section-label" style="margin-top:14px">Programmed on</div>
+      <table class="data" style="margin-top:6px">
+        <tbody>
+          ${days.map(({ split, day, prescription }) => html`<tr>
+            <td class="name">${`${split.name} · ${day.name}`}</td>
+            <td>${prescriptionLine(prescription)}</td>
+          </tr>`)}
+        </tbody>
+      </table>` : ''}
   `);
 
   if (!d.open) d.showModal();
