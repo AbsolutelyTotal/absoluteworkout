@@ -72,8 +72,18 @@ Then open <http://localhost:8080>.
 - **localStorage** for logged sessions. No backend, no account, no network calls.
 - **Hand-curated JSON** as the data store.
 - **Self-hosted fonts** — Anton for display, Inter for body, latin subsets in
-  `assets/fonts/` at 59KB total. Not Google-hosted: the page makes zero
-  third-party requests, so it also works with no network at all.
+  `assets/fonts/` at 59KB total. Not Google-hosted: the page loads zero
+  third-party scripts, so it also works with no network at all.
+- **Optional cloud sync** — Supabase auth (email magic link) + Postgres, from
+  the ⤓ dialog. Local-first: localStorage stays the write path and the app is
+  fully functional signed-out; signing in adds a background push/pull of
+  **completed** sessions (union by id, same semantics as import-merge — the
+  in-progress session never leaves the device). The client is vendored at
+  `assets/vendor/supabase.js` (MIT), keeping the no-third-party-script rule.
+  The publishable key in `src/supabase-config.js` is public by design; every
+  table is RLS-locked to `user_id = auth.uid()` and the anon role has no
+  grants — see `supabase/migrations/`. The `service_role` key is never in
+  this repo.
 
 ### Why modules, when terroir is a single file
 
