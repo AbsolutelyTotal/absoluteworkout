@@ -69,6 +69,7 @@ async function init() {
 
   renderTabs();
   wireBackup();
+  wireAccount();
   wirePhotoLightbox();
   wireImageFallback();
   initPicker();
@@ -205,9 +206,33 @@ function wireBackup() {
   });
 
   dialog.querySelector('[data-action="close"]').addEventListener('click', () => dialog.close());
+}
 
-  // --- Cloud sync section -------------------------------------------------
+// --- Account: app-bar chip + its own dialog ---------------------------------
+// The chip's dot mirrors auth/sync state at a glance; the words live in the
+// dialog. Sign-out stays here too — rare actions don't earn app-bar space.
+
+function wireAccount() {
+  const dialog = document.getElementById('account-dialog');
+  const chip = document.getElementById('account-btn');
+  const dot = chip.querySelector('[data-role="sync-dot"]');
   const accountBody = dialog.querySelector('[data-role="account-body"]');
+
+  async function renderChip() {
+    const { syncing, lastError } = sync.status();
+    const u = sync.available() ? await sync.user() : null;
+    dot.hidden = false;
+    dot.className = 'sync-dot'
+      + (u ? ' on' : '')
+      + (syncing ? ' busy' : '')
+      + (lastError ? ' err' : '');
+    chip.title = !sync.available() ? 'Cloud sync unavailable'
+      : lastError ? `Sync error — tap for details`
+      : syncing ? 'Syncing…'
+      : u ? `Signed in as ${u.email}`
+      : 'Cloud sync — signed out';
+    chip.setAttribute('aria-label', chip.title);
+  }
 
   async function renderAccount() {
     if (!sync.available()) {
@@ -266,8 +291,12 @@ function wireBackup() {
     });
   }
 
-  sync.onChange(renderAccount);
-  document.getElementById('backup-btn').addEventListener('click', renderAccount);
+  chip.addEventListener('click', () => { renderAccount(); dialog.showModal(); });
+  dialog.querySelector('[data-action="close-account"]').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+
+  sync.onChange(() => { renderChip(); if (dialog.open) renderAccount(); });
+  renderChip();
 }
 
 init();
