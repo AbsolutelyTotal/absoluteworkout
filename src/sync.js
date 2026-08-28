@@ -50,6 +50,14 @@ export function init() {
   });
 }
 
+/** The current access token, for authing calls to our own Worker. Null if
+ *  signed out or the client didn't load. */
+export async function accessToken() {
+  if (!client) return null;
+  const { data } = await client.auth.getSession();
+  return data.session?.access_token ?? null;
+}
+
 export async function user() {
   if (!client) return null;
   const { data } = await client.auth.getSession();

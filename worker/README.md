@@ -24,7 +24,7 @@ edge function.
 4. Builds a prompt where the constraints and workout are *data*, the question is
    the user turn (no raw-input concatenation), and the safety rule overrides any
    request.
-5. Calls `@cf/meta/llama-3.1-8b-instruct` and returns the answer.
+5. Calls `@cf/openai/gpt-oss-120b` (biggest free instruct model; set `CHAT_MODEL` to change) and returns the answer.
 
 ## Deploy
 

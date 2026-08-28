@@ -16,5 +16,6 @@ id = "PASTE_KV_NAMESPACE_ID"
 [vars]
 APP_ORIGIN = "https://absoluteworkout.win"
 SUPABASE_URL = "https://wmouolcpesvknqcjuqtq.supabase.co"
+CHAT_MODEL = "@cf/openai/gpt-oss-120b"   # swap here to change model; no code change
 # SUPABASE_ANON_KEY is the publishable key — set it as a (non-secret, but
 # tidy) var via the dashboard or:  wrangler secret put SUPABASE_ANON_KEY

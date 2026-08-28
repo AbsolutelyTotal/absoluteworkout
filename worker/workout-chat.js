@@ -7,7 +7,7 @@
 //
 // Secrets/config live in Cloudflare, never here — see wrangler.toml + README.
 
-const MODEL = '@cf/meta/llama-3.1-8b-instruct';   // free tier; swap up if wanted
+const DEFAULT_MODEL = '@cf/openai/gpt-oss-120b';   // biggest free instruct model; override with CHAT_MODEL var
 const DAILY_LIMIT = 50;                            // per user, per day
 const MAX_CONTEXT = 8000;                          // chars of workout JSON we accept
 
@@ -45,8 +45,16 @@ export default {
     // --- call the model ---
     let answer;
     try {
-      const out = await env.AI.run(MODEL, { messages, max_tokens: 500 });
-      answer = (out.response ?? '').trim();
+      const model = env.CHAT_MODEL || DEFAULT_MODEL;
+      const out = await env.AI.run(model, { messages, max_tokens: 500 });
+      // Workers AI normalises most models to { response }, but some (e.g.
+      // gpt-oss) return an OpenAI-style shape — accept both.
+      answer = (
+        out.response ??
+        out.choices?.[0]?.message?.content ??
+        out.result?.response ??
+        ''
+      ).toString().trim();
     } catch (err) {
       return json({ error: 'model call failed', detail: String(err) }, 502, cors);
     }

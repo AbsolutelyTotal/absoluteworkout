@@ -18,6 +18,7 @@ import * as log from '../src/views/log.js';
 import * as history from '../src/views/history.js';
 import { initPicker } from '../src/views/picker.js';
 import { initExerciseDetail } from '../src/views/exercise-detail.js';
+import { chatConfigured, workoutContext } from '../src/chat.js';
 
 const KEY = 'absoluteworkout.v1';
 const results = [];
@@ -534,6 +535,22 @@ export async function run(scratch) {
       const pos = after.selectionStart;
       d.close();
       return eq(pos, 3, 'caret after re-render: ');
+    });
+
+    await checkAsync('chat: hidden by default, context builder is compact and named', async () => {
+      // Ships unconfigured, so the chat bar must not appear.
+      ok(chatConfigured() === false, 'chat should be off until WORKOUT_CHAT_URL is set');
+      await freshSession();
+      const sess = store.activeSession();
+      const ctx = workoutContext(db, sess);
+      eq(Object.keys(ctx).sort(), ['constraintsProfile','day','exercises','split'], 'context keys: ');
+      ok(ctx.exercises.length > 0, 'context should list exercises');
+      // exercise ids must be resolved to names, not raw slugs, and no set leaks
+      // fields beyond weight/reps/done
+      const first = ctx.exercises[0];
+      ok(!/^[a-z0-9-]+$/.test(first.name) || first.name.includes(' '), 'names resolved, not slugs');
+      const setKeys = Object.keys(first.sets[0] ?? {}).sort();
+      return eq(setKeys, ['done','reps','weight'], 'set keys: ');
     });
 
     // --------------------------------------------------------------- dialogs
