@@ -153,7 +153,7 @@ function renderTranscript(out) {
   if (!chatTurns.length && !chatPending) { out.hidden = true; return; }
   out.hidden = false;
   mount(out, html`
-    ${chatTurns.map(t => html`<div class="${t.role === 'user' ? 'chat-q' : 'chat-answer'}">${t.content}</div>`)}
+    ${chatTurns.map(t => html`<div class="${t.role === 'user' ? 'chat-q' : 'chat-answer'}" dir="auto">${t.content}</div>`)}
     ${chatPending ? html`<div class="chat-thinking">Thinking…</div>` : ''}
   `);
 }
@@ -196,7 +196,7 @@ function wireChat(root, db, session, signal) {
       chatTurns.pop();
       renderTranscript(out);
       mount(out, html`
-        ${chatTurns.map(t => html`<div class="${t.role === 'user' ? 'chat-q' : 'chat-answer'}">${t.content}</div>`)}
+        ${chatTurns.map(t => html`<div class="${t.role === 'user' ? 'chat-q' : 'chat-answer'}" dir="auto">${t.content}</div>`)}
         <div class="chat-error">${err.message ?? String(err)}</div>`);
     } finally {
       if (!signal.aborted) btn.disabled = false;
