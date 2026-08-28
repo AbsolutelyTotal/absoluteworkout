@@ -1,0 +1,20 @@
+name = "workout-chat"
+main = "workout-chat.js"
+compatibility_date = "2026-01-01"
+
+# Workers AI — the free model host. No key needed; the binding is the auth.
+[ai]
+binding = "AI"
+
+# Per-user daily rate limit counter. Create with:
+#   wrangler kv namespace create RL
+# then paste the id below.
+[[kv_namespaces]]
+binding = "RL"
+id = "PASTE_KV_NAMESPACE_ID"
+
+[vars]
+APP_ORIGIN = "https://absoluteworkout.win"
+SUPABASE_URL = "https://wmouolcpesvknqcjuqtq.supabase.co"
+# SUPABASE_ANON_KEY is the publishable key — set it as a (non-secret, but
+# tidy) var via the dashboard or:  wrangler secret put SUPABASE_ANON_KEY
