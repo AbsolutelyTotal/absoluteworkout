@@ -918,3 +918,27 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
 }
 .chat-thinking { align-self: flex-start; color: var(--ink-2); font-style: italic; padding: 4px 2px; }
 .chat-error { align-self: flex-start; color: var(--critical); font-weight: 600; }
+
+/* ---------- Login gate (soft) ---------- */
+#auth-gate {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  background: var(--cream);
+  background-image: radial-gradient(circle, var(--dot) 1.15px, transparent 1.15px);
+  background-size: 21px 21px;
+}
+#auth-gate[hidden] { display: none; }
+.gate-card {
+  width: min(400px, 100%);
+  background: var(--card);
+  border: 2px solid var(--navy);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 26px;
+}
+.gate-card .wordmark { font-size: 22px; margin-bottom: 6px; }
+.gate-lead { color: var(--ink-2); margin: 0 0 16px; }
+.gate-status:empty { display: none; }
+/* While gated, the app chrome is withheld entirely. */
+body.gated > .appbar, body.gated > #tabs, body.gated > main { display: none; }

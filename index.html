@@ -41,6 +41,24 @@
   </article>
 </noscript>
 
+<!-- Login gate. A soft gate: it hides the app UI until signed in (the static
+     assets under /data and /src remain publicly fetchable — the real data, the
+     training log, is hard-gated by Supabase auth + RLS). main.js shows this and
+     withholds the app until there's a session, and falls closed if auth can't
+     load. -->
+<div id="auth-gate" hidden>
+  <div class="gate-card">
+    <div class="wordmark"><span class="mark">absolute<b>workout</b></span></div>
+    <p class="gate-lead">Sign in to continue.</p>
+    <form data-role="gate-form">
+      <input class="field" name="email" type="email" required autocomplete="email"
+             inputmode="email" placeholder="you@example.com" aria-label="Email for your sign-in link">
+      <button class="btn primary" type="submit" style="margin-top:10px;width:100%">Send sign-in link</button>
+    </form>
+    <div class="gate-status ex-sub" data-role="gate-status" style="margin-top:12px"></div>
+  </div>
+</div>
+
 <header class="appbar">
   <div class="wordmark">
     <span class="mark">absolute<b>workout</b></span>
