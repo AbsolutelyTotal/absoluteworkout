@@ -9,4 +9,4 @@ export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_RwSfNURVQqKDRLWA-nXdjA_H
 // deployed — the chat bar only appears when this is set, so the app is
 // unaffected otherwise. Not a secret; it's a public endpoint that auth-gates
 // itself against your Supabase session.
-export const WORKOUT_CHAT_URL = 'https://workout-chat.talmazor2.workers.dev';
+export const WORKOUT_CHAT_URL = 'https://chat.absoluteworkout.win';
