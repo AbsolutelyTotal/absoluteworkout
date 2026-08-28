@@ -32,7 +32,11 @@ const tabsEl = document.getElementById('tabs');
 const viewEl = document.getElementById('view');
 const bannerEl = document.getElementById('banner');
 
-async function init() {
+let appStarted = false;
+async function startApp() {
+  if (appStarted) return;
+  appStarted = true;
+  document.body.classList.remove('gated');
   try {
     // Boot on the profile of the remembered split, so the correct exercise
     // library is loaded before anything renders.
@@ -339,4 +343,62 @@ function wireAccount() {
   renderChip();
 }
 
-init();
+
+// ---------------------------------------------------------------------------
+// Login gate (soft). No session => the app isn't started; only the gate shows.
+// A signed-in device keeps its session (persisted), so it still works offline —
+// only signed-out/new devices hit the wall. Fails closed: if the auth library
+// didn't load, stay gated with a retry rather than exposing the app.
+// ---------------------------------------------------------------------------
+
+function showGate(message) {
+  const gate = document.getElementById('auth-gate');
+  const statusEl = gate.querySelector('[data-role="gate-status"]');
+  const form = gate.querySelector('[data-role="gate-form"]');
+  document.body.classList.add('gated');
+  gate.hidden = false;
+
+  if (message) { statusEl.textContent = message; return; }
+
+  if (!form.dataset.wired) {
+    form.dataset.wired = '1';
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = new FormData(form).get('email');
+      statusEl.textContent = 'Sending…';
+      try {
+        await sync.signIn(email);
+        form.hidden = true;
+        statusEl.textContent = `Sign-in link sent to ${email}. Open it on this device to continue.`;
+      } catch (err) {
+        statusEl.textContent = `Could not send the link: ${err.message ?? err}`;
+      }
+    });
+  }
+}
+
+async function boot() {
+  sync.init();
+  if (!sync.available()) {
+    // Auth library failed to load — do not expose the app. Offer a reload.
+    showGate('Sign-in is unavailable (the auth library did not load). Reload to try again.');
+    return;
+  }
+  const signedIn = !!(await sync.user());
+  if (signedIn) await startApp();
+  else showGate();
+
+  // React to later auth changes: a landing magic link starts the app; a
+  // sign-out reloads to the gate (clean teardown of a running app).
+  sync.onChange(async () => {
+    const nowIn = !!(await sync.user());
+    if (nowIn && !appStarted) {
+      document.getElementById('auth-gate').hidden = true;
+      await startApp();
+    } else if (!nowIn && appStarted) {
+      location.reload();
+    }
+  });
+}
+
+boot();
