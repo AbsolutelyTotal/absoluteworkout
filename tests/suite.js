@@ -114,14 +114,19 @@ export async function run(scratch) {
       eq(bad, [], 'entries: ');
       return eq(db.muscleById['undefined'], undefined, 'undefined key: ');
     });
-    check('every exercise declares an image', () => {
-      const missing = db.exercises.filter(e => !e.image).map(e => e.id);
-      return eq(missing, [], 'without image: ');
+    check('every exercise renders something (image or icon/equipment fallback)', () => {
+      // Not every exercise has generated art yet (newly-vetted ones fall back to
+      // a line icon, same as the extended library). What must hold: nothing
+      // renders blank — equipmentIcon needs an image, an icon key, or equipment.
+      const blank = db.exercises
+        .filter(e => !e.image && !e.icon && !(e.equipment && e.equipment.length))
+        .map(e => e.id);
+      return eq(blank, [], 'no visual affordance: ');
     });
     await checkAsync('every declared image actually resolves', async () => {
       // The previous version of this case only checked the field was present,
       // so a path pointing at a file that had never been generated passed.
-      const results = await Promise.all(db.exercises.map(async e => {
+      const results = await Promise.all(db.exercises.filter(e => e.image).map(async e => {
         const r = await fetch(e.image, { method: 'HEAD' }).catch(() => ({ ok: false }));
         return r.ok ? null : e.image;
       }));
