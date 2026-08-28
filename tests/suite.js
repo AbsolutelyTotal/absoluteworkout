@@ -18,6 +18,8 @@ import * as log from '../src/views/log.js';
 import * as history from '../src/views/history.js';
 import { initPicker } from '../src/views/picker.js';
 import { initExerciseDetail } from '../src/views/exercise-detail.js';
+import { chatConfigured, workoutContext } from '../src/chat.js';
+import { WORKOUT_CHAT_URL } from '../src/supabase-config.js';
 
 const KEY = 'absoluteworkout.v1';
 const results = [];
@@ -561,6 +563,24 @@ export async function run(scratch) {
       const pos = after.selectionStart;
       d.close();
       return eq(pos, 3, 'caret after re-render: ');
+    });
+
+    await checkAsync('chat: hidden by default, context builder is compact and named', async () => {
+      await freshSession();
+      const sess = store.activeSession();
+      const ctx = workoutContext(db, sess);
+      eq(Object.keys(ctx).sort(), ['constraintsProfile','day','exercises','split'], 'context keys: ');
+      ok(ctx.exercises.length > 0, 'context should list exercises');
+      // Names must be the library display names, not the raw slug ids — assert
+      // against the actual library rather than a fragile regex.
+      const libNames = new Set(Object.values(db.exerciseById).map(e => e.name));
+      const ids = new Set(Object.keys(db.exerciseById));
+      const badName = ctx.exercises.find(x => !libNames.has(x.name) || ids.has(x.name));
+      ok(!badName, `every exercise name resolved to a library name (offender: ${badName?.name})`);
+      // Sets carry only weight/reps/done — nothing else leaks into the prompt.
+      const leaked = ctx.exercises.flatMap(x => x.sets).find(st =>
+        Object.keys(st).sort().join(',') !== 'done,reps,weight');
+      return ok(!leaked, `set objects carry only weight/reps/done (offender: ${JSON.stringify(leaked)})`);
     });
 
     // --------------------------------------------------------------- dialogs

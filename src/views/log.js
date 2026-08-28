@@ -8,6 +8,7 @@ import { equipmentIcon } from '../icons/equipment.js';
 import { openPicker } from './picker.js';
 import { openExerciseDetail } from './exercise-detail.js';
 import * as store from '../store.js';
+import { chatConfigured, workoutContext, askWorkoutChat } from '../chat.js';
 
 // #view persists across renders — mount() only swaps its children — so
 // listeners bound to it accumulate. An even number of handler copies made every
@@ -117,13 +118,62 @@ export function render(root, db, { onFinish }) {
           ? html`<div class="ex-sub" style="margin-top:8px">Tick at least one set to finish.</div>`
           : html`<div class="ex-sub" style="margin-top:8px">Unticked sets are dropped on finish.</div>`}
       </div>
+
+      ${chatConfigured() ? html`
+        <div class="card chat-card">
+          <div class="section-label">Ask about this workout</div>
+          <form class="row" data-role="chat-form" style="margin-top:10px">
+            <input class="field" data-role="chat-input" type="text" autocomplete="off"
+                   placeholder="e.g. why this rep range? safe swap for a tweaky shoulder?"
+                   style="flex:1 1 100%">
+            <button class="btn primary" type="submit" data-role="chat-send" style="margin-top:8px">Ask</button>
+          </form>
+          <div class="chat-out" data-role="chat-out" hidden></div>
+          <div class="ex-sub" style="margin-top:8px">Not medical advice. Answers respect your constraints.</div>
+        </div>` : ''}
     </div>
   `);
 
   wire(root, db, session, onFinish, rerender, signal);
+  wireChat(root, db, session, signal);
 }
 
 /** Repaints only the bits that depend on how many sets are done. */
+/** The AI chat card. Fails closed: not configured => card isn't rendered, so
+ *  this never runs. Renders the answer as text through html`` (escaped) — model
+ *  output is untrusted like any other data. */
+function wireChat(root, db, session, signal) {
+  const form = root.querySelector('[data-role="chat-form"]');
+  if (!form) return;
+  const input = form.querySelector('[data-role="chat-input"]');
+  const btn = form.querySelector('[data-role="chat-send"]');
+  const out = root.querySelector('[data-role="chat-out"]');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const question = input.value.trim();
+    if (!question) return;
+    btn.disabled = true;
+    out.hidden = false;
+    mount(out, html`<div class="chat-thinking">Thinking…</div>`);
+    try {
+      const answer = await askWorkoutChat({
+        question,
+        workout: workoutContext(db, session),
+        profileId: db.profile?.id,
+        signal            // aborted if the view re-renders or switches away
+      });
+      if (signal.aborted) return;   // a newer render owns the DOM now
+      mount(out, html`<div class="chat-answer">${answer || 'No answer came back.'}</div>`);
+    } catch (err) {
+      if (err?.name === 'AbortError' || signal.aborted) return;   // stale request, drop silently
+      mount(out, html`<div class="chat-error">${err.message ?? String(err)}</div>`);
+    } finally {
+      if (!signal.aborted) btn.disabled = false;
+    }
+  }, { signal });
+}
+
 function syncChrome(root, session) {
   const total = session.entries.reduce((a, e) => a + e.sets.length, 0);
   const done = session.entries.reduce((a, e) => a + e.sets.filter(s => s.done).length, 0);

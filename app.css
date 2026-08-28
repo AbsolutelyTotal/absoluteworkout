@@ -890,3 +890,17 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+/* ---------- In-gym AI chat (Log view) ---------- */
+.chat-out { margin-top: 12px; }
+.chat-thinking { color: var(--ink-2); font-style: italic; }
+.chat-answer {
+  padding: 11px 13px;
+  background: var(--card);
+  border: 2px solid var(--navy);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  white-space: pre-wrap;      /* keep the model's line breaks */
+  line-height: 1.45;
+}
+.chat-error { color: var(--critical); font-weight: 600; }

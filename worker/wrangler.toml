@@ -1,0 +1,31 @@
+name = "workout-chat"
+main = "workout-chat.js"
+compatibility_date = "2026-01-01"
+
+# Serve from your own domain, not the account's workers.dev subdomain (which
+# embeds the account name and ships to every client). Cloudflare auto-creates
+# the DNS record + cert since the zone is on this account. workers_dev=false
+# then disables the account *.workers.dev URL entirely.
+workers_dev = false
+preview_urls = false
+[[routes]]
+pattern = "chat.absoluteworkout.win"
+custom_domain = true
+
+# Workers AI — the free model host. No key needed; the binding is the auth.
+[ai]
+binding = "AI"
+
+# Per-user daily rate limit counter. Create with:
+#   npx wrangler kv namespace create RL
+[[kv_namespaces]]
+binding = "RL"
+id = "9ad5501c95b045e28d8d0889a8ff36d7"
+
+[vars]
+APP_ORIGIN = "https://absoluteworkout.win"
+SUPABASE_URL = "https://wmouolcpesvknqcjuqtq.supabase.co"
+CHAT_MODEL = "@cf/openai/gpt-oss-120b"   # swap here to change model; no code change
+# SUPABASE_PUBLISHABLE_KEY = the sb_publishable_... key (same one in
+# src/supabase-config.js). NOT the legacy anon JWT, NOT service_role.
+# Set it in the dashboard (Settings > Variables) or: npx wrangler secret put SUPABASE_PUBLISHABLE_KEY
