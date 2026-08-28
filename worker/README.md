@@ -26,20 +26,35 @@ edge function.
    request.
 5. Calls `@cf/openai/gpt-oss-120b` (biggest free instruct model; set `CHAT_MODEL` to change) and returns the answer.
 
-## Deploy
+## Deploy — dashboard, no CLI needed
 
-```bash
-cd worker
-npm i -g wrangler          # if needed
-wrangler login             # your Cloudflare account
-wrangler kv namespace create RL   # paste the id into wrangler.toml
-wrangler secret put SUPABASE_ANON_KEY   # paste the publishable key
-wrangler deploy
-```
+A Worker is a *separate* product from Pages: connecting this repo to Cloudflare
+(Pages) does not create it, and the app is hosted on GitHub Pages anyway. So
+create the Worker by hand once — no `wrangler`, no git connection.
 
-Then add the Worker's URL to the app and to Supabase is not needed — the app
-calls the Worker directly with the user's Supabase access token in the
-`Authorization` header.
+1. **Cloudflare dashboard → Workers & Pages → Create → Worker.** Name it
+   `workout-chat`, Deploy the placeholder, then **Edit code**.
+2. Paste the whole of `workout-chat.js`, Save & Deploy.
+3. **Settings → Bindings:**
+   - *AI* binding named `AI`.
+   - *KV namespace* binding named `RL` (create a namespace `workout-chat-rl`
+     first, under Storage & Databases → KV).
+4. **Settings → Variables and Secrets** (plaintext vars):
+   - `APP_ORIGIN = https://absoluteworkout.win`
+   - `SUPABASE_URL = https://wmouolcpesvknqcjuqtq.supabase.co`
+   - `CHAT_MODEL = @cf/openai/gpt-oss-120b`
+   - `SUPABASE_PUBLISHABLE_KEY` = the `sb_publishable_...` key (**Encrypt** it) —
+     the same one in `src/supabase-config.js`, NOT the legacy anon/service_role.
+5. Copy the Worker's URL (`https://workout-chat.<subdomain>.workers.dev`).
+
+`wrangler.toml` in this dir is only for the CLI path; the dashboard uses the
+bindings you set in step 3–4 and ignores it. (Prefer git-driven deploys later?
+`npx wrangler deploy` — no global install — or connect the Worker to the repo
+via Workers Builds. Not needed for a one-file proxy.)
+
+Then set `WORKOUT_CHAT_URL` in `src/supabase-config.js` to that URL (on a
+branch → PR). The app calls the Worker directly with the user's Supabase access
+token; nothing else to wire.
 
 ## Client call (for when the chat UI lands)
 

@@ -107,7 +107,7 @@ async function constraintsFor(profileId, env) {
 async function verifySupabaseUser(token, env) {
   try {
     const r = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, {
-      headers: { apikey: env.SUPABASE_ANON_KEY, authorization: `Bearer ${token}` }
+      headers: { apikey: env.SUPABASE_PUBLISHABLE_KEY, authorization: `Bearer ${token}` }
     });
     if (!r.ok) return null;
     const u = await r.json();
