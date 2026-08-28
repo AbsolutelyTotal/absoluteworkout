@@ -142,6 +142,22 @@ export function render(root, db, { onFinish }) {
 /** The AI chat card. Fails closed: not configured => card isn't rendered, so
  *  this never runs. Renders the answer as text through html`` (escaped) — model
  *  output is untrusted like any other data. */
+// Conversation memory, per session, at module scope so it survives the Log
+// view's frequent re-renders (a set tick rebuilds #view). Reset when the
+// session changes so one workout's chat doesn't bleed into the next.
+let chatFor = null;          // session id the transcript belongs to
+let chatTurns = [];          // [{ role:'user'|'assistant', content }]
+let chatPending = false;     // a request is in flight
+
+function renderTranscript(out) {
+  if (!chatTurns.length && !chatPending) { out.hidden = true; return; }
+  out.hidden = false;
+  mount(out, html`
+    ${chatTurns.map(t => html`<div class="${t.role === 'user' ? 'chat-q' : 'chat-answer'}">${t.content}</div>`)}
+    ${chatPending ? html`<div class="chat-thinking">Thinking…</div>` : ''}
+  `);
+}
+
 function wireChat(root, db, session, signal) {
   const form = root.querySelector('[data-role="chat-form"]');
   if (!form) return;
@@ -149,25 +165,39 @@ function wireChat(root, db, session, signal) {
   const btn = form.querySelector('[data-role="chat-send"]');
   const out = root.querySelector('[data-role="chat-out"]');
 
+  if (chatFor !== session.id) { chatFor = session.id; chatTurns = []; chatPending = false; }
+  renderTranscript(out);   // repaint any prior conversation after a re-render
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const question = input.value.trim();
-    if (!question) return;
+    if (!question || chatPending) return;
+    const history = chatTurns.slice();     // prior turns only; the worker appends this question
+    chatTurns.push({ role: 'user', content: question });
+    chatPending = true;
+    input.value = '';
     btn.disabled = true;
-    out.hidden = false;
-    mount(out, html`<div class="chat-thinking">Thinking…</div>`);
+    renderTranscript(out);
     try {
       const answer = await askWorkoutChat({
         question,
+        history,
         workout: workoutContext(db, session),
         profileId: db.profile?.id,
         signal            // aborted if the view re-renders or switches away
       });
-      if (signal.aborted) return;   // a newer render owns the DOM now
-      mount(out, html`<div class="chat-answer">${answer || 'No answer came back.'}</div>`);
+      chatPending = false;
+      chatTurns.push({ role: 'assistant', content: answer || 'No answer came back.' });
+      if (!signal.aborted) renderTranscript(out);
     } catch (err) {
-      if (err?.name === 'AbortError' || signal.aborted) return;   // stale request, drop silently
-      mount(out, html`<div class="chat-error">${err.message ?? String(err)}</div>`);
+      chatPending = false;
+      if (err?.name === 'AbortError' || signal.aborted) return;   // stale request, transcript kept
+      // Drop the un-answered user turn so a retry isn't doubled, and show the error.
+      chatTurns.pop();
+      renderTranscript(out);
+      mount(out, html`
+        ${chatTurns.map(t => html`<div class="${t.role === 'user' ? 'chat-q' : 'chat-answer'}">${t.content}</div>`)}
+        <div class="chat-error">${err.message ?? String(err)}</div>`);
     } finally {
       if (!signal.aborted) btn.disabled = false;
     }
