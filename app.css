@@ -897,6 +897,7 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
 .chat-out { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
 .chat-q, .chat-answer {
   max-width: 82%;
+  text-align: start;   /* follows each bubble's dir=auto: Hebrew right, English left */
   padding: 9px 13px;
   border: 2px solid var(--navy);
   border-radius: 14px;
