@@ -19,6 +19,7 @@ import * as history from '../src/views/history.js';
 import { initPicker } from '../src/views/picker.js';
 import { initExerciseDetail } from '../src/views/exercise-detail.js';
 import { chatConfigured, workoutContext } from '../src/chat.js';
+import { WORKOUT_CHAT_URL } from '../src/supabase-config.js';
 
 const KEY = 'absoluteworkout.v1';
 const results = [];
@@ -538,8 +539,9 @@ export async function run(scratch) {
     });
 
     await checkAsync('chat: hidden by default, context builder is compact and named', async () => {
-      // Ships unconfigured, so the chat bar must not appear.
-      ok(chatConfigured() === false, 'chat should be off until WORKOUT_CHAT_URL is set');
+      // chatConfigured() must track the configured URL exactly — off when empty,
+      // on when set. (It's set now that the Worker is deployed.)
+      ok(chatConfigured() === (WORKOUT_CHAT_URL.length > 0), 'chatConfigured tracks the URL');
       await freshSession();
       const sess = store.activeSession();
       const ctx = workoutContext(db, sess);
