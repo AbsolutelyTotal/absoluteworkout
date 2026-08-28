@@ -7,11 +7,10 @@ compatibility_date = "2026-01-01"
 binding = "AI"
 
 # Per-user daily rate limit counter. Create with:
-#   wrangler kv namespace create RL
-# then paste the id below.
+#   npx wrangler kv namespace create RL
 [[kv_namespaces]]
 binding = "RL"
-id = "PASTE_KV_NAMESPACE_ID"
+id = "9ad5501c95b045e28d8d0889a8ff36d7"
 
 [vars]
 APP_ORIGIN = "https://absoluteworkout.win"
