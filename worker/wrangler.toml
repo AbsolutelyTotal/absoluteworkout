@@ -2,6 +2,16 @@ name = "workout-chat"
 main = "workout-chat.js"
 compatibility_date = "2026-01-01"
 
+# Serve from your own domain, not the account's workers.dev subdomain (which
+# embeds the account name and ships to every client). Cloudflare auto-creates
+# the DNS record + cert since the zone is on this account. workers_dev=false
+# then disables the *.talmazor2.workers.dev URL entirely.
+workers_dev = false
+preview_urls = false
+[[routes]]
+pattern = "chat.absoluteworkout.win"
+custom_domain = true
+
 # Workers AI — the free model host. No key needed; the binding is the auth.
 [ai]
 binding = "AI"
