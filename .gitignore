@@ -21,3 +21,8 @@ absoluteworkout-*.json
 .env
 .env.*
 **/gemini-key*
+
+# Wrangler local state/cache (holds the CF account id + account email — never commit)
+.wrangler/
+# Node deps if ever installed locally
+node_modules/
