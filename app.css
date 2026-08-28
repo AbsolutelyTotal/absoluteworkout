@@ -892,27 +892,29 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
 }
 
 /* ---------- In-gym AI chat (Log view) ---------- */
-.chat-out { margin-top: 12px; }
-.chat-thinking { color: var(--ink-2); font-style: italic; }
-.chat-answer {
-  padding: 11px 13px;
-  background: var(--card);
+/* A message list: consistent vertical rhythm via `gap`, each bubble capped so a
+   reply doesn't span the full card and the exchange reads as a conversation. */
+.chat-out { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.chat-q, .chat-answer {
+  max-width: 82%;
+  padding: 9px 13px;
   border: 2px solid var(--navy);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
+  border-radius: 14px;
+  line-height: 1.5;
   white-space: pre-wrap;      /* keep the model's line breaks */
-  line-height: 1.45;
+  overflow-wrap: anywhere;    /* long words/URLs don't overflow the bubble */
 }
 .chat-q {
   align-self: flex-end;
-  margin-top: 10px;
-  padding: 8px 12px;
   background: var(--butter);
-  border: 2px solid var(--navy);
-  border-radius: var(--radius-sm);
   font-weight: 600;
-  max-width: 85%;
+  border-bottom-right-radius: 4px;   /* subtle "tail" toward the sender side */
 }
-.chat-out { display: flex; flex-direction: column; }
-.chat-answer + .chat-q { margin-top: 14px; }
-.chat-error { color: var(--critical); font-weight: 600; margin-top: 10px; }
+.chat-answer {
+  align-self: flex-start;
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+  border-bottom-left-radius: 4px;
+}
+.chat-thinking { align-self: flex-start; color: var(--ink-2); font-style: italic; padding: 4px 2px; }
+.chat-error { align-self: flex-start; color: var(--critical); font-weight: 600; }
