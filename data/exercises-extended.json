@@ -41,30 +41,6 @@
     ]
   },
   {
-    "id": "machine-high-row",
-    "name": "Machine High Row",
-    "aliases": [
-      "upper row",
-      "חתירה עליונה"
-    ],
-    "pattern": "vertical-pull",
-    "equipment": [
-      "machine"
-    ],
-    "support": "chest-supported",
-    "primaryMuscles": [
-      "lats"
-    ],
-    "secondaryMuscles": [
-      "upper-back",
-      "biceps"
-    ],
-    "cues": [
-      "Pull down and back toward the hips",
-      "Chest stays on the pad"
-    ]
-  },
-  {
     "id": "front-raise",
     "name": "Front Raise",
     "pattern": "isolation",

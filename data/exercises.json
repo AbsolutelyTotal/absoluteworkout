@@ -217,7 +217,8 @@
     ],
     "setupNotes": "Seated with a high backrest — this is the permitted substitute for a standing overhead press.",
     "alternatives": [
-      "seated-db-lateral-raise"
+      "seated-db-lateral-raise",
+      "seated-db-shoulder-press"
     ],
     "image": "assets/exercises/machine-shoulder-press.jpg",
     "demoUrl": "https://www.instagram.com/reel/DKDrd1hRt2u/"
@@ -363,7 +364,6 @@
     "name": "Lat Pulldown",
     "aliases": [
       "pulldown",
-      "neutral grip pulldown",
       "wide grip pulldown"
     ],
     "pattern": "vertical-pull",
@@ -386,7 +386,11 @@
       "Avoid leaning back"
     ],
     "image": "assets/exercises/lat-pulldown.jpg",
-    "demoUrl": "https://www.instagram.com/reel/DFl0Oksg9EI/"
+    "demoUrl": "https://www.instagram.com/reel/DFl0Oksg9EI/",
+    "alternatives": [
+      "machine-high-row",
+      "neutral-grip-pulldown"
+    ]
   },
   {
     "id": "chest-supported-row",
@@ -875,5 +879,96 @@
       "straight-arm-cable-pushdown"
     ],
     "image": "assets/exercises/bear-plank.jpg"
+  },
+  {
+    "id": "machine-high-row",
+    "name": "Machine High Row",
+    "aliases": [
+      "upper row",
+      "חתירה עליונה"
+    ],
+    "pattern": "vertical-pull",
+    "equipment": [
+      "machine"
+    ],
+    "support": "chest-supported",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "upper-back",
+      "biceps"
+    ],
+    "cues": [
+      "Pull down and back toward the hips",
+      "Chest stays on the pad"
+    ],
+    "icon": "lat-pulldown",
+    "alternatives": [
+      "lat-pulldown",
+      "chest-supported-row",
+      "neutral-grip-pulldown"
+    ]
+  },
+  {
+    "id": "neutral-grip-pulldown",
+    "name": "Neutral-Grip Lat Pulldown",
+    "aliases": [
+      "neutral grip pulldown",
+      "close grip pulldown"
+    ],
+    "pattern": "vertical-pull",
+    "equipment": [
+      "machine",
+      "cable"
+    ],
+    "icon": "lat-pulldown",
+    "support": "seated-thigh-pad",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "upper-back"
+    ],
+    "cues": [
+      "Neutral (palms-facing) handle",
+      "Pull the elbows down toward your ribs",
+      "Chest tall, no lean-back"
+    ],
+    "alternatives": [
+      "lat-pulldown",
+      "machine-high-row"
+    ]
+  },
+  {
+    "id": "seated-db-shoulder-press",
+    "name": "Seated Dumbbell Shoulder Press",
+    "aliases": [
+      "seated db press",
+      "supported dumbbell press"
+    ],
+    "pattern": "vertical-push",
+    "equipment": [
+      "dumbbell"
+    ],
+    "icon": "shoulder-press",
+    "support": "high-back-seat",
+    "primaryMuscles": [
+      "front-delts"
+    ],
+    "secondaryMuscles": [
+      "side-delts",
+      "triceps"
+    ],
+    "cues": [
+      "Back flat against a high (80-90 degree) backrest",
+      "Press without leaning back or arching",
+      "Lower under control to ear height"
+    ],
+    "setupNotes": "Use an upright bench with a high backrest — the seated, supported substitute for a standing overhead press.",
+    "alternatives": [
+      "machine-shoulder-press"
+    ]
   }
 ]
