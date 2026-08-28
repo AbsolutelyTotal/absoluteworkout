@@ -28,7 +28,7 @@ export function workoutContext(db, session) {
 }
 
 /** Ask the Worker. Throws with a human-readable message on any failure. */
-export async function askWorkoutChat({ question, workout, profileId }) {
+export async function askWorkoutChat({ question, workout, profileId, signal }) {
   if (!chatConfigured()) throw new Error("Chat isn't set up yet.");
   const token = await accessToken();
   if (!token) throw new Error('Sign in (⤓ menu) to use chat.');
@@ -38,9 +38,11 @@ export async function askWorkoutChat({ question, workout, profileId }) {
     r = await fetch(WORKOUT_CHAT_URL, {
       method: 'POST',
       headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-      body: JSON.stringify({ question, workout, profileId })
+      body: JSON.stringify({ question, workout, profileId }),
+      signal
     });
-  } catch {
+  } catch (err) {
+    if (err?.name === 'AbortError') throw err;   // caller ignores aborted requests
     throw new Error('Could not reach the chat service.');
   }
   const data = await r.json().catch(() => ({}));

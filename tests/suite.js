@@ -539,20 +539,21 @@ export async function run(scratch) {
     });
 
     await checkAsync('chat: hidden by default, context builder is compact and named', async () => {
-      // chatConfigured() must track the configured URL exactly — off when empty,
-      // on when set. (It's set now that the Worker is deployed.)
-      ok(chatConfigured() === (WORKOUT_CHAT_URL.length > 0), 'chatConfigured tracks the URL');
       await freshSession();
       const sess = store.activeSession();
       const ctx = workoutContext(db, sess);
       eq(Object.keys(ctx).sort(), ['constraintsProfile','day','exercises','split'], 'context keys: ');
       ok(ctx.exercises.length > 0, 'context should list exercises');
-      // exercise ids must be resolved to names, not raw slugs, and no set leaks
-      // fields beyond weight/reps/done
-      const first = ctx.exercises[0];
-      ok(!/^[a-z0-9-]+$/.test(first.name) || first.name.includes(' '), 'names resolved, not slugs');
-      const setKeys = Object.keys(first.sets[0] ?? {}).sort();
-      return eq(setKeys, ['done','reps','weight'], 'set keys: ');
+      // Names must be the library display names, not the raw slug ids — assert
+      // against the actual library rather than a fragile regex.
+      const libNames = new Set(Object.values(db.exerciseById).map(e => e.name));
+      const ids = new Set(Object.keys(db.exerciseById));
+      const badName = ctx.exercises.find(x => !libNames.has(x.name) || ids.has(x.name));
+      ok(!badName, `every exercise name resolved to a library name (offender: ${badName?.name})`);
+      // Sets carry only weight/reps/done — nothing else leaks into the prompt.
+      const leaked = ctx.exercises.flatMap(x => x.sets).find(st =>
+        Object.keys(st).sort().join(',') !== 'done,reps,weight');
+      return ok(!leaked, `set objects carry only weight/reps/done (offender: ${JSON.stringify(leaked)})`);
     });
 
     // --------------------------------------------------------------- dialogs

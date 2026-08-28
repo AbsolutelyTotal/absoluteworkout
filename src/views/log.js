@@ -160,13 +160,16 @@ function wireChat(root, db, session, signal) {
       const answer = await askWorkoutChat({
         question,
         workout: workoutContext(db, session),
-        profileId: db.profile?.id
+        profileId: db.profile?.id,
+        signal            // aborted if the view re-renders or switches away
       });
+      if (signal.aborted) return;   // a newer render owns the DOM now
       mount(out, html`<div class="chat-answer">${answer || 'No answer came back.'}</div>`);
     } catch (err) {
+      if (err?.name === 'AbortError' || signal.aborted) return;   // stale request, drop silently
       mount(out, html`<div class="chat-error">${err.message ?? String(err)}</div>`);
     } finally {
-      btn.disabled = false;
+      if (!signal.aborted) btn.disabled = false;
     }
   }, { signal });
 }
