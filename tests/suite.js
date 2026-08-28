@@ -569,18 +569,24 @@ export async function run(scratch) {
       await freshSession();
       const sess = store.activeSession();
       const ctx = workoutContext(db, sess);
-      eq(Object.keys(ctx).sort(), ['constraintsProfile','day','exercises','split'], 'context keys: ');
+      eq(Object.keys(ctx).sort(), ['constraintsProfile','day','exercises','permittedLibrary','split'], 'context keys: ');
       ok(ctx.exercises.length > 0, 'context should list exercises');
-      // Names must be the library display names, not the raw slug ids — assert
-      // against the actual library rather than a fragile regex.
+      // Names must be the library display names, not the raw slug ids.
       const libNames = new Set(Object.values(db.exerciseById).map(e => e.name));
       const ids = new Set(Object.keys(db.exerciseById));
       const badName = ctx.exercises.find(x => !libNames.has(x.name) || ids.has(x.name));
       ok(!badName, `every exercise name resolved to a library name (offender: ${badName?.name})`);
-      // Sets carry only weight/reps/done — nothing else leaks into the prompt.
+      // Each exercise carries the muscles it trains (so swap-by-muscle works),
+      // and sets carry only weight/reps/done.
+      ok(ctx.exercises.every(x => Array.isArray(x.muscles)), 'every exercise lists muscles');
       const leaked = ctx.exercises.flatMap(x => x.sets).find(st =>
         Object.keys(st).sort().join(',') !== 'done,reps,weight');
-      return ok(!leaked, `set objects carry only weight/reps/done (offender: ${JSON.stringify(leaked)})`);
+      ok(!leaked, `set objects carry only weight/reps/done (offender: ${JSON.stringify(leaked)})`);
+      // The permitted library is sent whole, muscle-tagged, so a substitute can
+      // be matched by muscle rather than limited to today's exercises.
+      ok(ctx.permittedLibrary.length === db.exercises.length, 'permitted library is complete');
+      return ok(ctx.permittedLibrary.every(e => e.name && Array.isArray(e.muscles)),
+                'library entries carry name + muscles');
     });
 
     // --------------------------------------------------------------- dialogs

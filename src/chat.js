@@ -13,16 +13,29 @@ export function chatConfigured() {
 /** Compact the session into the few-KB context the Worker expects. Only what's
  *  useful for a question — not the whole app state. */
 export function workoutContext(db, session) {
-  const nameOf = (id) => db.exerciseById[id]?.name ?? id;
+  const ex = (id) => db.exerciseById[id];
+  const nameOf = (id) => ex(id)?.name ?? id;
+  const musclesOf = (id) => (ex(id)?.primaryMuscles ?? []).map(m => db.muscleById[m]?.name ?? m);
   const split = db.splitById[session.splitId];
   const day = (split?.days ?? []).find(d => d.id === session.dayId);
   return {
     split: split?.name ?? session.splitId,
     day: day?.name ?? session.dayId,
     constraintsProfile: db.profile?.name ?? db.profile?.id,
-    exercises: (session.entries ?? []).map(e => ({
-      name: nameOf(e.substitutedFor ?? e.exerciseId),
-      sets: (e.sets ?? []).map(s => ({ weight: s.weight, reps: s.reps, done: s.done }))
+    // Today's exercises, now WITH the muscles they train — so a swap question
+    // can be answered by matching muscles, not by grabbing another same-day row.
+    exercises: (session.entries ?? []).map(e => {
+      const id = e.substitutedFor ?? e.exerciseId;
+      return { name: nameOf(id), muscles: musclesOf(id),
+               sets: (e.sets ?? []).map(s => ({ weight: s.weight, reps: s.reps, done: s.done })) };
+    }),
+    // The full PERMITTED library (already constraint-filtered for this profile).
+    // A substitute must come from here — that's what keeps swaps safe AND
+    // muscle-matched, instead of limited to what's on the day.
+    permittedLibrary: (db.exercises ?? []).map(e => ({
+      name: e.name,
+      muscles: (e.primaryMuscles ?? []).map(m => db.muscleById[m]?.name ?? m),
+      equipment: e.equipment ?? []
     }))
   };
 }
