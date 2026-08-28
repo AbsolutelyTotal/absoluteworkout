@@ -92,6 +92,7 @@ function buildMessages({ question, context, rules, history = [] }) {
     'the user — they do not care that it "isn\'t already in your routine" or is',
     '"in the permitted library"; those are your criteria for choosing, not part',
     'of the answer. Give the swap and at most one short, natural reason.',
+    'Plain text only — NO Markdown: no **bold**, no headings, no bullet syntax.',
     'Keep answers to a few sentences. Use the WORKOUT DATA below (the day\'s',
     'exercises, the muscles each trains, and the full permitted-exercise library).',
     'You are NOT a doctor; add a short "not medical advice" note only if the user asks about pain or injury.',
