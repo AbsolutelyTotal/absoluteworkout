@@ -1,0 +1,36 @@
+# Deploys the chat Worker to Cloudflare on a push to main that touches worker/**.
+# The client (Pages) already auto-deploys on merge; this automates the one step
+# that was manual (`wrangler deploy`).
+#
+# Security: runs ONLY from main (never a fork PR — those never receive secrets
+# anyway), and the token lives in the `production` GitHub Environment restricted
+# to the main branch, so no other branch's workflow can read it. The token is a
+# Cloudflare API token scoped to Workers Scripts: Edit only — not the global key.
+# Every action is pinned to a commit SHA.
+name: Deploy worker
+
+on:
+  push:
+    branches: [main]
+    paths: ['worker/**']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: worker
+          command: deploy
