@@ -16,7 +16,7 @@
 // offline after a single visit fails to load the data files. Runtime caching
 // then keeps everything else (images, etc.) fresh on top of the precache.
 
-const CACHE = 'aw-runtime-v2';
+const CACHE = 'aw-runtime-v3';
 const NET_TIMEOUT = 4000;
 
 // Everything boot() needs to render offline: shell, fonts, vendored lib, every
@@ -36,12 +36,25 @@ const PRECACHE = [
   'data/profiles.json', 'data/exercises-extended.json'
 ];
 
+// Data files whose `image` fields point at the exercise/muscle photos. We read
+// these (already cached above) and precache every image they name — so the ~6MB
+// of pictures are available offline, and adding an exercise's photo needs no
+// edit here (the list is derived from the JSON, not hardcoded).
+const IMAGE_DATA = ['data/exercises.json', 'data/exercises-extended.json', 'data/muscles.json'];
+
 self.addEventListener('install', (e) => {
   self.skipWaiting();   // take over promptly; network-first makes this safe
-  // Per-entry adds (not addAll): one 404 shouldn't abort the whole precache.
-  e.waitUntil(caches.open(CACHE).then((c) =>
-    Promise.allSettled(PRECACHE.map((u) => c.add(u)))
-  ));
+  e.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+    // Per-entry adds (not addAll): one 404 shouldn't abort the whole precache.
+    await Promise.allSettled(PRECACHE.map((u) => cache.add(u)));
+    // Then the images the data files reference.
+    const lists = await Promise.all(IMAGE_DATA.map((f) =>
+      cache.match(f).then((r) => (r ? r.json() : [])).catch(() => [])
+    ));
+    const imgs = [...new Set(lists.flat().map((x) => x && x.image).filter(Boolean))];
+    await Promise.allSettled(imgs.map((u) => cache.add(u)));
+  })());
 });
 
 self.addEventListener('activate', (e) => {
