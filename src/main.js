@@ -377,7 +377,19 @@ function showGate(message) {
   }
 }
 
+// Register the service worker (offline + always-fresh-online). Independent of
+// auth, best-effort: a failure just means no offline, never a broken app. We do
+// NOT force a reload when a new worker takes over — a reload mid-set would lose
+// the user's place; network-first already keeps content current.
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+
 async function boot() {
+  registerServiceWorker();
   sync.init();
   if (!sync.available()) {
     // Auth library failed to load — do not expose the app. Offer a reload.
