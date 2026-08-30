@@ -124,6 +124,10 @@ function wireImageFallback() {
 /** Peek at splits.json for a remembered split's profile, before the full load
  *  decides which exercise library is permitted. */
 async function profileIdForSplit(splitId) {
+  // A user plan carries its own profile — check those first so activating one
+  // loads the right library on the next boot.
+  const local = store.getPlans().find(p => p.id === splitId && !p.deleted);
+  if (local?.profileId) return local.profileId;
   try {
     const splits = await fetch('data/splits.json', { cache: 'no-store' }).then(r => r.json());
     return splits.find(s => s.id === splitId)?.profileId;
@@ -158,7 +162,9 @@ async function ensureProfileFor(splitId) {
     return false;
   }
   if (seq !== loadSeq) return false;   // a newer switch superseded this one
-  db = next;
+  // loadData returns only the JSON splits — fold the user's plans back in, or
+  // they'd vanish from the picker after a profile switch.
+  db = withUserPlans(next, store.getPlans().filter(p => !p.deleted && store.isValidPlan(p)));
   mount(bannerEl, issuesBanner(db.issues));
   return true;
 }

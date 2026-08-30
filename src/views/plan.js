@@ -2,9 +2,12 @@
 // beyond the active-split setting; starting a session hands off to the Log view.
 
 import { html, mount, chip, prescriptionLine, fmt } from '../ui.js';
-import { prescriptionsOf, dayOf, plannedWeeklySets, byGroup, suggestNextDay, profileOfSplit } from '../data.js';
+import { prescriptionsOf, dayOf, plannedWeeklySets, byGroup, suggestNextDay, profileOfSplit, withUserPlans } from '../data.js';
 import { equipmentIcon } from '../icons/equipment.js';
+import { openEditor } from './plan-editor.js';
 import * as store from '../store.js';
+
+const isUserPlan = (id) => store.getPlans().some(p => p.id === id && !p.deleted);
 
 let selectedDayId = null;
 
@@ -38,6 +41,13 @@ export function render(root, db, handlers) {
         ${profile ? html`<div class="support-tag" style="margin-top:4px">
           ${`constraints: ${profile.name}`}
         </div>` : ''}
+        <div class="row plan-actions" style="margin-top:12px">
+          <button class="btn sm" type="button" data-action="plan-new">＋ New plan</button>
+          <button class="btn sm" type="button" data-action="plan-duplicate">Duplicate</button>
+          ${isUserPlan(split.id) ? html`
+            <button class="btn sm" type="button" data-action="plan-edit">Edit</button>
+            <button class="btn sm danger" type="button" data-action="plan-delete">Delete</button>` : ''}
+        </div>
       </div>
 
       <div class="card">
@@ -80,6 +90,33 @@ export function render(root, db, handlers) {
 
   root.querySelector('[data-action="start"]')?.addEventListener('click', () => {
     onStartSession(split.id, dayId, prescriptionsOf(day));
+  });
+
+  // Re-merge the (possibly changed) plans into db and repaint the Plan view.
+  const reopen = () => {
+    withUserPlans(db, store.getPlans().filter(p => !p.deleted && store.isValidPlan(p)));
+    render(root, db, handlers);
+  };
+  root.querySelector('[data-action="plan-new"]')?.addEventListener('click', () => {
+    openEditor(root, db, { mode: 'new', onDone: reopen });
+  });
+  root.querySelector('[data-action="plan-duplicate"]')?.addEventListener('click', () => {
+    openEditor(root, db, { mode: 'fork', source: split, onDone: reopen });
+  });
+  root.querySelector('[data-action="plan-edit"]')?.addEventListener('click', () => {
+    openEditor(root, db, { mode: 'edit', source: split, onDone: reopen });
+  });
+  root.querySelector('[data-action="plan-delete"]')?.addEventListener('click', async () => {
+    if (!confirm(`Delete "${split.name}"? This removes it from your plans on all your devices.`)) return;
+    store.deletePlan(split.id);
+    selectedDayId = null;
+    if (settings.activeSplitId === split.id) {
+      // Fall back to a built-in; switch profile if the fallback differs.
+      const fallback = db.builtinSplits?.[0]?.id ?? db.splits[0].id;
+      store.updateSettings({ activeSplitId: fallback });
+      if (onProfileChange && await onProfileChange(fallback)) return;   // it repaints
+    }
+    reopen();
   });
 }
 
