@@ -46,7 +46,9 @@ export function init() {
   // Push when a session completes. Fire-and-forget: a failure leaves the data
   // safely in localStorage and the next sync picks it up.
   store.subscribe((_state, reason) => {
-    if (reason === 'session-finish' || reason === 'session-delete') syncNow().catch(() => {});
+    if (reason === 'session-finish' || reason === 'session-delete' || reason === 'plan-change') {
+      syncNow().catch(() => {});
+    }
   });
 }
 
@@ -116,6 +118,31 @@ export async function syncNow() {
       }
     } catch (err) {
       console.warn('Tombstone sync skipped:', err.message);
+    }
+
+    // --- plans: mutable, so last-write-wins by updatedAt. Pull first (the merge
+    //     makes local the newest per id), then push local so remote converges
+    //     too. A soft-deleted plan (deleted:true, newer updatedAt) rides along
+    //     and propagates the removal. Best-effort like the tombstones, so a
+    //     missing table can't break the core session backup below. ---
+    try {
+      const { data: remotePlans, error: pSelErr } = await client
+        .from('custom_plans').select('payload');
+      if (pSelErr) throw new Error(pSelErr.message);
+      store.mergePlans((remotePlans ?? []).map(r => r.payload));
+
+      const localPlans = store.getPlans();
+      if (localPlans.length) {
+        const prows = localPlans.map(p => ({
+          user_id: u.id, id: p.id, payload: p,
+          updated_at: p.updatedAt, deleted: !!p.deleted
+        }));
+        const { error: pUpErr } = await client.from('custom_plans')
+          .upsert(prows, { onConflict: 'user_id,id' });   // replace on conflict = LWW push
+        if (pUpErr) throw new Error(pUpErr.message);
+      }
+    } catch (err) {
+      console.warn('Plan sync skipped:', err.message);
     }
 
     // --- push completed local sessions, minus anything tombstoned ---
