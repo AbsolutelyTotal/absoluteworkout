@@ -59,7 +59,12 @@ export default {
     let answer;
     try {
       const model = env.CHAT_MODEL || DEFAULT_MODEL;
-      const out = await env.AI.run(model, { messages, max_tokens: 500 });
+      // gpt-oss is a reasoning model: its internal reasoning is drawn from the
+      // SAME max_tokens budget as the answer. At 500 a harder question (a
+      // muscle-matched swap) spent the whole budget reasoning and returned an
+      // empty answer. Give it room AND cap reasoning effort — this is a quick
+      // chat bar, not a proof solver, so 'low' keeps answers fast and present.
+      const out = await env.AI.run(model, { messages, max_tokens: 2000, reasoning_effort: 'low' });
       // The Workers AI binding normalises gpt-oss to { response }; the extra
       // accessors are belt-and-braces for other model shapes.
       answer = (
@@ -73,7 +78,11 @@ export default {
       // Don't leak internal error text to the client.
       return json({ error: 'The chat model is unavailable right now.' }, 502, cors);
     }
-    if (answer) await recordUse(env, user.id);   // count successes only
+    // An empty answer is a failure, not a turn: don't record use, and return an
+    // error so the client shows a retry hint instead of banking a dead bubble
+    // (which would also poison the follow-up history sent back next turn).
+    if (!answer) return json({ error: 'No answer came back — try rephrasing.' }, 502, cors);
+    await recordUse(env, user.id);               // count successes only
     return json({ answer }, 200, cors);
   }
 };
@@ -96,6 +105,12 @@ function buildMessages({ question, context, rules, history = [] }) {
     'Keep answers to a few sentences. Use the WORKOUT DATA below (the day\'s',
     'exercises, the muscles each trains, and the full permitted-exercise library).',
     'You are NOT a doctor; add a short "not medical advice" note only if the user asks about pain or injury.',
+    '',
+    'SCOPE: only answer questions about strength training and this workout —',
+    'exercises, swaps, form, sets/reps, muscles, and training-focused nutrition',
+    'like protein targets around a session. For anything off-topic (recipes,',
+    'general chit-chat, coding, trivia) do not answer it; reply in one short',
+    'sentence that you only help with their training, and stop.',
     '',
     'SUBSTITUTIONS: when asked to replace or swap an exercise, recommend a',
     'DIFFERENT exercise that trains the SAME primary muscle(s) as the one being',
