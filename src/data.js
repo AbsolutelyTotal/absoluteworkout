@@ -51,7 +51,10 @@ export async function loadData(profileId) {
     profileById,
     muscleById: Object.fromEntries(muscles.map(m => [m.id, m])),
     exerciseById: Object.fromEntries(exercises.map(e => [e.id, e])),
-    splitById: Object.fromEntries(splits.map(s => [s.id, s]))
+    splitById: Object.fromEntries(splits.map(s => [s.id, s])),
+    // The read-only JSON splits, kept aside so withUserPlans can rebuild
+    // db.splits idempotently (re-applying a smaller list drops deleted plans).
+    builtinSplits: splits
   };
 
   db.issues = validate(db);
@@ -68,9 +71,11 @@ export function profileOfSplit(db, split) {
  *  through store.isValidPlan). A user plan wins an id collision — but forks keep
  *  their own id, so in practice this just appends. Rebuilds splitById to match. */
 export function withUserPlans(db, plans) {
-  if (!plans?.length) return db;
-  const byId = new Map(db.splits.map(s => [s.id, s]));
-  for (const p of plans) byId.set(p.id, p);
+  // Rebuild from the built-ins each time (not db.splits), so calling this again
+  // with a plan removed actually drops it — a plain merge would only ever add.
+  const base = db.builtinSplits ?? db.splits;
+  const byId = new Map(base.map(s => [s.id, s]));
+  for (const p of (plans ?? [])) byId.set(p.id, p);
   db.splits = [...byId.values()];
   db.splitById = Object.fromEntries(db.splits.map(s => [s.id, s]));
   return db;

@@ -943,3 +943,24 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
 .gate-status:empty { display: none; }
 /* While gated, the app chrome is withheld entirely. */
 body.gated > .appbar, body.gated > #tabs, body.gated > main { display: none; }
+
+/* ---------- Plan editor ---------- */
+.plan-actions { flex-wrap: wrap; gap: 8px; }
+
+.pe-item {
+  border: 2px solid var(--navy);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-top: 10px;
+  background: var(--white);
+}
+.pe-head { display: flex; align-items: center; gap: 10px; }
+.pe-name { flex: 1 1 auto; font-weight: 600; color: var(--ink); }
+.pe-params { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+.pe-params label {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.5px;
+}
+.pe-num { width: 68px; }
+.pe-reps { width: 90px; }
+.pe-unit { margin-left: -2px; color: var(--ink-2); text-transform: none; }

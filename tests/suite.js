@@ -438,6 +438,14 @@ export async function run(scratch) {
       ok(merged.splitById['p1'], 'user plan reachable via splitById');
       return eq(merged.splits.map(s => s.id).sort(), ['core-3', 'p1'], 'splits: ');
     });
+    check('withUserPlans rebuilds from built-ins so a removed plan drops out', () => {
+      const db = { builtinSplits: [{ id: 'core-3' }], splits: [{ id: 'core-3' }], splitById: { 'core-3': { id: 'core-3' } } };
+      withUserPlans(db, [plan('p1', 'Mine', 'x')]);
+      ok(db.splitById['p1'], 'plan present after first apply');
+      withUserPlans(db, []);                       // re-apply with it removed
+      ok(!db.splitById['p1'], 'plan gone after re-apply without it');
+      return eq(db.splits.map(s => s.id), ['core-3'], 'only the built-in remains: ');
+    });
     check('a malformed active session cannot be imported (no boot brick)', () => {
       seed(emptyState());
       // An in-progress session (no completedAt) with no entries is exactly what
