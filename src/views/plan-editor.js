@@ -95,12 +95,12 @@ function dayEditor(day) {
   const i = plan.days.indexOf(day);
   return html`
     <div class="card">
-      <div class="spread">
-        <input class="field" data-role="day-name" value="${day.name}" maxlength="40" style="max-width:58%">
-        <div class="row">
-          <button class="btn sm" type="button" data-action="day-up" ${i <= 0 ? 'disabled' : ''}>↑</button>
-          <button class="btn sm" type="button" data-action="day-down" ${i >= plan.days.length - 1 ? 'disabled' : ''}>↓</button>
-          <button class="btn sm danger" type="button" data-action="day-remove" ${plan.days.length <= 1 ? 'disabled' : ''}>Remove</button>
+      <div class="pe-day-head">
+        <input class="field" data-role="day-name" value="${day.name}" maxlength="40">
+        <div class="pe-ctrls">
+          <button class="pe-btn" type="button" data-action="day-up" ${i <= 0 ? 'disabled' : ''} aria-label="Move day up">↑</button>
+          <button class="pe-btn" type="button" data-action="day-down" ${i >= plan.days.length - 1 ? 'disabled' : ''} aria-label="Move day down">↓</button>
+          <button class="pe-btn danger" type="button" data-action="day-remove" ${plan.days.length <= 1 ? 'disabled' : ''} aria-label="Remove day">✕</button>
         </div>
       </div>
 
@@ -108,7 +108,7 @@ function dayEditor(day) {
         ? day.items.map((it, idx) => exItem(it, idx, day.items.length))
         : html`<div class="ex-sub" style="margin-top:10px">No exercises yet — add one below.</div>`}
 
-      <button class="btn add-exercise" type="button" data-action="ex-add" style="margin-top:10px">＋ Add exercise</button>
+      <button class="btn add-exercise" type="button" data-action="ex-add" style="margin-top:12px">＋ Add exercise</button>
     </div>
   `;
 }
@@ -117,18 +117,18 @@ function exItem(it, i, n) {
   const ex = db.exerciseById[it.exerciseId];
   return html`<div class="pe-item" data-i="${i}">
     <div class="pe-head">
-      <div class="ex-icons">${equipmentIcon(ex ?? {})}</div>
+      <div class="ex-icons pe-thumb">${equipmentIcon(ex ?? {})}</div>
       <div class="pe-name">${ex?.name ?? it.exerciseId}</div>
-      <div class="row">
-        <button class="btn sm" type="button" data-action="ex-up" ${i <= 0 ? 'disabled' : ''}>↑</button>
-        <button class="btn sm" type="button" data-action="ex-down" ${i >= n - 1 ? 'disabled' : ''}>↓</button>
-        <button class="btn sm danger" type="button" data-action="ex-remove" aria-label="Remove exercise">✕</button>
-      </div>
+      <button class="pe-btn danger" type="button" data-action="ex-remove" aria-label="Remove exercise">✕</button>
     </div>
     <div class="pe-params">
       <label>sets <input class="field pe-num" type="number" inputmode="numeric" min="1" max="10" data-field="sets" value="${it.sets}"></label>
       <label>reps <input class="field pe-reps" type="text" data-field="reps" value="${it.reps}"></label>
       <label>rest <input class="field pe-num" type="number" inputmode="numeric" min="0" max="900" step="15" data-field="restSeconds" value="${it.restSeconds}"><span class="pe-unit">s</span></label>
+      <div class="pe-reorder">
+        <button class="pe-btn" type="button" data-action="ex-up" ${i <= 0 ? 'disabled' : ''} aria-label="Move up">↑</button>
+        <button class="pe-btn" type="button" data-action="ex-down" ${i >= n - 1 ? 'disabled' : ''} aria-label="Move down">↓</button>
+      </div>
     </div>
   </div>`;
 }

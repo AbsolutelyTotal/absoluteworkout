@@ -947,6 +947,24 @@ body.gated > .appbar, body.gated > #tabs, body.gated > main { display: none; }
 /* ---------- Plan editor ---------- */
 .plan-actions { flex-wrap: wrap; gap: 8px; }
 
+/* Compact square icon-button for the editor's reorder/remove controls. */
+.pe-btn {
+  flex: 0 0 auto;
+  width: 36px; height: 36px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 2px solid var(--navy); border-radius: 8px;
+  background: var(--white); color: var(--navy);
+  font-size: 15px; line-height: 1; cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+.pe-btn.danger { border-color: var(--critical); color: var(--critical); }
+.pe-btn:disabled { opacity: 0.4; box-shadow: none; cursor: not-allowed; }
+.pe-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+.pe-ctrls { display: flex; gap: 6px; flex: 0 0 auto; }
+
+.pe-day-head { display: flex; align-items: center; gap: 8px; }
+.pe-day-head .field { flex: 1 1 auto; min-width: 0; }
+
 .pe-item {
   border: 2px solid var(--navy);
   border-radius: 10px;
@@ -955,12 +973,22 @@ body.gated > .appbar, body.gated > #tabs, body.gated > main { display: none; }
   background: var(--white);
 }
 .pe-head { display: flex; align-items: center; gap: 10px; }
-.pe-name { flex: 1 1 auto; font-weight: 600; color: var(--ink); }
-.pe-params { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+/* Shrink the exercise photo/icon to a small thumbnail in the editor. */
+.pe-thumb { flex: 0 0 auto; }
+.pe-thumb .ex-photo, .pe-thumb .ex-photo img, .pe-thumb .icon-eq-box {
+  width: 42px; height: 42px;
+}
+.pe-thumb .ex-photo { padding: 0; border-radius: 8px; overflow: hidden; }
+.pe-thumb .ex-photo img { object-fit: cover; }
+.pe-name { flex: 1 1 auto; min-width: 0; font-weight: 600; font-size: 14px; line-height: 1.25; color: var(--ink); }
+
+.pe-params { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 12px; }
 .pe-params label {
   display: inline-flex; align-items: center; gap: 6px;
-  font-size: 12px; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.5px;
+  font-size: 11px; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.5px;
 }
-.pe-num { width: 68px; }
-.pe-reps { width: 90px; }
+/* Reorder arrows sit at the far right of the params row, freeing the name row. */
+.pe-reorder { display: flex; gap: 6px; margin-left: auto; }
+.pe-num { width: 64px; }
+.pe-reps { width: 84px; }
 .pe-unit { margin-left: -2px; color: var(--ink-2); text-transform: none; }
