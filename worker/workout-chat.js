@@ -59,12 +59,18 @@ export default {
     let answer;
     try {
       const model = env.CHAT_MODEL || DEFAULT_MODEL;
+      // Route through AI Gateway when configured (env.CHAT_GATEWAY): free
+      // request logging, response caching, and an edge rate-limit set on the
+      // gateway itself. Unset ⇒ straight to Workers AI, so it fails safe.
+      const opts = env.CHAT_GATEWAY
+        ? { gateway: { id: env.CHAT_GATEWAY, cacheTtl: 3600 } }
+        : undefined;
       // gpt-oss is a reasoning model: its internal reasoning is drawn from the
       // SAME max_tokens budget as the answer. At 500 a harder question (a
       // muscle-matched swap) spent the whole budget reasoning and returned an
       // empty answer. Give it room AND cap reasoning effort — this is a quick
       // chat bar, not a proof solver, so 'low' keeps answers fast and present.
-      const out = await env.AI.run(model, { messages, max_tokens: 2000, reasoning_effort: 'low' });
+      const out = await env.AI.run(model, { messages, max_tokens: 2000, reasoning_effort: 'low' }, opts);
       // The Workers AI binding normalises gpt-oss to { response }; the extra
       // accessors are belt-and-braces for other model shapes.
       answer = (

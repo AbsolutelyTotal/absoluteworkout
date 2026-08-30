@@ -26,6 +26,10 @@ id = "9ad5501c95b045e28d8d0889a8ff36d7"
 APP_ORIGIN = "https://absoluteworkout.win"
 SUPABASE_URL = "https://wmouolcpesvknqcjuqtq.supabase.co"
 CHAT_MODEL = "@cf/openai/gpt-oss-120b"   # swap here to change model; no code change
+# AI Gateway id — free logging + response caching + an edge rate-limit set on
+# the gateway. CREATE the gateway with this exact name in the dashboard BEFORE
+# deploying, or the model call errors. Empty/removed ⇒ direct to Workers AI.
+CHAT_GATEWAY = "workout-chat"
 # SUPABASE_PUBLISHABLE_KEY = the sb_publishable_... key (same one in
 # src/supabase-config.js). NOT the legacy anon JWT, NOT service_role.
 # Set it in the dashboard (Settings > Variables) or: npx wrangler secret put SUPABASE_PUBLISHABLE_KEY
