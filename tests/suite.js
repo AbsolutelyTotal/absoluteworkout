@@ -376,6 +376,26 @@ export async function run(scratch) {
       eq(store.getSessions().length, 1, 'only the valid row admitted: ');
       return eq(r.added, 1, 'added: ');
     });
+    // ---- deletion tombstones: a deleted session must not resurrect via sync ----
+    check('deleteSession drops it locally and records a tombstone', () => {
+      seed({ ...emptyState(), sessions: [session('2026-02-01', 'push', []), session('2026-02-02', 'pull', [])] });
+      store.deleteSession('2026-02-01-push');
+      eq(store.getSessions().map(s => s.id), ['2026-02-02-pull'], 'remaining: ');
+      return eq(store.getDeletedIds(), ['2026-02-01-push'], 'tombstones: ');
+    });
+    check('mergeSessions will not re-admit a tombstoned id (no resurrection)', () => {
+      seed({ ...emptyState(), sessions: [session('2026-02-02', 'pull', [])], deletedIds: ['2026-02-01-push'] });
+      // Exactly the bug: the deleted session comes back from a cloud pull.
+      const r = store.mergeSessions([session('2026-02-01', 'push', []), session('2026-02-03', 'legs', [])]);
+      ok(!store.getSessions().some(s => s.id === '2026-02-01-push'), 'tombstoned row stays out');
+      return eq(r.added, 1, 'only the untombstoned new row added: ');
+    });
+    check('mergeTombstones purges a matching local session', () => {
+      seed({ ...emptyState(), sessions: [session('2026-02-01', 'push', []), session('2026-02-02', 'pull', [])] });
+      const r = store.mergeTombstones(['2026-02-01-push']);
+      eq(r.added, 1, 'new tombstone: ');
+      return eq(store.getSessions().map(s => s.id), ['2026-02-02-pull'], 'purged local copy: ');
+    });
     check('a malformed active session cannot be imported (no boot brick)', () => {
       seed(emptyState());
       // An in-progress session (no completedAt) with no entries is exactly what

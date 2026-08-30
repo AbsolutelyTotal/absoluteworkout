@@ -46,7 +46,7 @@ export function init() {
   // Push when a session completes. Fire-and-forget: a failure leaves the data
   // safely in localStorage and the next sync picks it up.
   store.subscribe((_state, reason) => {
-    if (reason === 'session-finish') syncNow().catch(() => {});
+    if (reason === 'session-finish' || reason === 'session-delete') syncNow().catch(() => {});
   });
 }
 
@@ -91,7 +91,36 @@ export async function syncNow() {
 
   syncing = true; lastError = null; emit();
   try {
-    const completed = store.getSessions().filter(s => s.completedAt);
+    // --- tombstones first. Sync is union-by-id and never removes, so a delete
+    //     only sticks if it propagates: pull remote tombstones (purging any
+    //     local copy), push ours, then hard-delete the actual cloud rows so a
+    //     re-pull can't hand them back. Best-effort — if the deleted_sessions
+    //     table isn't there yet (pre-migration), don't let it break the core
+    //     session backup below; the delete is already applied locally and will
+    //     propagate on a later sync once the table exists. ---
+    try {
+      const { data: remoteTombs, error: tSelErr } = await client
+        .from('deleted_sessions').select('session_id');
+      if (tSelErr) throw new Error(tSelErr.message);
+      store.mergeTombstones((remoteTombs ?? []).map(r => r.session_id));
+
+      const tombIds = store.getDeletedIds();
+      if (tombIds.length) {
+        const trows = tombIds.map(id => ({ user_id: u.id, session_id: id }));
+        const { error: tUpErr } = await client.from('deleted_sessions')
+          .upsert(trows, { onConflict: 'user_id,session_id', ignoreDuplicates: true });
+        if (tUpErr) throw new Error(tUpErr.message);
+        const { error: delErr } = await client.from('sessions')
+          .delete().eq('user_id', u.id).in('id', tombIds);
+        if (delErr) throw new Error(delErr.message);
+      }
+    } catch (err) {
+      console.warn('Tombstone sync skipped:', err.message);
+    }
+
+    // --- push completed local sessions, minus anything tombstoned ---
+    const tombSet = new Set(store.getDeletedIds());
+    const completed = store.getSessions().filter(s => s.completedAt && !tombSet.has(s.id));
     if (completed.length) {
       const rows = completed.map(s => ({ user_id: u.id, id: s.id, payload: s }));
       const { error: upErr } = await client.from('sessions')
