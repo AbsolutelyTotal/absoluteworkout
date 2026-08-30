@@ -15,7 +15,12 @@ const DEFAULTS = {
     weekStartsOn: 0,
     defaultSetTarget: [10, 20]
   },
-  sessions: []
+  sessions: [],
+  // Tombstones: ids of sessions the user deleted. Sync is union-by-id and never
+  // removes, so a delete has to be remembered here — otherwise the next push
+  // (this device) or pull (another device) resurrects it. Additive default, so
+  // older stored blobs heal to [] through the migrate() spread; no version bump.
+  deletedIds: []
 };
 
 let state = load();
@@ -236,6 +241,33 @@ export function discardSession(sessionId) {
   notify('session-discard');
 }
 
+/** Delete a COMPLETED session for good: drop it locally and tombstone its id so
+ *  sync removes the cloud row and no device (or later pull) brings it back.
+ *  Unlike discardSession (an in-progress abort), this must survive sync. */
+export function deleteSession(sessionId) {
+  if (typeof sessionId !== 'string' || !sessionId) return;
+  state.sessions = state.sessions.filter(s => s.id !== sessionId);
+  if (!state.deletedIds.includes(sessionId)) state.deletedIds.push(sessionId);
+  persist();
+  notify('session-delete');
+}
+
+export const getDeletedIds = () => state.deletedIds;
+
+/** Absorb tombstones pulled from the cloud: record any new ids and purge the
+ *  local sessions they name. A tombstone always wins over a stored copy. */
+export function mergeTombstones(ids) {
+  const have = new Set(state.deletedIds);
+  const fresh = (ids ?? []).filter(id => typeof id === 'string' && id && !have.has(id));
+  if (!fresh.length) return { added: 0 };
+  state.deletedIds.push(...fresh);
+  const tomb = new Set(state.deletedIds);
+  state.sessions = state.sessions.filter(s => !tomb.has(s.id));
+  persist();
+  notify('import');
+  return { added: fresh.length };
+}
+
 /** Last completed sets for an exercise — powers the "last time" hint. */
 export function lastPerformance(exerciseId) {
   for (let i = state.sessions.length - 1; i >= 0; i--) {
@@ -283,7 +315,9 @@ export function isValidSession(s) {
 
 /** Union by id — the same semantics as importJSON's merge path. Used by sync. */
 export function mergeSessions(sessions) {
-  const incoming = (sessions ?? []).filter(isValidSession);
+  // A tombstoned id is never re-admitted, however it arrives (pull or import).
+  const tomb = new Set(state.deletedIds);
+  const incoming = (sessions ?? []).filter(isValidSession).filter(s => !tomb.has(s.id));
   const seen = new Set(state.sessions.map(s => s.id));
   const added = incoming.filter(s => !seen.has(s.id));
   if (added.length) {

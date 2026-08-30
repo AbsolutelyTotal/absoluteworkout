@@ -40,9 +40,20 @@ export function render(root, db) {
   `);
 
   root.addEventListener('click', (e) => {
-    if (!e.target.closest('[data-action="show-week"]')) return;
-    expanded = !expanded;
-    render(root, db);
+    const del = e.target.closest('[data-action="delete-session"]');
+    if (del) {
+      const id = del.getAttribute('data-id');
+      const label = del.getAttribute('data-label') || 'this session';
+      if (confirm(`Delete ${label}? This removes it from this device and the cloud — on all your devices — and can't be undone.`)) {
+        store.deleteSession(id);   // sync (remote delete) fires on the notify
+        render(root, db);
+      }
+      return;
+    }
+    if (e.target.closest('[data-action="show-week"]')) {
+      expanded = !expanded;
+      render(root, db);
+    }
   }, { signal: (wiring?.abort(), wiring = new AbortController()).signal });
 }
 
@@ -204,17 +215,21 @@ function sessionsCard(db, sessions) {
   return html`<div class="card">
     <h3>Recent sessions</h3>
     <table class="data" style="margin-top:8px">
-      <thead><tr><th>Date</th><th>Day</th><th>Sets</th><th>Notes</th></tr></thead>
+      <thead><tr><th>Date</th><th>Day</th><th>Sets</th><th>Notes</th><th></th></tr></thead>
       <tbody>
         ${rows.map(s => {
           const split = db.splitById[s.splitId];
           const day = split?.days.find(d => d.id === s.dayId);
           const sets = s.entries.reduce((a, e) => a + e.sets.length, 0);
+          const label = `${day?.name ?? s.dayId} on ${fmt.date(s.date)}`;
           return html`<tr>
             <td>${fmt.date(s.date)}</td>
             <td class="name">${day?.name ?? s.dayId}</td>
             <td>${sets}</td>
             <td class="name">${s.notes ?? ''}</td>
+            <td><button class="btn sm danger" type="button" data-action="delete-session"
+              data-id="${s.id}" data-label="${label}" title="Delete session"
+              aria-label="Delete ${label}">Delete</button></td>
           </tr>`;
         })}
       </tbody>
