@@ -1,6 +1,6 @@
 // Bootstrap: load data, wire the tabs, own the backup dialog.
 
-import { loadData } from './data.js';
+import { loadData, withUserPlans } from './data.js';
 import { html, mount, issuesBanner, safeImagePath } from './ui.js';
 import * as store from './store.js';
 import * as plan from './views/plan.js';
@@ -41,6 +41,9 @@ async function startApp() {
     // Boot on the profile of the remembered split, so the correct exercise
     // library is loaded before anything renders.
     db = await loadData(await profileIdForSplit(store.getSettings().activeSplitId));
+    // Fold in the user's own plans (validated, non-deleted) so they show and
+    // behave like the built-in splits.
+    db = withUserPlans(db, store.getPlans().filter(p => !p.deleted && store.isValidPlan(p)));
   } catch (err) {
     mount(viewEl, html`<div class="banner warn">
       <span class="icon">!</span>

@@ -20,7 +20,10 @@ const DEFAULTS = {
   // removes, so a delete has to be remembered here — otherwise the next push
   // (this device) or pull (another device) resurrects it. Additive default, so
   // older stored blobs heal to [] through the migrate() spread; no version bump.
-  deletedIds: []
+  deletedIds: [],
+  // User-created/edited workout plans (see the Plans section below). Additive
+  // default, heals the same way.
+  plans: []
 };
 
 let state = load();
@@ -335,12 +338,90 @@ export function mergeSessions(sessions) {
 
 export function importJSON(text, { merge = true } = {}) {
   const incoming = migrate(JSON.parse(text));
-  if (merge) return mergeSessions(incoming.sessions);
-  // Replace mode: keep only sessions the app can render, so a hand-edited file
-  // can't wholesale-replace the log with something that bricks on next boot.
+  if (merge) {
+    const r = mergeSessions(incoming.sessions);
+    mergePlans(incoming.plans);       // plans ride along in the same backup file
+    return r;
+  }
+  // Replace mode: keep only sessions/plans the app can render, so a hand-edited
+  // file can't wholesale-replace state with something that bricks on next boot.
   incoming.sessions = (incoming.sessions ?? []).filter(isValidSession);
+  incoming.plans = (incoming.plans ?? []).filter(isValidPlan);
   state = incoming;
   persist();
   notify('import');
   return { added: incoming.sessions.length, skipped: 0 };
+}
+
+// ---------------------------------------------------------------------------
+// Plans — user-created/edited workout plans, same shape as a data/splits.json
+// entry plus updatedAt + deleted. Merged into db.splits at boot (see
+// data.js#withUserPlans) so Plan/Log/History render them unchanged. Mutable,
+// unlike sessions: sync is last-write-wins by updatedAt, and a delete is a
+// propagating `deleted` flag rather than a hard removal.
+// ---------------------------------------------------------------------------
+
+export const getPlans = () => state.plans;
+
+/** Shape guard — plans arrive attacker-shaped from sync/import; one bad one can
+ *  throw in the Plan view at boot. Mirrors isValidSession. The render paths are
+ *  null-safe on blocks/items, so we only require the structural spine (and the
+ *  `cycle` the Plan header reads on the active split). */
+export function isValidPlan(p) {
+  if (!p || typeof p !== 'object') return false;
+  if (typeof p.id !== 'string' || !p.id || BAD_KEY.has(p.id)) return false;
+  if (typeof p.updatedAt !== 'string' || !p.updatedAt) return false;
+  if (p.deleted === true) return true;   // a tombstoned plan carries no more shape
+  if (typeof p.name !== 'string') return false;
+  if (p.profileId != null && (typeof p.profileId !== 'string' || BAD_KEY.has(p.profileId))) return false;
+  if (!Array.isArray(p.cycle) || !Array.isArray(p.days)) return false;
+  for (const d of p.days) {
+    if (!d || typeof d !== 'object') return false;
+    if (typeof d.id !== 'string' || !d.id || BAD_KEY.has(d.id)) return false;
+    if (!Array.isArray(d.blocks)) return false;
+  }
+  return true;
+}
+
+/** Create or update a plan. Stamps updatedAt so sync's last-write-wins can order
+ *  it and clears any prior `deleted`. Returns the stored plan. */
+export function savePlan(plan) {
+  const stamped = { ...plan, deleted: false, updatedAt: new Date().toISOString() };
+  if (!isValidPlan(stamped)) throw new Error('invalid plan shape');
+  state.plans = [...state.plans.filter(p => p.id !== stamped.id), stamped];
+  persist();
+  notify('plan-change');
+  return stamped;
+}
+
+/** Soft-delete a user plan: keep the row, flag it deleted, bump updatedAt — so
+ *  the deletion propagates through sync (LWW) instead of a pull resurrecting it.
+ *  Built-ins aren't in state.plans, so this is a no-op for them. */
+export function deletePlan(id) {
+  const cur = state.plans.find(p => p.id === id);
+  if (!cur) return;
+  const stamped = { ...cur, deleted: true, updatedAt: new Date().toISOString() };
+  state.plans = [...state.plans.filter(p => p.id !== id), stamped];
+  persist();
+  notify('plan-change');
+}
+
+/** Merge plans from sync/import: last-write-wins by updatedAt per id (plans are
+ *  mutable, so this replaces rather than union-by-id like sessions). A newer
+ *  `deleted` flag wins too, so deletions converge. Returns how many were
+ *  applied (new or replaced). */
+export function mergePlans(plans) {
+  const valid = (plans ?? []).filter(isValidPlan);
+  const byId = new Map(state.plans.map(p => [p.id, p]));
+  let applied = 0;
+  for (const p of valid) {
+    const cur = byId.get(p.id);
+    if (!cur || p.updatedAt > (cur.updatedAt ?? '')) { byId.set(p.id, p); applied++; }
+  }
+  if (applied) {
+    state.plans = [...byId.values()];
+    persist();
+    notify('import');
+  }
+  return { applied };
 }
