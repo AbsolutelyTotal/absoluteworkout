@@ -10,6 +10,7 @@
 // these will not cost you your training log.
 
 import * as store from '../src/store.js';
+import { withUserPlans } from '../src/data.js';
 import { loadData, weekKey, addDays, groupByWeek, weekStreak, actualSets,
          plannedWeeklySets, tonnage, e1rm, personalRecords, prescriptionsOf,
          dayOf } from '../src/data.js';
@@ -395,6 +396,47 @@ export async function run(scratch) {
       const r = store.mergeTombstones(['2026-02-01-push']);
       eq(r.added, 1, 'new tombstone: ');
       return eq(store.getSessions().map(s => s.id), ['2026-02-02-pull'], 'purged local copy: ');
+    });
+    // ---- plans: user-created plans, merged into db like built-in splits ----
+    const plan = (id, name, updatedAt) => ({
+      id, name, profileId: 'l5s1', cycle: ['d1'],
+      days: [{ id: 'd1', name: 'Day 1', blocks: [{ name: '', items: [] }] }],
+      updatedAt, deleted: false
+    });
+    check('savePlan stamps updatedAt and stores the plan', () => {
+      seed(emptyState());
+      const p = store.savePlan(plan('p1', 'My Plan'));
+      ok(typeof p.updatedAt === 'string' && p.updatedAt, 'updatedAt stamped');
+      ok(p.deleted === false, 'not deleted');
+      return eq(store.getPlans().map(x => x.id), ['p1'], 'stored: ');
+    });
+    check('mergePlans is last-write-wins by updatedAt', () => {
+      seed({ ...emptyState(), plans: [plan('p1', 'Old', '2026-01-01T00:00:00Z')] });
+      store.mergePlans([plan('p1', 'New', '2026-02-01T00:00:00Z')]);
+      eq(store.getPlans().find(p => p.id === 'p1').name, 'New', 'newer wins: ');
+      store.mergePlans([plan('p1', 'Older', '2025-01-01T00:00:00Z')]);   // stale must not overwrite
+      return eq(store.getPlans().find(p => p.id === 'p1').name, 'New', 'older ignored: ');
+    });
+    check('deletePlan soft-deletes so the removal can propagate', () => {
+      seed({ ...emptyState(), plans: [plan('p1', 'X', '2026-01-01T00:00:00Z')] });
+      store.deletePlan('p1');
+      const p = store.getPlans().find(x => x.id === 'p1');
+      ok(p && p.deleted === true, 'flagged deleted, still present for sync');
+      return ok(p.updatedAt > '2026-01-01T00:00:00Z', 'updatedAt bumped');
+    });
+    check('isValidPlan rejects malformed plans', () => {
+      ok(!store.isValidPlan(null), 'null');
+      ok(!store.isValidPlan({ id: '', updatedAt: 'x', name: 'n', cycle: [], days: [] }), 'empty id');
+      ok(!store.isValidPlan({ id: '__proto__', updatedAt: 'x', name: 'n', cycle: [], days: [] }), 'proto id');
+      ok(!store.isValidPlan({ id: 'p', updatedAt: 'x', name: 'n', cycle: [], days: [{}] }), 'day without id');
+      ok(!store.isValidPlan({ id: 'p', updatedAt: 'x', name: 'n', days: [] }), 'missing cycle');
+      return ok(store.isValidPlan(plan('p', 'n', 'x')), 'a well-formed plan is accepted');
+    });
+    check('withUserPlans folds non-deleted plans into db.splits', () => {
+      const db = { splits: [{ id: 'core-3', name: 'Built-in' }], splitById: { 'core-3': { id: 'core-3' } } };
+      const merged = withUserPlans(db, [plan('p1', 'Mine', 'x')]);
+      ok(merged.splitById['p1'], 'user plan reachable via splitById');
+      return eq(merged.splits.map(s => s.id).sort(), ['core-3', 'p1'], 'splits: ');
     });
     check('a malformed active session cannot be imported (no boot brick)', () => {
       seed(emptyState());

@@ -63,6 +63,19 @@ export function profileOfSplit(db, split) {
   return db.profileById[split?.profileId] ?? db.profiles?.[0] ?? null;
 }
 
+/** Fold user-created plans into db.splits so they render exactly like built-ins.
+ *  Caller passes already-validated, non-deleted plans (store.getPlans filtered
+ *  through store.isValidPlan). A user plan wins an id collision — but forks keep
+ *  their own id, so in practice this just appends. Rebuilds splitById to match. */
+export function withUserPlans(db, plans) {
+  if (!plans?.length) return db;
+  const byId = new Map(db.splits.map(s => [s.id, s]));
+  for (const p of plans) byId.set(p.id, p);
+  db.splits = [...byId.values()];
+  db.splitById = Object.fromEntries(db.splits.map(s => [s.id, s]));
+  return db;
+}
+
 
 /** Dangling ids are the failure mode of hand-curated cross-referenced JSON.
  *  Surfaced in the UI rather than thrown, so a typo doesn't blank the app. */
