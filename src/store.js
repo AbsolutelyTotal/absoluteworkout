@@ -14,6 +14,9 @@ const DEFAULTS = {
     // is confirmed, assume restricted (loading the extended library for a
     // restricted user is the one unsafe direction).
     profileId: 'l5s1',
+    // Whether this account's starter plans have been seeded (monotonic; also
+    // tracked on the synced profiles row — OR-merge, so never re-seeds).
+    startersSeeded: false,
     unit: 'kg',
     // 0 = Sunday. Israel and the US start the week on Sunday; ISO/Europe on
     // Monday. This drives every weekly bucket in the History view.
@@ -413,6 +416,22 @@ export function savePlan(plan) {
   persist();
   notify('plan-change');
   return stamped;
+}
+
+// Starter plans get the OLDEST possible timestamp: if a second device ever
+// re-seeds (a dropped starters_seeded flag), its pristine copy is older than any
+// real edit/delete, so last-write-wins keeps the user's change, not the re-seed.
+const SEED_TIME = '2000-01-01T00:00:00.000Z';
+
+/** Seed a starter plan without overwriting an existing one (deterministic id) and
+ *  with the sentinel-old updatedAt, so a re-seed can never clobber a real edit. */
+export function seedPlan(plan) {
+  if (state.plans.some(p => p.id === plan.id)) return;   // never overwrite (edited/deleted) copy
+  const stamped = { ...plan, deleted: false, updatedAt: SEED_TIME };
+  if (!isValidPlan(stamped)) return;
+  state.plans = [...state.plans, stamped];
+  persist();
+  notify('plan-change');
 }
 
 /** Soft-delete a user plan: keep the row, flag it deleted, bump updatedAt — so
