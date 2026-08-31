@@ -85,6 +85,10 @@
   <div id="view" class="view" role="tabpanel"></div>
 </main>
 
+<!-- Global AI chat bubble (src/views/chat-bubble.js). Fixed, outside <main> so
+     tab re-renders never touch it; withheld while gated. Empty until sign-in. -->
+<div id="chat-root"></div>
+
 <dialog id="backup-dialog">
   <h3>Export / import log</h3>
   <p>

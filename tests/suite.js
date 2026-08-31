@@ -19,7 +19,7 @@ import * as log from '../src/views/log.js';
 import * as history from '../src/views/history.js';
 import { initPicker } from '../src/views/picker.js';
 import { initExerciseDetail } from '../src/views/exercise-detail.js';
-import { chatConfigured, workoutContext } from '../src/chat.js';
+import { chatConfigured, workoutContext, contextFor } from '../src/chat.js';
 import { WORKOUT_CHAT_URL } from '../src/supabase-config.js';
 
 const KEY = 'absoluteworkout.v1';
@@ -454,6 +454,20 @@ export async function run(scratch) {
         { id: 'c', updatedAt: 'nope' }                       // invalid
       ] });
       return eq(store.getLivePlans().map(p => p.id), ['a'], 'only the live valid one: ');
+    });
+    check('contextFor builds a context for every tab without throwing', () => {
+      seed({ ...emptyState(), sessions: [{
+        id: 's1', date: '2026-05-01', splitId: 'core-3', dayId: 'push',
+        startedAt: '2026-05-01T10:00:00.000Z', completedAt: '2026-05-01T11:00:00.000Z',
+        entries: [{ exerciseId: 'incline-db-press', sets: [{ weight: 40, reps: 8, done: true }] }]
+      }] });
+      for (const v of ['plan', 'log', 'history', 'library']) {
+        ok(contextFor(v, db)?.view === v, `${v} context built`);
+      }
+      // Regressor: personalRecords returns an object keyed by id, not an array,
+      // so the history summary used to throw on .slice().
+      const hist = contextFor('history', db);
+      return ok(Array.isArray(hist.history?.prs) && hist.history.prs.length >= 1, 'history PRs computed');
     });
     check('withUserPlans folds non-deleted plans into db.splits', () => {
       const db = { splits: [{ id: 'core-3', name: 'Built-in' }], splitById: { 'core-3': { id: 'core-3' } } };
