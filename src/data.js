@@ -31,8 +31,13 @@ export async function loadData(profileId) {
   ]);
 
   const profileById = Object.fromEntries(profiles.map(p => [p.id, p]));
-  const requested = profileId ?? splits[0]?.profileId;
-  const profile = profileById[requested] ?? profiles[0] ?? null;
+  const requested = profileId || splits[0]?.profileId;   // || so an empty string also falls through
+  // Fail closed: an unknown/empty profile resolves to the most restrictive one
+  // explicitly (a profile that does NOT allow the extended library), not just
+  // profiles[0] — which is safe only by file order.
+  const profile = profileById[requested]
+    ?? profiles.find(p => p.allowExtendedLibrary !== true)
+    ?? profiles[0] ?? null;
 
   // Absent or unknown profile => most restrictive. Never open by default.
   let exercises = baseExercises;
@@ -78,8 +83,12 @@ export function outsideLibrary(db, prescriptions) {
  *  ids (NOT random) so a multi-device/offline double-seed collides and LWW
  *  converges to one; the `starter-` prefix avoids colliding with a built-in id. */
 export function starterPlansFor(db) {
+  // Match by CAPABILITY (does the profile allow the extended library?), not by
+  // exact id, so aliases like 'noa' still seed the unrestricted templates and a
+  // restricted profile never seeds a template with extended-only exercises.
+  const allow = db.profile?.allowExtendedLibrary === true;
   return (db.builtinSplits ?? [])
-    .filter(s => s.profileId === db.profile?.id)
+    .filter(s => (db.profileById[s.profileId]?.allowExtendedLibrary === true) === allow)
     .map(t => ({
       id: `starter-${t.id}`, profileId: db.profile.id, name: t.name,
       daysPerWeek: t.daysPerWeek, cycle: t.cycle, days: t.days

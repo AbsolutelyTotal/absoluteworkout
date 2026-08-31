@@ -418,6 +418,22 @@ export function savePlan(plan) {
   return stamped;
 }
 
+// Starter plans get the OLDEST possible timestamp: if a second device ever
+// re-seeds (a dropped starters_seeded flag), its pristine copy is older than any
+// real edit/delete, so last-write-wins keeps the user's change, not the re-seed.
+const SEED_TIME = '2000-01-01T00:00:00.000Z';
+
+/** Seed a starter plan without overwriting an existing one (deterministic id) and
+ *  with the sentinel-old updatedAt, so a re-seed can never clobber a real edit. */
+export function seedPlan(plan) {
+  if (state.plans.some(p => p.id === plan.id)) return;   // never overwrite (edited/deleted) copy
+  const stamped = { ...plan, deleted: false, updatedAt: SEED_TIME };
+  if (!isValidPlan(stamped)) return;
+  state.plans = [...state.plans, stamped];
+  persist();
+  notify('plan-change');
+}
+
 /** Soft-delete a user plan: keep the row, flag it deleted, bump updatedAt — so
  *  the deletion propagates through sync (LWW) instead of a pull resurrecting it.
  *  Built-ins aren't in state.plans, so this is a no-op for them. */

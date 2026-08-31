@@ -188,6 +188,21 @@ export async function run(scratch) {
       const dbU = await loadData('unrestricted');
       return ok(starterPlansFor(dbU).some(p => p.id === 'starter-noa-4'), 'noa-4 starter present');
     });
+    await checkAsync('a legacy noa-profile user still seeds the unrestricted starters', async () => {
+      const dbNoa = await loadData('noa');   // alias profile, extended library
+      return ok(starterPlansFor(dbNoa).some(p => p.id === 'starter-noa-4'), 'noa alias seeds noa-4');
+    });
+    check('seedPlan never overwrites, and a re-seed cannot clobber a real edit', () => {
+      seed(emptyState());
+      const [s] = starterPlansFor(db);           // db = loadData('l5s1') → starter-core-3
+      store.seedPlan(s);
+      store.savePlan({ ...store.getPlans()[0], name: 'Edited' });   // user edit → newer updatedAt
+      store.seedPlan(s);                                            // same-device re-seed → no-op
+      eq(store.getPlans().find(p => p.id === s.id).name, 'Edited', 'same-device re-seed no-op: ');
+      // another device re-seeds pristine (sentinel-old) via a pull
+      store.mergePlans([{ ...s, deleted: false, updatedAt: '2000-01-01T00:00:00.000Z' }]);
+      return eq(store.getPlans().find(p => p.id === s.id).name, 'Edited', 'edit survives cross-device re-seed: ');
+    });
     check('every split declares a known profile', () => {
       const bad = db.splits.filter(s => !db.profileById[s.profileId]).map(s => s.id);
       return eq(bad, [], 'unknown profile: ');

@@ -60,6 +60,13 @@ async function startApp() {
     if (reason === 'save-failed') {
       alert('Could not save to this browser\'s storage. Export your log from the ⋯ menu before continuing.');
     }
+    // A sync PULL merged plans/sessions ('import'). db.splits was folded before
+    // the pull, so re-fold the plans in and repaint the Plan tab if it's showing
+    // — otherwise a fresh device's just-pulled plans stay invisible until reload.
+    if (reason === 'import') {
+      db = withUserPlans(db, store.getLivePlans());
+      if (current === 'plan') { show('plan'); return; }
+    }
     // Re-render the set counter in the tab strip without rebuilding the view,
     // so typing in an input doesn't lose focus.
     renderTabs();
@@ -160,9 +167,8 @@ async function resolveUserProfile() {
  *  double-seed converges). Lands the active split on one if the remembered id
  *  is a built-in that's no longer offered. */
 function seedStarters() {
-  const have = new Set(store.getPlans().map(p => p.id));
   const starters = starterPlansFor(db);
-  for (const p of starters) if (!have.has(p.id)) store.savePlan(p);
+  for (const p of starters) store.seedPlan(p);   // skips existing ids; sentinel-old timestamp
   const active = store.getSettings().activeSplitId;
   if (starters[0] && !store.getLivePlans().some(p => p.id === active)) {
     store.updateSettings({ activeSplitId: starters[0].id });
