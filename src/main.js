@@ -1,6 +1,6 @@
 // Bootstrap: load data, wire the tabs, own the backup dialog.
 
-import { loadData, withUserPlans } from './data.js';
+import { loadData, withUserPlans, outsideLibrary } from './data.js';
 import { html, mount, issuesBanner, safeImagePath } from './ui.js';
 import * as store from './store.js';
 import * as plan from './views/plan.js';
@@ -190,8 +190,27 @@ function show(name) {
 }
 
 function startSession(splitId, dayId, prescriptions) {
+  // Defence-in-depth for the constraint model: never start a session from a plan
+  // that prescribes a movement outside the currently loaded (permitted) library.
+  // The Plan view already disables the button; this refuses if it's reached anyway.
+  if (outsideLibrary(db, prescriptions).length) {
+    alert('This plan has exercises outside your current restrictions. Edit it before starting.');
+    return;
+  }
   store.startSession(splitId, dayId, prescriptions);
   show('log');
+}
+
+/** Change the user's constraint profile (from the account dialog) and reload the
+ *  correct library under the generation guard, then repaint. */
+async function changeProfile(profileId) {
+  await sync.setProfile(profileId);
+  const seq = ++loadSeq;
+  const next = await loadData(profileId);
+  if (seq !== loadSeq) return;
+  db = withUserPlans(next, store.getLivePlans());
+  mount(bannerEl, issuesBanner(db.issues));
+  show(current);
 }
 
 tabsEl.addEventListener('click', (e) => {
@@ -272,6 +291,7 @@ function wireAccount() {
     }
     const u = await sync.user();
     const { syncing, lastSync, lastError } = sync.status();
+    const cur = store.getSettings().profileId;
 
     mount(accountBody, u
       ? html`
@@ -283,6 +303,12 @@ function wireAccount() {
           <button class="btn primary" data-action="sync" type="button" ${syncing ? 'disabled' : ''}>
             ${syncing ? 'Syncing…' : 'Sync now'}
           </button>
+        </div>
+        <div class="section-label" style="margin-top:16px">Training restrictions</div>
+        <div class="note" style="margin:4px 0 8px">Limits your exercise library and the assistant to movements safe for you.</div>
+        <div class="row" data-role="profile-picker">
+          <button class="chip" type="button" data-profile="unrestricted" aria-pressed="${String(cur === 'unrestricted')}">No restrictions</button>
+          <button class="chip" type="button" data-profile="l5s1" aria-pressed="${String(cur === 'l5s1')}">L5-S1</button>
         </div>`
       : html`
         <div class="note">Optional. Sign in to back up completed sessions and share history between devices.</div>
@@ -318,6 +344,16 @@ function wireAccount() {
         alert(`Sync failed: ${err.message}`);
       } finally {
         renderAccount();
+      }
+    });
+    accountBody.querySelector('[data-role="profile-picker"]')?.addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-profile]');
+      if (!btn || btn.dataset.profile === store.getSettings().profileId) return;
+      try {
+        await changeProfile(btn.dataset.profile);   // reloads the library + repaints
+        dialog.close();
+      } catch (err) {
+        alert(`Could not update restrictions: ${err.message}`);
       }
     });
   }
