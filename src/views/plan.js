@@ -94,7 +94,7 @@ export function render(root, db, handlers) {
 
   // Re-merge the (possibly changed) plans into db and repaint the Plan view.
   const reopen = () => {
-    withUserPlans(db, store.getPlans().filter(p => !p.deleted && store.isValidPlan(p)));
+    withUserPlans(db, store.getLivePlans());
     render(root, db, handlers);
   };
   root.querySelector('[data-action="plan-new"]')?.addEventListener('click', () => {

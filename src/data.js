@@ -75,7 +75,10 @@ export function withUserPlans(db, plans) {
   // with a plan removed actually drops it — a plain merge would only ever add.
   const base = db.builtinSplits ?? db.splits;
   const byId = new Map(base.map(s => [s.id, s]));
-  for (const p of (plans ?? [])) byId.set(p.id, p);
+  const builtin = new Set(base.map(s => s.id));
+  // A user/synced plan must never shadow a built-in split (a crafted row with
+  // id "core-3" would otherwise replace it in the picker).
+  for (const p of (plans ?? [])) if (!builtin.has(p.id)) byId.set(p.id, p);
   db.splits = [...byId.values()];
   db.splitById = Object.fromEntries(db.splits.map(s => [s.id, s]));
   return db;

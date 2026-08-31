@@ -43,7 +43,7 @@ async function startApp() {
     db = await loadData(await profileIdForSplit(store.getSettings().activeSplitId));
     // Fold in the user's own plans (validated, non-deleted) so they show and
     // behave like the built-in splits.
-    db = withUserPlans(db, store.getPlans().filter(p => !p.deleted && store.isValidPlan(p)));
+    db = withUserPlans(db, store.getLivePlans());
   } catch (err) {
     mount(viewEl, html`<div class="banner warn">
       <span class="icon">!</span>
@@ -164,7 +164,7 @@ async function ensureProfileFor(splitId) {
   if (seq !== loadSeq) return false;   // a newer switch superseded this one
   // loadData returns only the JSON splits — fold the user's plans back in, or
   // they'd vanish from the picker after a profile switch.
-  db = withUserPlans(next, store.getPlans().filter(p => !p.deleted && store.isValidPlan(p)));
+  db = withUserPlans(next, store.getLivePlans());
   mount(bannerEl, issuesBanner(db.issues));
   return true;
 }

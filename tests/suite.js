@@ -425,12 +425,35 @@ export async function run(scratch) {
       return ok(p.updatedAt > '2026-01-01T00:00:00Z', 'updatedAt bumped');
     });
     check('isValidPlan rejects malformed plans', () => {
+      const T = '2026-01-01T00:00:00Z';
       ok(!store.isValidPlan(null), 'null');
-      ok(!store.isValidPlan({ id: '', updatedAt: 'x', name: 'n', cycle: [], days: [] }), 'empty id');
-      ok(!store.isValidPlan({ id: '__proto__', updatedAt: 'x', name: 'n', cycle: [], days: [] }), 'proto id');
-      ok(!store.isValidPlan({ id: 'p', updatedAt: 'x', name: 'n', cycle: [], days: [{}] }), 'day without id');
-      ok(!store.isValidPlan({ id: 'p', updatedAt: 'x', name: 'n', days: [] }), 'missing cycle');
-      return ok(store.isValidPlan(plan('p', 'n', 'x')), 'a well-formed plan is accepted');
+      ok(!store.isValidPlan({ id: '', updatedAt: T, name: 'n', cycle: [], days: [] }), 'empty id');
+      ok(!store.isValidPlan({ id: '__proto__', updatedAt: T, name: 'n', cycle: [], days: [] }), 'proto id');
+      ok(!store.isValidPlan({ id: 'p', updatedAt: T, name: 'n', cycle: [], days: [{}] }), 'day without id');
+      ok(!store.isValidPlan({ id: 'p', updatedAt: T, name: 'n', days: [] }), 'missing cycle');
+      ok(!store.isValidPlan({ id: 'p', updatedAt: 'not-a-date', name: 'n', cycle: [], days: [] }), 'non-date updatedAt');
+      ok(!store.isValidPlan({ id: 'p', updatedAt: T, name: 'n', cycle: [], days: Array(31).fill({ id: 'd', blocks: [] }) }), 'too many days');
+      ok(!store.isValidPlan({ id: 'p', updatedAt: T, name: 'n', cycle: [], days: [{ id: 'd', blocks: [{ items: [{ exerciseId: '__proto__' }] }] }] }), 'proto exerciseId');
+      return ok(store.isValidPlan(plan('p', 'n', T)), 'a well-formed plan is accepted');
+    });
+    check('mergePlans: on an updatedAt tie a deletion wins (convergence)', () => {
+      const T = '2026-03-01T00:00:00Z';
+      seed({ ...emptyState(), plans: [plan('p1', 'Edited', T)] });   // local edit at T
+      store.mergePlans([{ ...plan('p1', 'Edited', T), deleted: true }]);   // remote delete at same T
+      return ok(store.getPlans().find(p => p.id === 'p1')?.deleted === true, 'delete wins the tie');
+    });
+    check('withUserPlans never lets a plan shadow a built-in split', () => {
+      const db = { builtinSplits: [{ id: 'core-3', name: 'Built-in' }], splits: [{ id: 'core-3', name: 'Built-in' }], splitById: {} };
+      withUserPlans(db, [plan('core-3', 'Evil', '2026-01-01T00:00:00Z')]);
+      return eq(db.splitById['core-3'].name, 'Built-in', 'built-in is preserved: ');
+    });
+    check('getLivePlans returns only non-deleted valid plans', () => {
+      seed({ ...emptyState(), plans: [
+        plan('a', 'A', '2026-01-01T00:00:00Z'),
+        { ...plan('b', 'B', '2026-01-01T00:00:00Z'), deleted: true },
+        { id: 'c', updatedAt: 'nope' }                       // invalid
+      ] });
+      return eq(store.getLivePlans().map(p => p.id), ['a'], 'only the live valid one: ');
     });
     check('withUserPlans folds non-deleted plans into db.splits', () => {
       const db = { splits: [{ id: 'core-3', name: 'Built-in' }], splitById: { 'core-3': { id: 'core-3' } } };
