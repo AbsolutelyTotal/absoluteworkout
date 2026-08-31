@@ -2,7 +2,7 @@
 // beyond the active-split setting; starting a session hands off to the Log view.
 
 import { html, mount, chip, prescriptionLine, fmt } from '../ui.js';
-import { prescriptionsOf, dayOf, plannedWeeklySets, byGroup, suggestNextDay, profileOfSplit, withUserPlans } from '../data.js';
+import { prescriptionsOf, dayOf, plannedWeeklySets, byGroup, suggestNextDay, withUserPlans } from '../data.js';
 import { equipmentIcon } from '../icons/equipment.js';
 import { openEditor } from './plan-editor.js';
 import * as store from '../store.js';
@@ -12,13 +12,17 @@ const isUserPlan = (id) => store.getPlans().some(p => p.id === id && !p.deleted)
 let selectedDayId = null;
 
 export function render(root, db, handlers) {
-  const { onStartSession, onProfileChange } = handlers;
+  const { onStartSession } = handlers;
   const settings = store.getSettings();
-  const split = db.splitById[settings.activeSplitId] ?? db.splits[0];
+  // Only the user's own plans and built-ins matching THEIR constraint profile
+  // are selectable — the profile is per-user now, so cross-profile splits (which
+  // reference a different library) must never be reachable.
+  const visible = db.splits.filter(s => isUserPlan(s.id) || s.profileId === db.profile?.id);
+  const split = visible.find(s => s.id === settings.activeSplitId) ?? visible[0] ?? db.splits[0];
   const suggested = suggestNextDay(split, store.getSessions());
   const dayId = selectedDayId && dayOf(split, selectedDayId) ? selectedDayId : suggested;
   const day = dayOf(split, dayId);
-  const profile = profileOfSplit(db, split);
+  const profile = db.profile;   // the user's profile drives constraints, not the split
 
   const planned = byGroup(db, plannedWeeklySets(db, split));
   const totalSets = Object.values(planned).reduce((a, b) => a + b, 0);
@@ -28,7 +32,7 @@ export function render(root, db, handlers) {
       <div class="card">
         <div class="section-label">Split</div>
         <div class="row" style="margin-top:8px" data-role="split-picker">
-          ${db.splits.map(s => chip(s.name, {
+          ${visible.map(s => chip(s.name, {
             pressed: s.id === split.id,
             value: s.id,
             count: s.daysPerWeek
@@ -70,14 +74,13 @@ export function render(root, db, handlers) {
     </div>
   `);
 
-  root.querySelector('[data-role="split-picker"]')?.addEventListener('click', async (e) => {
+  root.querySelector('[data-role="split-picker"]')?.addEventListener('click', (e) => {
     const btn = e.target.closest('.chip');
     if (!btn) return;
+    // Every selectable split is under the user's own profile now, so picking one
+    // never changes the library — just re-render.
     store.updateSettings({ activeSplitId: btn.dataset.value });
     selectedDayId = null;
-    // A split on another profile permits a different exercise library, so the
-    // data must be reloaded before rendering against it.
-    if (onProfileChange && await onProfileChange(btn.dataset.value)) return;
     render(root, db, handlers);
   });
 
@@ -106,15 +109,16 @@ export function render(root, db, handlers) {
   root.querySelector('[data-action="plan-edit"]')?.addEventListener('click', () => {
     openEditor(root, db, { mode: 'edit', source: split, onDone: reopen });
   });
-  root.querySelector('[data-action="plan-delete"]')?.addEventListener('click', async () => {
+  root.querySelector('[data-action="plan-delete"]')?.addEventListener('click', () => {
     if (!confirm(`Delete "${split.name}"? This removes it from your plans on all your devices.`)) return;
     store.deletePlan(split.id);
     selectedDayId = null;
     if (settings.activeSplitId === split.id) {
-      // Fall back to a built-in; switch profile if the fallback differs.
-      const fallback = db.builtinSplits?.[0]?.id ?? db.splits[0].id;
-      store.updateSettings({ activeSplitId: fallback });
-      if (onProfileChange && await onProfileChange(fallback)) return;   // it repaints
+      // Fall back to another split under the user's own profile — no profile
+      // switch, constraints are per-user now.
+      const fallback = db.builtinSplits?.find(s => s.profileId === db.profile?.id)
+        ?? visible.find(s => s.id !== split.id);
+      if (fallback) store.updateSettings({ activeSplitId: fallback.id });
     }
     reopen();
   });

@@ -1,14 +1,20 @@
 [
   {
     "id": "l5s1",
-    "name": "Tal — L5-S1",
+    "name": "L5-S1",
     "summary": "Zero axial loading, zero lumbar flexion or shear. Supported positions only, isometric core.",
     "allowExtendedLibrary": false
   },
   {
+    "id": "unrestricted",
+    "name": "No restrictions",
+    "summary": "Full exercise library.",
+    "allowExtendedLibrary": true
+  },
+  {
     "id": "noa",
-    "name": "Noa — unrestricted",
-    "summary": "No movement restrictions.",
+    "name": "No restrictions",
+    "summary": "Legacy alias for 'unrestricted' — keeps older plans/rows resolving.",
     "allowExtendedLibrary": true
   }
 ]

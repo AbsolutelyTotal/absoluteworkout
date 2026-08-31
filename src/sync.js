@@ -70,6 +70,38 @@ export function status() {
   return { available: available(), syncing, lastSync, lastError };
 }
 
+let userProfileId = null;   // authoritative constraint profile, once fetched
+export function cachedProfileId() { return userProfileId; }
+
+/** Fetch (or create) the signed-in user's constraint profile row and mirror it
+ *  into local settings for offline boot. Returns the profile_id, or null if it
+ *  couldn't be determined (caller stays on the fail-closed restrictive default).
+ *  New users get 'unrestricted'; existing users were backfilled to l5s1 in the
+ *  0003 migration, so this NEVER downgrades a restricted user. */
+export async function loadUserProfile() {
+  if (!client) return null;
+  const u = await user();
+  if (!u) return null;
+  try {
+    const { data, error } = await client.from('profiles')
+      .select('profile_id, starters_seeded').eq('user_id', u.id).maybeSingle();
+    if (error) throw new Error(error.message);
+    let pid = data?.profile_id;
+    if (!pid) {                                   // genuinely new user → create the row
+      pid = 'unrestricted';
+      const { error: insErr } = await client.from('profiles')
+        .insert({ user_id: u.id, profile_id: pid, updated_at: new Date().toISOString() });
+      if (insErr) throw new Error(insErr.message);
+    }
+    userProfileId = pid;
+    store.updateSettings({ profileId: pid });     // mirror for offline/next boot
+    return pid;
+  } catch (err) {
+    console.warn('Profile load skipped:', err.message);
+    return null;
+  }
+}
+
 export async function signIn(email) {
   if (!client) throw new Error('Sync is unavailable — the client library did not load.');
   const { error } = await client.auth.signInWithOtp({
