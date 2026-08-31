@@ -363,22 +363,38 @@ export function importJSON(text, { merge = true } = {}) {
 
 export const getPlans = () => state.plans;
 
+/** Non-deleted, valid plans — what folds into db.splits and renders. */
+export const getLivePlans = () => state.plans.filter(p => !p.deleted && isValidPlan(p));
+
+// Bounds for attacker-shaped plans (sync/import bypass the editor's own clamps).
+const MAX_STR = 80, MAX_DAYS = 30, MAX_BLOCKS = 20, MAX_ITEMS = 60;
+const isDateString = (v) => typeof v === 'string' && v.length <= 40 && Number.isFinite(Date.parse(v));
+
 /** Shape guard — plans arrive attacker-shaped from sync/import; one bad one can
  *  throw in the Plan view at boot. Mirrors isValidSession. The render paths are
- *  null-safe on blocks/items, so we only require the structural spine (and the
- *  `cycle` the Plan header reads on the active split). */
+ *  null-safe on blocks/items, so we require the structural spine (and the
+ *  `cycle` the Plan header reads on the active split), reject prototype-key
+ *  strings on every id/exerciseId, insist updatedAt is a real date (LWW orders
+ *  by it), and cap sizes so a crafted row can't freeze render or blow quota. */
 export function isValidPlan(p) {
   if (!p || typeof p !== 'object') return false;
-  if (typeof p.id !== 'string' || !p.id || BAD_KEY.has(p.id)) return false;
-  if (typeof p.updatedAt !== 'string' || !p.updatedAt) return false;
+  if (typeof p.id !== 'string' || !p.id || p.id.length > MAX_STR || BAD_KEY.has(p.id)) return false;
+  if (!isDateString(p.updatedAt)) return false;
   if (p.deleted === true) return true;   // a tombstoned plan carries no more shape
-  if (typeof p.name !== 'string') return false;
+  if (typeof p.name !== 'string' || p.name.length > MAX_STR) return false;
   if (p.profileId != null && (typeof p.profileId !== 'string' || BAD_KEY.has(p.profileId))) return false;
-  if (!Array.isArray(p.cycle) || !Array.isArray(p.days)) return false;
+  if (!Array.isArray(p.cycle) || !Array.isArray(p.days) || p.days.length > MAX_DAYS) return false;
   for (const d of p.days) {
     if (!d || typeof d !== 'object') return false;
-    if (typeof d.id !== 'string' || !d.id || BAD_KEY.has(d.id)) return false;
-    if (!Array.isArray(d.blocks)) return false;
+    if (typeof d.id !== 'string' || !d.id || d.id.length > MAX_STR || BAD_KEY.has(d.id)) return false;
+    if (!Array.isArray(d.blocks) || d.blocks.length > MAX_BLOCKS) return false;
+    for (const b of d.blocks) {
+      if (!b || typeof b !== 'object' || !Array.isArray(b.items) || b.items.length > MAX_ITEMS) return false;
+      for (const it of b.items) {
+        if (!it || typeof it !== 'object') return false;
+        if (typeof it.exerciseId !== 'string' || BAD_KEY.has(it.exerciseId)) return false;
+      }
+    }
   }
   return true;
 }
@@ -416,7 +432,7 @@ export function mergePlans(plans) {
   let applied = 0;
   for (const p of valid) {
     const cur = byId.get(p.id);
-    if (!cur || p.updatedAt > (cur.updatedAt ?? '')) { byId.set(p.id, p); applied++; }
+    if (!cur || winsLWW(p, cur)) { byId.set(p.id, p); applied++; }
   }
   if (applied) {
     state.plans = [...byId.values()];
@@ -424,4 +440,14 @@ export function mergePlans(plans) {
     notify('import');
   }
   return { applied };
+}
+
+/** Last-write-wins order: newer updatedAt wins; on an exact tie a deletion wins,
+ *  so a delete and a concurrent edit at the same instant converge identically on
+ *  every device. Numeric (Date.parse) compare, not string — isValidPlan already
+ *  guarantees both are real dates, and this can't be fooled by a non-ISO stamp. */
+function winsLWW(incoming, cur) {
+  const a = Date.parse(incoming.updatedAt), b = Date.parse(cur.updatedAt ?? '');
+  if (a !== b) return a > b;
+  return incoming.deleted === true && cur.deleted !== true;
 }
