@@ -9,6 +9,7 @@ import * as history from './views/history.js';
 import * as library from './views/library.js';
 import { initPicker } from './views/picker.js';
 import { initExerciseDetail } from './views/exercise-detail.js';
+import { initChatBubble } from './views/chat-bubble.js';
 import * as sync from './sync.js';
 
 const VIEWS = {
@@ -81,6 +82,9 @@ async function startApp() {
   wireImageFallback();
   initPicker();
   initExerciseDetail();
+  // Global chat bubble — reads the live current tab + db at send time, so each
+  // question carries context for whatever screen the user is on.
+  initChatBubble({ getView: () => current, getDb: () => db });
   sync.init();
 
   // Land on the session if one is open — that's where you'd want to be.
