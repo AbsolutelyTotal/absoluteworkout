@@ -1044,6 +1044,9 @@ body.gated > .appbar, body.gated > #tabs, body.gated > main { display: none; }
 }
 /* Reorder arrows sit at the far right of the params row, freeing the name row. */
 .pe-reorder { display: flex; gap: 6px; margin-left: auto; }
-.pe-num { width: 64px; }
+.pe-num { width: 80px; }   /* fits 3 digits (150s rests) at the 16px field size */
 .pe-reps { width: 84px; }
+/* Drop the number spinner arrows — they eat the width a 3-digit value needs. */
+.pe-num::-webkit-outer-spin-button, .pe-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.pe-num { -moz-appearance: textfield; appearance: textfield; }
 .pe-unit { margin-left: -2px; color: var(--ink-2); text-transform: none; }

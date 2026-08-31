@@ -148,6 +148,7 @@ export function startSession(splitId, dayId, prescriptions) {
     startedAt: now.toISOString(),
     entries: prescriptions.map(p => ({
       exerciseId: p.exerciseId,
+      ...(p.supersetWith ? { supersetWith: p.supersetWith } : {}),   // keep the pairing so the Log can show it
       sets: Array.from({ length: p.sets }, () => ({ weight: null, reps: null, done: false }))
     }))
   };

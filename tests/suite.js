@@ -169,6 +169,12 @@ export async function run(scratch) {
       seed(emptyState());
       return eq(store.getSettings().profileId, 'l5s1', 'profileId: ');
     });
+    check('startSession carries supersetWith onto the entry (Log can show it)', () => {
+      seed(emptyState());
+      store.startSession('core-3', 'push', [{ exerciseId: 'cable-curl', sets: 3, supersetWith: 'tricep-pushdown' }]);
+      const e = store.activeSession().entries.find(x => x.exerciseId === 'cable-curl');
+      return eq(e.supersetWith, 'tricep-pushdown', 'superset kept: ');
+    });
     check('outsideLibrary flags prescriptions not in the loaded library', () => {
       const fakeDb = { exerciseById: { squat: {}, row: {} } };
       const out = outsideLibrary(fakeDb, [{ exerciseId: 'squat' }, { exerciseId: 'deadlift' }, { exerciseId: 'row' }]);
