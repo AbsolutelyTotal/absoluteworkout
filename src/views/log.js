@@ -202,6 +202,9 @@ function entryCard(db, session, entry, prescription, settings) {
         ${entry.substitutedFor
           ? html`<div class="ex-sub">${`swapped in for ${db.exerciseById[entry.substitutedFor]?.name ?? entry.substitutedFor}`}</div>`
           : ''}
+        ${entry.supersetWith
+          ? html`<div class="ex-sub">${`superset with ${db.exerciseById[entry.supersetWith]?.name ?? entry.supersetWith}`}</div>`
+          : ''}
         ${last ? html`<div class="ex-sub">${lastLine(last, settings.unit)}</div>` : ''}
         ${entry.addedDuringSession ? html`<div class="ex-sub">added this session</div>` : ''}
         ${ex?.demoUrl

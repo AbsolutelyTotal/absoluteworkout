@@ -51,7 +51,8 @@ function normalize(s, id) {
       items: (d.blocks ?? []).flatMap(b => b.items ?? []).map(it => ({
         exerciseId: it.exerciseId,
         sets: it.sets ?? 3, reps: it.reps ?? '8-10', restSeconds: it.restSeconds ?? 120,
-        ...(it.tempo ? { tempo: it.tempo } : {})
+        ...(it.tempo ? { tempo: it.tempo } : {}),
+        ...(it.supersetWith ? { supersetWith: it.supersetWith } : {})   // no UI for it; carry it through so edits don't drop the pairing
       }))
     }))
   };
@@ -222,7 +223,8 @@ function save() {
       id: d.id, name: (d.name || 'Day').trim().slice(0, 40),
       blocks: [{ name: '', items: d.items.map(it => ({
         exerciseId: it.exerciseId, sets: it.sets, reps: it.reps, restSeconds: it.restSeconds,
-        ...(it.tempo ? { tempo: it.tempo } : {})
+        ...(it.tempo ? { tempo: it.tempo } : {}),
+        ...(it.supersetWith ? { supersetWith: it.supersetWith } : {})
       })) }]
     }))
   };
