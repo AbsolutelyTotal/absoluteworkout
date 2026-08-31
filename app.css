@@ -923,7 +923,7 @@ dialog .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; mar
 body.gated #chat-root { display: none; }   /* withheld until signed in */
 
 .chat-fab {
-  position: fixed; right: 16px; bottom: 16px; z-index: 61;
+  position: fixed; right: 16px; bottom: 16px; z-index: 63;
   width: 56px; height: 56px; border-radius: 50%;
   border: 2px solid var(--navy); background: var(--butter);
   font-size: 24px; line-height: 1; cursor: pointer;
@@ -932,29 +932,46 @@ body.gated #chat-root { display: none; }   /* withheld until signed in */
 }
 .chat-fab:active { transform: translate(2px, 2px); box-shadow: var(--shadow-sm); }
 
+/* Dims the app so the panel reads as a focused layer, not another card. */
+.chat-backdrop {
+  position: fixed; inset: 0; z-index: 61;
+  background: rgba(43, 44, 107, 0.34);   /* --navy, translucent */
+  animation: chat-fade 160ms ease-out;
+}
+
 .chat-panel {
-  position: fixed; z-index: 61; right: 16px; bottom: 84px;
+  position: fixed; z-index: 62; right: 16px; bottom: 84px;
   width: min(380px, calc(100vw - 32px));
-  max-height: min(70vh, 560px);
+  max-height: min(72vh, 580px);
   display: flex; flex-direction: column; overflow: hidden;
-  background: var(--cream); border: 2px solid var(--navy); border-radius: 16px;
-  box-shadow: var(--shadow);
+  /* Distinct foreground surface: pure white (page is cream, cards are #fff9f4)
+     lifted on the brand's hard navy offset shadow. */
+  background: var(--white); border: 2px solid var(--navy); border-radius: 16px;
+  box-shadow: 6px 6px 0 var(--navy);
+  transform-origin: bottom right;
+  animation: chat-pop 190ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .chat-panel-head {
   display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
-  padding: 12px 14px; border-bottom: 2px solid var(--navy); background: var(--card);
+  padding: 12px 14px; border-bottom: 2px solid var(--navy); background: var(--butter);
 }
 .chat-title { font-family: var(--display); text-transform: uppercase; letter-spacing: 1px; color: var(--navy); }
-.chat-context { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+.chat-context { font-size: 12px; color: var(--navy); opacity: 0.72; margin-top: 2px; }
 .chat-scroll { flex: 1 1 auto; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 14px; }
 .chat-empty { color: var(--ink-2); line-height: 1.5; }
 .chat-form { display: flex; gap: 8px; padding: 10px 12px; border-top: 2px solid var(--navy); background: var(--card); }
 .chat-form .field { flex: 1 1 auto; min-width: 0; }
 .chat-form .btn { flex: 0 0 auto; }
 
+@keyframes chat-pop { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes chat-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .chat-panel, .chat-backdrop { animation: none; }
+}
+
 /* On phones the panel becomes a near-full-width bottom sheet. */
 @media (max-width: 560px) {
-  .chat-panel { right: 8px; left: 8px; bottom: 78px; width: auto; max-height: 68vh; }
+  .chat-panel { right: 8px; left: 8px; bottom: 78px; width: auto; max-height: 72vh; }
   .chat-fab { right: 14px; bottom: 14px; }
 }
 

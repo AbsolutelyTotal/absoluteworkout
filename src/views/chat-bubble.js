@@ -25,19 +25,26 @@ export function initChatBubble(opts) {
   if (!chatConfigured()) return;
   getView = opts.getView; getDb = opts.getDb;
   root = document.getElementById('chat-root');
-  if (root) render();
+  if (!root) return;
+  document.addEventListener('keydown', (e) => {   // Escape closes the panel
+    if (open && e.key === 'Escape') { open = false; render(); }
+  });
+  render();
 }
 
 function render() {
-  mount(root, html`
-    <button class="chat-fab" type="button" data-action="toggle"
-            aria-label="${open ? 'Close assistant' : 'Ask the training assistant'}">
-      ${open ? '✕' : html`<span aria-hidden="true">💬</span>`}
-    </button>
-    ${open ? panel() : ''}
-  `);
+  // Open: a dimmed backdrop + the panel (no FAB — the backdrop and the header ✕
+  // both close). Closed: just the launcher button.
+  mount(root, open
+    ? html`
+        <div class="chat-backdrop" data-action="toggle" aria-hidden="true"></div>
+        ${panel()}`
+    : html`
+        <button class="chat-fab" type="button" data-action="toggle" aria-label="Ask the training assistant">
+          <span aria-hidden="true">💬</span>
+        </button>`);
   wire();
-  if (open) scrollBottom();
+  if (open) { scrollBottom(); }
 }
 
 function panel() {
