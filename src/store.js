@@ -14,6 +14,9 @@ const DEFAULTS = {
     // is confirmed, assume restricted (loading the extended library for a
     // restricted user is the one unsafe direction).
     profileId: 'l5s1',
+    // Whether this account's starter plans have been seeded (monotonic; also
+    // tracked on the synced profiles row — OR-merge, so never re-seeds).
+    startersSeeded: false,
     unit: 'kg',
     // 0 = Sunday. Israel and the US start the week on Sunday; ISO/Europe on
     // Monday. This drives every weekly bucket in the History view.

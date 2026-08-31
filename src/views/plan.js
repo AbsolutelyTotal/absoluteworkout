@@ -14,11 +14,25 @@ let selectedDayId = null;
 export function render(root, db, handlers) {
   const { onStartSession } = handlers;
   const settings = store.getSettings();
-  // Only the user's own plans and built-ins matching THEIR constraint profile
-  // are selectable — the profile is per-user now, so cross-profile splits (which
-  // reference a different library) must never be reachable.
-  const visible = db.splits.filter(s => isUserPlan(s.id) || s.profileId === db.profile?.id);
-  const split = visible.find(s => s.id === settings.activeSplitId) ?? visible[0] ?? db.splits[0];
+  // Only the user's OWN plans are selectable now — built-ins were seeded into
+  // their plans and are no longer shared. (Starters seed on first run; the empty
+  // state below only shows if they've deleted everything.)
+  const visible = db.splits.filter(s => isUserPlan(s.id));
+  if (!visible.length) {
+    mount(root, html`<div class="empty">
+      No plans yet.
+      <div class="hint">Create one to start training.</div>
+      <button class="btn primary" type="button" data-action="plan-new" style="margin-top:14px">＋ New plan</button>
+    </div>`);
+    root.querySelector('[data-action="plan-new"]')?.addEventListener('click', () => {
+      openEditor(root, db, { mode: 'new', onDone: () => {
+        withUserPlans(db, store.getLivePlans());
+        render(root, db, handlers);
+      } });
+    });
+    return;
+  }
+  const split = visible.find(s => s.id === settings.activeSplitId) ?? visible[0];
   const suggested = suggestNextDay(split, store.getSessions());
   const dayId = selectedDayId && dayOf(split, selectedDayId) ? selectedDayId : suggested;
   const day = dayOf(split, dayId);
@@ -114,10 +128,9 @@ export function render(root, db, handlers) {
     store.deletePlan(split.id);
     selectedDayId = null;
     if (settings.activeSplitId === split.id) {
-      // Fall back to another split under the user's own profile — no profile
-      // switch, constraints are per-user now.
-      const fallback = db.builtinSplits?.find(s => s.profileId === db.profile?.id)
-        ?? visible.find(s => s.id !== split.id);
+      // Fall back to another of the user's plans (built-ins aren't shown now);
+      // if none remain, reopen() renders the empty state.
+      const fallback = visible.find(s => s.id !== split.id);
       if (fallback) store.updateSettings({ activeSplitId: fallback.id });
     }
     reopen();

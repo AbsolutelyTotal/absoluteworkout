@@ -10,7 +10,7 @@
 // these will not cost you your training log.
 
 import * as store from '../src/store.js';
-import { withUserPlans, outsideLibrary } from '../src/data.js';
+import { withUserPlans, outsideLibrary, starterPlansFor } from '../src/data.js';
 import { loadData, weekKey, addDays, groupByWeek, weekStreak, actualSets,
          plannedWeeklySets, tonnage, e1rm, personalRecords, prescriptionsOf,
          dayOf } from '../src/data.js';
@@ -173,6 +173,20 @@ export async function run(scratch) {
       const fakeDb = { exerciseById: { squat: {}, row: {} } };
       const out = outsideLibrary(fakeDb, [{ exerciseId: 'squat' }, { exerciseId: 'deadlift' }, { exerciseId: 'row' }]);
       return eq(out.map(p => p.exerciseId), ['deadlift'], 'flagged: ');
+    });
+    check('starter plans seed as valid, deterministic-id plans (l5s1)', () => {
+      seed(emptyState());
+      const s = starterPlansFor(db);   // db = loadData('l5s1')
+      ok(s.length >= 2, 'l5s1 gives the 3-day + 4-day starters');
+      ok(s.every(p => p.id.startsWith('starter-') && p.id !== 'core-3'), 'starter- ids, no built-in collision');
+      for (const p of s) store.savePlan(p);   // savePlan throws if invalid
+      eq(store.getPlans().length, s.length, 'all seeded: ');
+      for (const p of s) if (!store.getPlans().some(q => q.id === p.id)) store.savePlan(p);   // re-seed same ids
+      return eq(store.getPlans().length, s.length, 'no duplicates on re-seed: ');
+    });
+    await checkAsync('unrestricted profile seeds noa-4 as a starter', async () => {
+      const dbU = await loadData('unrestricted');
+      return ok(starterPlansFor(dbU).some(p => p.id === 'starter-noa-4'), 'noa-4 starter present');
     });
     check('every split declares a known profile', () => {
       const bad = db.splits.filter(s => !db.profileById[s.profileId]).map(s => s.id);

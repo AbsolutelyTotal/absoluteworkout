@@ -73,6 +73,19 @@ export function outsideLibrary(db, prescriptions) {
   return (prescriptions ?? []).filter(p => !db.exerciseById[p.exerciseId]);
 }
 
+/** The starter plans to seed for the user's profile — the built-in templates
+ *  under their profile, as editable plan objects. Deterministic `starter-<id>`
+ *  ids (NOT random) so a multi-device/offline double-seed collides and LWW
+ *  converges to one; the `starter-` prefix avoids colliding with a built-in id. */
+export function starterPlansFor(db) {
+  return (db.builtinSplits ?? [])
+    .filter(s => s.profileId === db.profile?.id)
+    .map(t => ({
+      id: `starter-${t.id}`, profileId: db.profile.id, name: t.name,
+      daysPerWeek: t.daysPerWeek, cycle: t.cycle, days: t.days
+    }));
+}
+
 /** Fold user-created plans into db.splits so they render exactly like built-ins.
  *  Caller passes already-validated, non-deleted plans (store.getPlans filtered
  *  through store.isValidPlan). A user plan wins an id collision — but forks keep

@@ -1,6 +1,6 @@
 // Bootstrap: load data, wire the tabs, own the backup dialog.
 
-import { loadData, withUserPlans, outsideLibrary } from './data.js';
+import { loadData, withUserPlans, outsideLibrary, starterPlansFor } from './data.js';
 import { html, mount, issuesBanner, safeImagePath } from './ui.js';
 import * as store from './store.js';
 import * as plan from './views/plan.js';
@@ -132,19 +132,41 @@ function wireImageFallback() {
  */
 let loadSeq = 0;
 async function resolveUserProfile() {
-  const wanted = await sync.loadUserProfile();
-  if (!wanted || wanted === db.profile?.id) return;   // unknown → keep restrictive; already correct → nothing to do
-  const seq = ++loadSeq;
-  let next;
-  try {
-    next = await loadData(wanted);
-  } catch {
-    return;   // couldn't reload — stay on the fail-closed library already in memory
+  const row = await sync.loadUserProfile();   // { profileId, seeded } | null
+  if (!row) return;                           // unknown → keep the fail-closed restrictive library
+  let changed = false;
+  if (row.profileId && row.profileId !== db.profile?.id) {
+    const seq = ++loadSeq;
+    let next;
+    try { next = await loadData(row.profileId); } catch { return; }
+    if (seq !== loadSeq) return;
+    db = withUserPlans(next, store.getLivePlans());
+    changed = true;
   }
-  if (seq !== loadSeq) return;
-  db = withUserPlans(next, store.getLivePlans());
-  mount(bannerEl, issuesBanner(db.issues));
-  show(current);   // repaint with the confirmed library
+  // One-time: seed the profile's starter plans into the user's own plans, so
+  // the built-ins become editable and new users have something to start from.
+  // OR-merged flag (local + remote) so it never repeats.
+  if (!row.seeded && !store.getSettings().startersSeeded) {
+    seedStarters();
+    db = withUserPlans(db, store.getLivePlans());
+    store.updateSettings({ startersSeeded: true });
+    sync.markStartersSeeded().catch(() => {});
+    changed = true;
+  }
+  if (changed) { mount(bannerEl, issuesBanner(db.issues)); show(current); }
+}
+
+/** Seed the user's profile-appropriate starter plans (deterministic ids, so a
+ *  double-seed converges). Lands the active split on one if the remembered id
+ *  is a built-in that's no longer offered. */
+function seedStarters() {
+  const have = new Set(store.getPlans().map(p => p.id));
+  const starters = starterPlansFor(db);
+  for (const p of starters) if (!have.has(p.id)) store.savePlan(p);
+  const active = store.getSettings().activeSplitId;
+  if (starters[0] && !store.getLivePlans().some(p => p.id === active)) {
+    store.updateSettings({ activeSplitId: starters[0].id });
+  }
 }
 
 // Delegated so it survives every re-render, in any view.

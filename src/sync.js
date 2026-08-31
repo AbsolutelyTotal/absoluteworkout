@@ -110,11 +110,22 @@ export async function loadUserProfile() {
     }
     userProfileId = pid;
     store.updateSettings({ profileId: pid });     // mirror for offline/next boot
-    return pid;
+    return { profileId: pid, seeded: !!data?.starters_seeded };
   } catch (err) {
     console.warn('Profile load skipped:', err.message);
     return null;
   }
+}
+
+/** Record that this account's starter plans have been seeded (monotonic). */
+export async function markStartersSeeded() {
+  if (!client) return;
+  const u = await user();
+  if (!u) return;
+  const { error } = await client.from('profiles')
+    .upsert({ user_id: u.id, starters_seeded: true, updated_at: new Date().toISOString() },
+            { onConflict: 'user_id' });
+  if (error) console.warn('markStartersSeeded skipped:', error.message);
 }
 
 export async function signIn(email) {
