@@ -78,7 +78,10 @@ async function onSubmit(e) {
   if (!q || pending || !db) return;
 
   const context = contextFor(getView?.() ?? 'plan', db);
-  const history = turns.slice();          // prior turns; the worker appends this question
+  // Send only the recent window — the worker keeps ~6 turns, so posting the
+  // whole (ever-growing) transcript each time is wasted bandwidth. The full
+  // thread stays on screen; only what's sent is bounded.
+  const history = turns.slice(-8);
   turns.push({ role: 'user', content: q });
   pending = true;
   ctrl?.abort();

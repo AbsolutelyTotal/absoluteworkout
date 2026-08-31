@@ -72,8 +72,9 @@ function historyContext(db) {
       day: db.splitById[s.splitId]?.days.find(d => d.id === s.dayId)?.name ?? s.dayId,
       sets: (s.entries ?? []).reduce((a, e) => a + (e.sets?.length ?? 0), 0)
     })),
-    prs: personalRecords(sessions).slice(0, 12).map(pr => ({
-      exercise: nameOf(db, pr.exerciseId), e1rm: pr.e1rm
+    // personalRecords returns an object keyed by exerciseId — take entries.
+    prs: Object.entries(personalRecords(sessions)).slice(0, 12).map(([id, pr]) => ({
+      exercise: nameOf(db, id), e1rm: Math.round(pr.e1rm)
     }))
   };
 }
