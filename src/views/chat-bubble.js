@@ -29,7 +29,23 @@ export function initChatBubble(opts) {
   document.addEventListener('keydown', (e) => {   // Escape closes the panel
     if (open && e.key === 'Escape') { open = false; render(); }
   });
+  bindViewport();
   render();
+}
+
+// iOS Safari slides the keyboard OVER fixed-positioned elements — the layout
+// viewport doesn't shrink, so a `bottom`-anchored panel gets buried. Publish the
+// keyboard height as --kb on the root; the mobile panel sits above it (see .css).
+function bindViewport() {
+  const vv = window.visualViewport;
+  if (!vv) return;
+  const sync = () => {
+    const kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+    root.style.setProperty('--kb', `${Math.round(kb)}px`);
+  };
+  vv.addEventListener('resize', sync);
+  vv.addEventListener('scroll', sync);
+  sync();
 }
 
 function render() {
@@ -64,7 +80,8 @@ function panel() {
       ${pending ? html`<div class="chat-thinking">Thinking…</div>` : ''}
     </div>
     <form class="chat-form" data-role="form">
-      <input class="field" data-role="input" type="text" autocomplete="off"
+      <input class="field" data-role="input" type="text" name="ask" enterkeyhint="send"
+             autocomplete="off" autocorrect="on" autocapitalize="sentences" spellcheck="true"
              placeholder="Ask…" ${pending ? 'disabled' : ''}>
       <button class="btn primary" type="submit" ${pending ? 'disabled' : ''}>Ask</button>
     </form>

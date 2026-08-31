@@ -969,9 +969,15 @@ body.gated #chat-root { display: none; }   /* withheld until signed in */
   .chat-panel, .chat-backdrop { animation: none; }
 }
 
-/* On phones the panel becomes a near-full-width bottom sheet. */
+/* On phones the panel becomes a near-full-width bottom sheet. It rides above the
+   keyboard: --kb (published by chat-bubble.js) is the keyboard height, 0 when
+   dismissed, so the input stays visible instead of being covered. */
 @media (max-width: 560px) {
-  .chat-panel { right: 8px; left: 8px; bottom: 78px; width: auto; max-height: 72vh; }
+  .chat-panel {
+    right: 8px; left: 8px; width: auto;
+    bottom: calc(8px + var(--kb, 0px));
+    max-height: calc(100dvh - var(--kb, 0px) - 16px);
+  }
   .chat-fab { right: 14px; bottom: 14px; }
 }
 
