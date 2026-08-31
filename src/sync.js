@@ -73,6 +73,21 @@ export function status() {
 let userProfileId = null;   // authoritative constraint profile, once fetched
 export function cachedProfileId() { return userProfileId; }
 
+/** Set the user's constraint profile (their own choice). Upserts the row with a
+ *  fresh updated_at (LWW) and mirrors it locally. Adding restriction is always
+ *  the safe direction; only the user can loosen their own. */
+export async function setProfile(profileId) {
+  if (!client) throw new Error('Sync is unavailable.');
+  const u = await user();
+  if (!u) throw new Error('Sign in to change this.');
+  const { error } = await client.from('profiles')
+    .upsert({ user_id: u.id, profile_id: profileId, updated_at: new Date().toISOString() },
+            { onConflict: 'user_id' });
+  if (error) throw new Error(error.message);
+  userProfileId = profileId;
+  store.updateSettings({ profileId });
+}
+
 /** Fetch (or create) the signed-in user's constraint profile row and mirror it
  *  into local settings for offline boot. Returns the profile_id, or null if it
  *  couldn't be determined (caller stays on the fail-closed restrictive default).

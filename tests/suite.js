@@ -10,7 +10,7 @@
 // these will not cost you your training log.
 
 import * as store from '../src/store.js';
-import { withUserPlans } from '../src/data.js';
+import { withUserPlans, outsideLibrary } from '../src/data.js';
 import { loadData, weekKey, addDays, groupByWeek, weekStreak, actualSets,
          plannedWeeklySets, tonnage, e1rm, personalRecords, prescriptionsOf,
          dayOf } from '../src/data.js';
@@ -168,6 +168,11 @@ export async function run(scratch) {
     check('new state defaults to the restrictive l5s1 profile (fail-closed)', () => {
       seed(emptyState());
       return eq(store.getSettings().profileId, 'l5s1', 'profileId: ');
+    });
+    check('outsideLibrary flags prescriptions not in the loaded library', () => {
+      const fakeDb = { exerciseById: { squat: {}, row: {} } };
+      const out = outsideLibrary(fakeDb, [{ exerciseId: 'squat' }, { exerciseId: 'deadlift' }, { exerciseId: 'row' }]);
+      return eq(out.map(p => p.exerciseId), ['deadlift'], 'flagged: ');
     });
     check('every split declares a known profile', () => {
       const bad = db.splits.filter(s => !db.profileById[s.profileId]).map(s => s.id);

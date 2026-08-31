@@ -2,7 +2,7 @@
 // beyond the active-split setting; starting a session hands off to the Log view.
 
 import { html, mount, chip, prescriptionLine, fmt } from '../ui.js';
-import { prescriptionsOf, dayOf, plannedWeeklySets, byGroup, suggestNextDay, withUserPlans } from '../data.js';
+import { prescriptionsOf, dayOf, plannedWeeklySets, byGroup, suggestNextDay, withUserPlans, outsideLibrary } from '../data.js';
 import { equipmentIcon } from '../icons/equipment.js';
 import { openEditor } from './plan-editor.js';
 import * as store from '../store.js';
@@ -128,6 +128,10 @@ function dayCard(db, split, day) {
   const items = prescriptionsOf(day);
   const sets = items.reduce((a, p) => a + p.sets, 0);
   const active = store.activeSession();
+  // A plan authored under a looser profile can prescribe a movement that's no
+  // longer in the loaded (permitted) library. Block the start so a banned
+  // exercise can't be copied into a logged session.
+  const outside = outsideLibrary(db, items).length;
 
   return html`
     <div class="card">
@@ -136,13 +140,14 @@ function dayCard(db, split, day) {
           <h2>${day.name}</h2>
           <div class="ex-sub">${`${items.length} exercises · ${sets} sets`}</div>
         </div>
-        <button class="btn primary" data-action="start" ${active ? 'disabled' : ''}>
+        <button class="btn primary" data-action="start" ${active || outside ? 'disabled' : ''}>
           ${active ? 'Session in progress' : 'Start session'}
         </button>
       </div>
       <div class="row" style="margin-top:10px">
         ${(day.focus ?? []).map(g => html`<span class="badge">${g}</span>`)}
       </div>
+      ${outside ? html`<div class="limit" style="margin-top:10px">${`⚠ ${outside} exercise${outside === 1 ? '' : 's'} here ${outside === 1 ? 'is' : 'are'} outside your current restrictions — edit the plan to start.`}</div>` : ''}
       ${day.notes ? html`<div class="note">${day.notes}</div>` : ''}
     </div>
 

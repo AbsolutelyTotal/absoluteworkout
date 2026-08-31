@@ -66,6 +66,13 @@ export function profileOfSplit(db, split) {
   return db.profileById[split?.profileId] ?? db.profiles?.[0] ?? null;
 }
 
+/** Prescriptions whose exercise isn't in the loaded (permitted) library. A plan
+ *  authored under a looser profile can prescribe a now-banned movement; this is
+ *  the gate that stops it being copied into a logged session. */
+export function outsideLibrary(db, prescriptions) {
+  return (prescriptions ?? []).filter(p => !db.exerciseById[p.exerciseId]);
+}
+
 /** Fold user-created plans into db.splits so they render exactly like built-ins.
  *  Caller passes already-validated, non-deleted plans (store.getPlans filtered
  *  through store.isValidPlan). A user plan wins an id collision — but forks keep
