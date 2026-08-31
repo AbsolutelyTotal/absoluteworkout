@@ -608,7 +608,7 @@
   },
   {
     "id": "noa-4",
-    "profileId": "noa",
+    "profileId": "unrestricted",
     "name": "Noa's 4-Day",
     "daysPerWeek": 4,
     "description": "Upper / upper / lower / lower, as Noa sent it.",

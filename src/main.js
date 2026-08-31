@@ -13,14 +13,7 @@ import { initChatBubble } from './views/chat-bubble.js';
 import * as sync from './sync.js';
 
 const VIEWS = {
-  plan: (root, db) => plan.render(root, db, {
-    onStartSession: startSession,
-    onProfileChange: async (splitId) => {
-      const changed = await ensureProfileFor(splitId);
-      if (changed) show('plan');
-      return changed;
-    }
-  }),
+  plan: (root, db) => plan.render(root, db, { onStartSession: startSession }),
   log: (root, db) => log.render(root, db, { onFinish: () => show('history') }),
   history: (root, db) => history.render(root, db),
   library: (root, db) => library.render(root, db)
@@ -39,9 +32,10 @@ async function startApp() {
   appStarted = true;
   document.body.classList.remove('gated');
   try {
-    // Boot on the profile of the remembered split, so the correct exercise
-    // library is loaded before anything renders.
-    db = await loadData(await profileIdForSplit(store.getSettings().activeSplitId));
+    // Boot fail-closed on the mirrored per-user profile (defaults to the
+    // restrictive l5s1 until the authoritative value is confirmed below), so a
+    // restricted user never briefly loads the extended library.
+    db = await loadData(store.getSettings().profileId);
     // Fold in the user's own plans (validated, non-deleted) so they show and
     // behave like the built-in splits.
     db = withUserPlans(db, store.getLivePlans());
@@ -86,6 +80,9 @@ async function startApp() {
   // question carries context for whatever screen the user is on.
   initChatBubble({ getView: () => current, getDb: () => db });
   sync.init();
+  // Confirm the authoritative per-user constraint profile and reload the library
+  // if it differs from the fail-closed boot assumption.
+  resolveUserProfile();
 
   // Land on the session if one is open — that's where you'd want to be.
   if (store.activeSession()) current = 'log';
@@ -125,52 +122,29 @@ function wireImageFallback() {
   }, true);
 }
 
-/** Peek at splits.json for a remembered split's profile, before the full load
- *  decides which exercise library is permitted. */
-async function profileIdForSplit(splitId) {
-  // A user plan carries its own profile — check those first so activating one
-  // loads the right library on the next boot.
-  const local = store.getPlans().find(p => p.id === splitId && !p.deleted);
-  if (local?.profileId) return local.profileId;
-  try {
-    const splits = await fetch('data/splits.json', { cache: 'no-store' }).then(r => r.json());
-    return splits.find(s => s.id === splitId)?.profileId;
-  } catch {
-    return undefined;              // loadData then picks the most restrictive
-  }
-}
-
 /**
- * A split on another profile permits a different exercise library, so switching
- * to one requires reloading the data — re-rendering alone would leave the old
- * library in memory, which for a restricted profile is the unsafe direction.
+ * The constraint profile is per-USER now (Supabase profiles.profile_id), not
+ * per-split. Boot loads the library fail-closed on the mirrored profile; this
+ * confirms the authoritative one and, only if it differs, reloads the correct
+ * library. The generation guard means a slow reload can't land after a newer
+ * one — loading the extended set under a restricted profile is the one unsafe
+ * direction the whole model exists to prevent.
  */
 let loadSeq = 0;
-async function ensureProfileFor(splitId) {
-  const wanted = db.splitById[splitId]?.profileId;
-  if (!wanted || wanted === db.profile?.id) return false;
-  // Generation guard: a fast double-switch between splits on different profiles
-  // could interleave two loadData() calls and let the SLOWER one land last,
-  // leaving the wrong library in memory (e.g. the extended set under an L5-S1
-  // plan — the one unsafe direction the whole profile model exists to prevent).
-  // Only the newest request may commit; stale ones are dropped.
+async function resolveUserProfile() {
+  const wanted = await sync.loadUserProfile();
+  if (!wanted || wanted === db.profile?.id) return;   // unknown → keep restrictive; already correct → nothing to do
   const seq = ++loadSeq;
   let next;
   try {
     next = await loadData(wanted);
-  } catch (err) {
-    // Reload failed (offline / bad deploy). Don't leave activeSplitId pointing
-    // at a split whose library never loaded — surface it and let the caller
-    // keep the current db rather than half-switching.
-    if (seq === loadSeq) mount(bannerEl, issuesBanner([`couldn't load the library for "${splitId}" — ${err.message ?? err}`]));
-    return false;
+  } catch {
+    return;   // couldn't reload — stay on the fail-closed library already in memory
   }
-  if (seq !== loadSeq) return false;   // a newer switch superseded this one
-  // loadData returns only the JSON splits — fold the user's plans back in, or
-  // they'd vanish from the picker after a profile switch.
+  if (seq !== loadSeq) return;
   db = withUserPlans(next, store.getLivePlans());
   mount(bannerEl, issuesBanner(db.issues));
-  return true;
+  show(current);   // repaint with the confirmed library
 }
 
 // Delegated so it survives every re-render, in any view.

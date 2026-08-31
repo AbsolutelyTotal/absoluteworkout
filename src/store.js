@@ -9,6 +9,11 @@ const DEFAULTS = {
   version: VERSION,
   settings: {
     activeSplitId: 'core-3',   // must match an id in data/splits.json
+    // The user's constraint profile, mirrored from Supabase for offline/first
+    // boot. Defaults to the RESTRICTIVE profile: until the authoritative value
+    // is confirmed, assume restricted (loading the extended library for a
+    // restricted user is the one unsafe direction).
+    profileId: 'l5s1',
     unit: 'kg',
     // 0 = Sunday. Israel and the US start the week on Sunday; ISO/Europe on
     // Monday. This drives every weekly bucket in the History view.

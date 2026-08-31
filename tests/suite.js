@@ -160,6 +160,15 @@ export async function run(scratch) {
       eq(absent, [], 'extended ids missing under noa: ');
       return eq(noaDb.issues, [], 'noa profile load issues: ');
     });
+    await checkAsync('the unrestricted profile loads the extended library', async () => {
+      const un = await loadData('unrestricted');
+      ok(un.profile?.allowExtendedLibrary === true, 'unrestricted allows extended');
+      return ok(un.exercises.length > db.exercises.length, 'more exercises than l5s1 base');
+    });
+    check('new state defaults to the restrictive l5s1 profile (fail-closed)', () => {
+      seed(emptyState());
+      return eq(store.getSettings().profileId, 'l5s1', 'profileId: ');
+    });
     check('every split declares a known profile', () => {
       const bad = db.splits.filter(s => !db.profileById[s.profileId]).map(s => s.id);
       return eq(bad, [], 'unknown profile: ');
