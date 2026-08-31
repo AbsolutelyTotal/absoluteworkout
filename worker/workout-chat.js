@@ -38,7 +38,10 @@ export default {
     // Neutralise prompt-control token runs ({{ }} << >> ## etc.) in the free-text
     // question before it enters the prompt (agentic-app input-sanitisation rule).
     const question = String(body.question ?? '').replace(/[{}<>#]{2,}/g, ' ').trim().slice(0, 500);
-    const profileId = String(body.profileId ?? '');
+    // The constraint profile is the AUTHENTICATED user's own, read from Supabase
+    // with their token (RLS returns only their row) — NOT body.profileId, which a
+    // tampered client could set to a looser profile to strip its own safety rules.
+    const profileId = await profileIdForUser(token, user, env);
     // `context` is the new field (any screen: plan/session/history/library);
     // `workout` is the old one. Accept both so an older client keeps working
     // while the global chat bubble rolls out.
@@ -52,8 +55,9 @@ export default {
       .slice(-MAX_HISTORY)
       .map(m => ({ role: m.role, content: m.content.slice(0, 2000) }));
 
-    // --- constraints come from the app origin, NOT the client payload, so a
-    //     tampered client can't strip the safety rules (fail-closed) ---
+    // --- constraints are keyed off the authenticated user's own profile (above)
+    //     and their rule text is fetched from the app origin — a tampered client
+    //     can't strip the safety rules; unknown/empty fails closed to restricted ---
     const rules = await constraintsFor(profileId, env);
 
     const messages = buildMessages({ question, context, rules, history });
@@ -157,6 +161,24 @@ function buildMessages({ question, context, rules, history = [] }) {
     ...history,
     { role: 'user', content: question }
   ];
+}
+
+/** The user's own constraint profile id, read from Supabase with the caller's
+ *  token so RLS returns only their row. Empty string on any failure → the caller
+ *  fails closed to the restrictive profile. Not client-supplied, so it can't be
+ *  tampered to a looser profile. */
+async function profileIdForUser(token, user, env) {
+  try {
+    const r = await fetch(
+      `${env.SUPABASE_URL}/rest/v1/profiles?user_id=eq.${user.id}&select=profile_id`,
+      { headers: { apikey: env.SUPABASE_PUBLISHABLE_KEY, authorization: `Bearer ${token}` } }
+    );
+    if (!r.ok) return '';
+    const rows = await r.json();
+    return String(rows?.[0]?.profile_id ?? '');
+  } catch {
+    return '';
+  }
 }
 
 /** Fetch the authoritative constraints for a profile from the app origin. */
