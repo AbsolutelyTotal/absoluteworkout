@@ -611,23 +611,22 @@
     "profileId": "unrestricted",
     "name": "Noa's 4-Day",
     "daysPerWeek": 4,
-    "description": "Upper / upper / lower / lower, as Noa sent it.",
+    "description": "Upper / Lower 4-split, as Noa sent it (Sun / Tue / Thu / Sat).",
     "cycle": [
       "upper-1",
-      "upper-2",
       "lower-1",
+      "upper-2",
       "lower-2"
     ],
     "days": [
       {
         "id": "upper-1",
-        "name": "Upper Body 1",
-        "shortName": "Upper 1",
+        "name": "Upper A",
+        "shortName": "Upper A",
         "focus": [
           "chest",
           "back",
           "shoulders",
-          "biceps",
           "triceps"
         ],
         "blocks": [
@@ -641,75 +640,33 @@
               {
                 "exerciseId": "lat-pulldown",
                 "sets": 3,
-                "reps": "6-8"
+                "reps": "8-10",
+                "notes": "Wide grip."
               },
               {
-                "exerciseId": "seated-db-lateral-raise",
+                "exerciseId": "machine-high-row",
                 "sets": 3,
-                "reps": "10-12",
-                "notes": "Then a drop set: 3x10-12 at a lighter weight, minimal rest."
+                "reps": "10-12"
               },
               {
-                "exerciseId": "pullover",
+                "exerciseId": "seated-db-shoulder-press",
+                "sets": 3,
+                "reps": "8-10"
+              },
+              {
+                "exerciseId": "front-raise",
                 "sets": 3,
                 "reps": "10-12"
               },
               {
                 "exerciseId": "face-pull",
                 "sets": 3,
-                "reps": "10-12"
-              },
-              {
-                "exerciseId": "db-curl",
-                "sets": 3,
-                "reps": "8-10"
+                "reps": "12-15"
               },
               {
                 "exerciseId": "tricep-pushdown",
                 "sets": 3,
-                "reps": "10"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "upper-2",
-        "name": "Upper Body 2",
-        "shortName": "Upper 2",
-        "focus": [
-          "back",
-          "shoulders"
-        ],
-        "blocks": [
-          {
-            "items": [
-              {
-                "exerciseId": "chest-supported-row",
-                "sets": 3,
-                "reps": "10-12",
-                "notes": "Row machine."
-              },
-              {
-                "exerciseId": "machine-shoulder-press",
-                "sets": 3,
-                "reps": "5-8"
-              },
-              {
-                "exerciseId": "machine-high-row",
-                "sets": 3,
-                "reps": "10-12",
-                "notes": "Reps TBC — Noa didn't include them."
-              },
-              {
-                "exerciseId": "front-raise",
-                "sets": 3,
-                "reps": "8-10"
-              },
-              {
-                "exerciseId": "chest-supported-rear-delt-fly",
-                "sets": 3,
-                "reps": "10"
+                "reps": "10-12"
               }
             ]
           }
@@ -717,41 +674,88 @@
       },
       {
         "id": "lower-1",
-        "name": "Lower Body 1",
-        "shortName": "Lower 1",
+        "name": "Lower A",
+        "shortName": "Lower A",
         "focus": [
-          "hamstrings",
           "glutes",
-          "quads"
+          "hamstrings"
         ],
-        "notes": "Sets and reps TBC — Noa sent the exercises without numbers.",
         "blocks": [
           {
             "items": [
               {
-                "exerciseId": "romanian-deadlift",
-                "sets": 3,
-                "reps": "TBC"
+                "exerciseId": "hip-thrust",
+                "sets": 4,
+                "reps": "8-10"
               },
               {
                 "exerciseId": "bulgarian-split-squat",
                 "sets": 3,
-                "reps": "TBC"
+                "reps": "8-10"
+              },
+              {
+                "exerciseId": "single-leg-rdl",
+                "sets": 3,
+                "reps": "10"
               },
               {
                 "exerciseId": "hip-abduction-machine",
                 "sets": 3,
-                "reps": "TBC"
+                "reps": "12",
+                "notes": "Then a drop set at a lighter weight, minimal rest."
               },
               {
                 "exerciseId": "seated-hamstring-curl",
                 "sets": 3,
-                "reps": "TBC"
+                "reps": "10-12"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "upper-2",
+        "name": "Upper B",
+        "shortName": "Upper B",
+        "focus": [
+          "back",
+          "shoulders",
+          "biceps",
+          "triceps"
+        ],
+        "blocks": [
+          {
+            "items": [
+              {
+                "exerciseId": "seated-cable-row",
+                "sets": 3,
+                "reps": "10"
               },
               {
-                "exerciseId": "hip-thrust",
+                "exerciseId": "pullover",
                 "sets": 3,
-                "reps": "TBC"
+                "reps": "10-12"
+              },
+              {
+                "exerciseId": "seated-db-lateral-raise",
+                "sets": 3,
+                "reps": "10-12",
+                "notes": "Then a drop set at a lighter weight, minimal rest."
+              },
+              {
+                "exerciseId": "reverse-pec-deck",
+                "sets": 3,
+                "reps": "12"
+              },
+              {
+                "exerciseId": "incline-db-curl",
+                "sets": 3,
+                "reps": "10-12"
+              },
+              {
+                "exerciseId": "overhead-rope-extension",
+                "sets": 3,
+                "reps": "10-12"
               }
             ]
           }
@@ -759,36 +763,40 @@
       },
       {
         "id": "lower-2",
-        "name": "Lower Body 2",
-        "shortName": "Lower 2",
+        "name": "Lower B",
+        "shortName": "Lower B",
         "focus": [
           "quads",
           "glutes",
-          "hamstrings"
+          "adductors"
         ],
-        "notes": "Sets and reps TBC — Noa sent the exercises without numbers.",
         "blocks": [
           {
             "items": [
               {
                 "exerciseId": "back-squat",
                 "sets": 3,
-                "reps": "TBC"
+                "reps": "6-8"
               },
               {
                 "exerciseId": "step-up",
                 "sets": 3,
-                "reps": "TBC"
+                "reps": "10"
               },
               {
                 "exerciseId": "leg-extension",
                 "sets": 3,
-                "reps": "TBC"
+                "reps": "10-12"
               },
               {
-                "exerciseId": "good-morning",
+                "exerciseId": "cable-kickback",
                 "sets": 3,
-                "reps": "TBC"
+                "reps": "12"
+              },
+              {
+                "exerciseId": "hip-adduction-machine",
+                "sets": 3,
+                "reps": "10-12"
               }
             ]
           }
