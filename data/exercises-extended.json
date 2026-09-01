@@ -211,5 +211,83 @@
       "Soft knees, hips back",
       "Only as deep as the back stays flat"
     ]
+  },
+  {
+    "id": "single-leg-rdl",
+    "name": "Single-Leg Romanian Deadlift",
+    "aliases": [
+      "single-leg RDL",
+      "SLDL",
+      "דדליפט רגל אחת"
+    ],
+    "pattern": "hinge",
+    "equipment": [
+      "dumbbell"
+    ],
+    "support": "standing-braced",
+    "unilateral": true,
+    "primaryMuscles": [
+      "hamstrings"
+    ],
+    "secondaryMuscles": [
+      "glutes",
+      "lower-back"
+    ],
+    "cues": [
+      "Hinge at the hip — the back leg extends behind as a counterweight",
+      "Keep the hips square, don't let them rotate open",
+      "Flat back, stop where the hamstring stops you"
+    ]
+  },
+  {
+    "id": "seated-cable-row",
+    "name": "Seated Cable Row",
+    "aliases": [
+      "cable row",
+      "חתירה בישיבה"
+    ],
+    "pattern": "horizontal-pull",
+    "equipment": [
+      "cable"
+    ],
+    "support": "seated-upright",
+    "primaryMuscles": [
+      "upper-back"
+    ],
+    "secondaryMuscles": [
+      "lats",
+      "biceps",
+      "rear-delts"
+    ],
+    "cues": [
+      "Chest tall, pull to the belly button",
+      "Drive the elbows back and squeeze the shoulder blades",
+      "Let the weight stretch the back at the front — don't slump to chase it"
+    ]
+  },
+  {
+    "id": "cable-kickback",
+    "name": "Cable Glute Kickback",
+    "aliases": [
+      "donkey kick",
+      "glute kickback",
+      "בעיטות עכוז"
+    ],
+    "pattern": "isolation",
+    "equipment": [
+      "cable"
+    ],
+    "support": "standing-braced",
+    "unilateral": true,
+    "primaryMuscles": [
+      "glutes"
+    ],
+    "secondaryMuscles": [
+      "hamstrings"
+    ],
+    "cues": [
+      "Drive the heel straight back, squeeze the glute at the top",
+      "Keep the low back still — the movement is all hip, no arching"
+    ]
   }
 ]
