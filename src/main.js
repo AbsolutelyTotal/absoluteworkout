@@ -160,7 +160,32 @@ async function resolveUserProfile() {
     sync.markStartersSeeded().catch(() => {});
     changed = true;
   }
+  if (migrateSeededPlans()) changed = true;
   if (changed) { mount(bannerEl, issuesBanner(db.issues)); show(current); }
+}
+
+// Content refresh for a starter that shipped before it was final. seedPlan is
+// one-shot (it never overwrites an existing copy), so a user who already seeded
+// an early version is stuck on it. This pushes the current template onto that
+// copy, stamped now so last-write-wins + sync carry it to their other devices.
+// The `rev` marker lives ON THE PLAN, not a device flag, so a device that later
+// pulls the migrated (or since-edited) copy sees the rev and won't clobber it.
+const STARTER_REVS = { 'starter-noa-4': 2 };
+function migrateSeededPlans() {
+  let changed = false;
+  for (const [id, rev] of Object.entries(STARTER_REVS)) {
+    const cur = store.getPlans().find(p => p.id === id);
+    if (!cur || cur.deleted || (cur.rev ?? 0) >= rev) continue;
+    const tpl = (db.builtinSplits ?? []).find(s => `starter-${s.id}` === id);
+    if (!tpl) continue;
+    store.savePlan({
+      id, rev, profileId: cur.profileId ?? db.profile?.id,
+      name: tpl.name, daysPerWeek: tpl.daysPerWeek, cycle: tpl.cycle, days: tpl.days
+    });
+    changed = true;
+  }
+  if (changed) db = withUserPlans(db, store.getLivePlans());
+  return changed;
 }
 
 /** Seed the user's profile-appropriate starter plans (deterministic ids, so a
